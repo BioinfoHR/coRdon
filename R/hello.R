@@ -67,7 +67,7 @@ byrcs <- function(x) sapply(names(acnt), function(y) rcm(x[,ordaa %in% y]))
 calcMilc<-function(s, subsets=list()) {
 
     # test parameters
-    if (length(subsets)>1) if (all(!subsets)) warning("Subset is empty!")
+    if (length(subsets$ribosomal)>1) if (all(!subsets$ribosomal)) warning("Subset is empty! Please provide a valid subset!")
     if(! inherits(s, "codonTable")) stop("First argument must be a codon usage table!")
     nseq <- nrow(s)
 
