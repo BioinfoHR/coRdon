@@ -262,6 +262,7 @@ make.stats <- function(contable) {
 
 make.contable <- function(csm, KEGG) {
     if (!KEGG) csm$KO <- as.factor(as.character(csm$ID))
+    csm$KO <- as.factor(ifelse(!is.na(as.character(csm$COG)),as.character(csm$COG),as.character(csm$KO)))
     all <- as.vector(table(csm$KO))
     top <- sapply(perc, function(x) {
         as.vector(table(csm[csm$melp >= quantile(csm$melp, x), "KO"]))
