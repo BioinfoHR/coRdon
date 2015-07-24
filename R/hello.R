@@ -281,7 +281,7 @@ doall_csm <- function(csm,levels_KEGG=c()){
             KEGG <- F
             print("ko.Robj and brite.Robj not found")
         }
-    csm$KO <- csm$ID
+    if(!KEGG) csm$KO <- csm$ID
     # three levels of ontology exist: B (very broad), C (pathways), and KO (orthology)
     # we'll summarize by each level separately
 
