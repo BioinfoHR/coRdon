@@ -9,11 +9,3 @@ Description: More about what it does (maybe more than one line)
 License: What license is it under?
 LazyData: TRUE
 Depends: Biostrings, Biobase, plyr, stringr
-Collate:
-    'constants.R'
-    'functions.R'
-    'calcMilc.R'
-    'readSet.R'
-    'calculateMelp.R'
-    'melp_all.R'
-    'hello.R'
