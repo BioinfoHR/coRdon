@@ -1,0 +1,18 @@
+{
+    "contents" : "calculateMelp <- function(file,RPKOs){\n    myset <- readSet(file)\n    ribosomals <- myset$KO %in% RPKOs\n    milc <- calcMilc(myset, list(ribosomal = ribosomals))\n    milc$melp <- milc$self / milc$ribosomal\n    milc$name <- file\n    return(milc)\n}\n",
+    "created" : 1437981378664.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1182720033",
+    "id" : "986B9941",
+    "lastKnownWriteTime" : 1437981401,
+    "path" : "~/GitHub_BioinfoHR/coRdon/R/calculateMelp.R",
+    "project_path" : "R/calculateMelp.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

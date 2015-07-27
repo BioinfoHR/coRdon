@@ -1,0 +1,18 @@
+{
+    "contents" : "readSet <- function(folder=., KOs=c(), zipped = FALSE){\n    aset <- readDNAStringSet(folder)\n    ctable <- oligonucleotideFrequency(aset, width = 3, step = 3)\n    ID <- names(aset)\n    KO <- str_extract(ID, \"K\\\\d{5}\")\n    COG <- str_extract(ID, \"([KCN]|TW)OG\\\\d{4}\")\n    len.stop <- rowSums(ctable[,codons])\n    len <- rowSums(ctable[,nostops])\n    problem <- rowSums(ctable) != len.stop\n\n    ccc = data.frame(\n        ID = ID,\n        ctable,\n        KO = KO,\n        COG = COG,\n        len.stop = len.stop,\n        len = len,\n        problem = problem\n    )\n\n    class(ccc) <- c(class(ccc), \"codonTable\")\n    ccc\n}\n",
+    "created" : 1437981359792.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2928912792",
+    "id" : "AA2031C1",
+    "lastKnownWriteTime" : 1437981367,
+    "path" : "~/GitHub_BioinfoHR/coRdon/R/readSet.R",
+    "project_path" : "R/readSet.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "type" : "r_source"
+}
