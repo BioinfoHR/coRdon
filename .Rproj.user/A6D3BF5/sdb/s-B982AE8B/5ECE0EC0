@@ -1,0 +1,18 @@
+{
+    "contents" : "library(\"devtools\")\ninstall_github(\"BioinfoHR/coRdon\")\nlibrary(coRdon)\n\n\nlocation <- \"C:/Users/mfabijanic/Desktop/svi/\"\n",
+    "created" : 1437477703136.000,
+    "dirty" : true,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "894319410",
+    "id" : "5ECE0EC0",
+    "lastKnownWriteTime" : 32932997484183620,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

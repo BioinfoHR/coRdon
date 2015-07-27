@@ -1,0 +1,18 @@
+{
+    "contents" : "all_files <- melp_all(\"C:/Users/mfabijanic/Dropbox/Dusko/maja/pripremljeni/\") \nnrow(all_files)\nall_files<-all_files[all_files$len>=30,]\nhead(all_files)\nplot(all_files$self,all_files$ribosomal)\n",
+    "created" : 1437552148641.000,
+    "dirty" : true,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "4115536517",
+    "id" : "9FC31F72",
+    "lastKnownWriteTime" : 31525674140434500,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled2"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "type" : "r_source"
+}
