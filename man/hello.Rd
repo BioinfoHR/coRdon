@@ -1,12 +1,12 @@
-\name{hello}
-\alias{hello}
-\title{Hello, World!}
+\name{cnorm}
+\alias{cnorm}
+\title{Norm!}
 \usage{
-hello()
+cnorm()
 }
 \description{
-Prints 'Hello, world!'.
+Returnes norm of vector.
 }
 \examples{
-hello()
+cnorm(5)
 }
