@@ -5,8 +5,10 @@ Version: 0.1.0
 Date: 2015-07-21
 Author: Fabijanic M., Vlahovicek K.
 Maintainer: Maja Fabijanić <mfabijanic@bioinfo.hr>
-Description: Tool for analysis of codone usage in various unannotated or KEGG/eggNOG annotated fasta sequences.
-Predicts expression based on goodness of fit to centroid of MILC values of sample and highly expressed sequences.   
+Description: Tool for analysis of codone usage in various 
+  unannotated or KEGG/eggNOG annotated fasta sequences.Predicts 
+  expression based on goodness of fit to centroid of MILC values
+  of sample and highly expressed sequences.   
 License: What license is it under?
 LazyData: TRUE
 Depends: Biostrings, Biobase, plyr, stringr
