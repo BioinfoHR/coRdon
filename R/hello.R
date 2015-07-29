@@ -2,7 +2,7 @@ library(Biostrings)
 library(Biobase)
 library(plyr)
 library(stringr)
-library(Rcpp)
+#library(Rcpp)
 pldensity<-function(a,groupnames){
     #a is aggregated data.frame BY NAMES (H1,H2,...,L1,...)
     a<-a[!is.na(a$x),]
