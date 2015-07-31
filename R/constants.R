@@ -1,3 +1,7 @@
+library(Biostrings)
+library(Biobase)
+library(plyr)
+library(stringr)
 # helper constants
 
 RPKOs = c("K02945", "K02967", "K02982", "K02986", "K02988", "K02990", "K02992", "K02994", "K02996",

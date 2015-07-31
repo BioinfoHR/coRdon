@@ -1,0 +1,18 @@
+{
+    "contents" : "min_length <- 30\npercentile_top <- 0.90\nperc <- c()\n#KEGG_maps_folder <- \"KEGG_maps\"\n#location_of_ko <- \"/location/of/ko\"\n#location_of_brite <- \"/location/of/brite\"\n# load KO and BRITE ontologies (use separate script to prepare)\n#load(location_of_ko)\n#load(location_of_brite)\n",
+    "created" : 1437981226173.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "183599880",
+    "id" : "5267DB33",
+    "lastKnownWriteTime" : 1438328340,
+    "path" : "~/GitHub_BioinfoHR/coRdon/R/doall_csm.R",
+    "project_path" : "R/doall_csm.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "type" : "r_source"
+}
