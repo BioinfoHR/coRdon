@@ -40,3 +40,4 @@ ctab<-data.frame(
 
 acnt <- tapply(ctab$codon, ctab$aa, length)
 ordaa <- ctab[order(ctab$aa),"aa"]
+aclist <- tapply(ctab$codon, ctab$aa, c)
