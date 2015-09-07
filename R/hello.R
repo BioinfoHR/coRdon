@@ -1,5 +1,4 @@
 library(Biostrings)
 library(Biobase)
 library(plyr)
-library(dplyr)
 library(stringr)
