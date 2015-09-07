@@ -11,4 +11,4 @@ Description: Tool for analysis of codone usage in various
   of sample and highly expressed sequences.   
 License: What license is it under?
 LazyData: TRUE
-Depends: Biostrings, Biobase, plyr, stringr
+Depends: Biostrings, Biobase, dplyr, stringr
