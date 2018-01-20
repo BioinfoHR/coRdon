@@ -1,8 +1,7 @@
-library(Biostrings)
-library(Biobase)
-library(plyr)
-library(stringr)
-# helper constants
+#' @importFrom Biobase strbreak
+#' @importFrom Biostrings DNAStringSet
+#' @importFrom Biostrings translate
+#'
 
 RPKOs = c("K02945", "K02967", "K02982", "K02986", "K02988", "K02990", "K02992", "K02994", "K02996",
           "K02946", "K02948" ,"K02950" ,"K02952" ,"K02954" ,"K02956" ,"K02959" ,"K02961" ,"K02963" ,
@@ -22,22 +21,27 @@ RPKOs = c("K02945", "K02967", "K02982", "K02986", "K02988", "K02990", "K02992", 
           "K01977" , "K01980" , "K01985" , "K01979" , "K01982" , "K01981"
 )
 
-# constants
+dummy <-
+  "AAAAACAAGAATACAACCACGACTAGAAGCAGGAGTATAATCATGATTCAACACCAGCATCCACCCCCGCCTCGACGCCGGCGTCTACTCCTGCTTGAAGACGAGGATGCAGCCGCGGCTGGAGGCGGGGGTGTAGTCGTGGTTTAATACTAGTATTCATCCTCGTCTTGATGCTGGTGTTTATTCTTGTTT"
 
-dummy<-"AAAAACAAGAATACAACCACGACTAGAAGCAGGAGTATAATCATGATTCAACACCAGCATCCACCCCCGCCTCGACGCCGGCGTCTACTCCTGCTTGAAGACGAGGATGCAGCCGCGGCTGGAGGCGGGGGTGTAGTCGTGGTTTAATACTAGTATTCATCCTCGTCTTGATGCTGGTGTTTATTCTTGTTT"
+codons <- strsplit(strbreak(dummy,
+                            width = 3,
+                            exdent = 0,
+                            collapse = "|"), split = "\\|")[[1]]
 
-codons<-strsplit(strbreak(dummy, width=3, exdent=0, collapse="|"), split="\\|")[[1]]
-stops<-c("TAA", "TAG", "TGA")
-nostops<-codons[!(codons %in% stops)]
+stops <- c("TAA", "TAG", "TGA")
+nostops <- codons[!(codons %in% stops)]
 
-
-
-ctab<-data.frame(
-    codon=nostops,
-    aa=as.factor(as.character(translate(DNAStringSet(nostops)))),
-    codonstr=as.character(nostops), stringsAsFactors=F
+ctab <- data.frame(
+  codon = nostops,
+  aa = as.factor(as.character(translate(DNAStringSet(nostops)))),
+  codonstr = as.character(nostops),
+  stringsAsFactors = F
 )
 
 acnt <- tapply(ctab$codon, ctab$aa, length)
-ordaa <- ctab[order(ctab$aa),"aa"]
+ordaa <- ctab[order(ctab$aa), "aa"]
 aclist <- tapply(ctab$codon, ctab$aa, c)
+cl <- lapply(levels(ctab$aa), function(x) which(ctab$aa==x))
+
+
