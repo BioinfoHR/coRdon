@@ -32,16 +32,34 @@ codons <- strsplit(strbreak(dummy,
 stops <- c("TAA", "TAG", "TGA")
 nostops <- codons[!(codons %in% stops)]
 
-ctab <- data.frame(
-  codon = nostops,
-  aa = as.factor(as.character(translate(DNAStringSet(nostops)))),
-  codonstr = as.character(nostops),
-  stringsAsFactors = F
-)
+# w. alt. init. codons (Maja)
+#ctab <- data.frame(
+#  codon = nostops,
+#  aa = as.factor(as.character(translate(DNAStringSet(nostops)))),
+#  codonstr = as.character(nostops),
+#  stringsAsFactors = F
+#)
 
-acnt <- tapply(ctab$codon, ctab$aa, length)
-ordaa <- ctab[order(ctab$aa), "aa"]
-aclist <- tapply(ctab$codon, ctab$aa, c)
-cl <- lapply(levels(ctab$aa), function(x) which(ctab$aa==x))
+# w. alt. init. codons, w. stops
+# ctab <- data.frame(
+#    codon = codons,
+#    aa = as.factor(as.character(translate(DNAStringSet(codons)))),
+#    codonstr = as.character(codons),
+#    stringsAsFactors = F
+# )
 
+# w/o alt. init. codons, w. stops (INCA)
+ctb <- data.frame(codon = names(getGeneticCode("1")[codons]),
+                   aa = getGeneticCode("1", as.data.frame = T)[codons,1],
+                   codonstr = names(getGeneticCode("1")[codons]),
+                   stringsAsFactors = FALSE)
+ctb$aa <- as.factor(ctb$aa)
 
+# (Maja)
+# acnt <- tapply(ctab$codon, ctab$aa, length)
+# ordaa <- ctab[order(ctab$aa), "aa"]
+# aclist <- tapply(ctab$codon, ctab$aa, c)
+
+# cl <- lapply(levels(ctab$aa), function(x) which(ctab$aa==x))
+# deg <- sapply(cl, length)
+# names(deg) <- levels(ctab$aa)
