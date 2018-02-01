@@ -4,7 +4,7 @@
 \alias{readSet}
 \title{Read Set}
 \usage{
-readSet(folder = ".", KOs = c(), zipped = FALSE)
+readSet(folder = ".", KOs = c(), gencode = "1", zipped = FALSE)
 }
 \value{
 Returns codon usage table for all files.

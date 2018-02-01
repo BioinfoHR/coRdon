@@ -10,6 +10,8 @@ effNc(fa, deg)
 \item{fa}{a vector containing homozygosity values for all 20 amino acids, or
 a matrix with homozygosity values for aminno acids in columns. If \code{fa} is
 a matrix, ENC is calculated for every row.}
+
+\item{deg}{}
 }
 \description{
 Calculates effective number of codons (ENC) given set(s) of CU homozygosity
