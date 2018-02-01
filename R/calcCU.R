@@ -117,8 +117,8 @@ calcCU <- function(cdt,
             encp <- lapply(colnames(gc), function(x) {
                 # chi squared
                 dt <- as.data.table(t((t(fc) - gc[, x])^2 / gc[, x]))
-                if (any(gc==0)) {
-                    infs <- unique(which(dt==Inf, arr.ind = T)[,2])
+                if (any(gc==0, na.rm = T)) {
+                    infs <- unique(which(dt == Inf, arr.ind = T)[,2])
                     dt[, (infs) := 0]
                 }
                 dt[which(is.na(dt), arr.ind = T)] <- 0
