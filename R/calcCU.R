@@ -18,8 +18,13 @@
 #'   background nucleotide composition is calculated, i.e if \code{method} is
 #'   one of the following: "MILC", "B", "MCB", "ENCp". Otherwise \code{subsets}
 #'   parameter is ignored.
+#' @param gencode A character that uniquely identifies the genetic code to be used
+#'   for calculation of CU statistic. Should be one of the values in the \code{id}
+#'   or \code{name2} columns of \code{GENETIC_CODE_TABLE}.
+#' @param alt.init Logical, whether to include alternative initiation codons in
+#'   the genetic code.
 #' @param stop.rm Logical, whether to include stop codons (if they are present)
-#'   in calculation. Default is \code{FALSE}, note however that if method is
+#'   in CU calculation. Default is \code{FALSE}, note however that if method is
 #'   ENC or ENCp, stop codons are not used by definition.
 #' @param self Logical, if \code{TRUE} (default), CU statistic is also calculated
 #'   against the average CU of the entire sequence set. Just as \code{subsets},
@@ -39,6 +44,8 @@
 calcCU <- function(cdt,
                    method,
                    subsets = list(),
+                   gencode = "1",
+                   alt.init = TRUE,
                    stop.rm = FALSE,
                    self = TRUE,
                    ribosomal = FALSE) {
@@ -49,19 +56,22 @@ calcCU <- function(cdt,
     if (!is.data.table(cdt))
         cdt <- as.data.table(cdt)
 
+    codontab <- getGenCode(gencode, alt.init)
+    ctab <- codontab$ctab
+    stops <- codontab$stops
+    nostops <- codontab$nostops
+
     if (stop.rm |
         all(stops %in% colnames(cdt)) == FALSE |
         method %in% c("ENC", "ENCp")) {
-        ctab <- ctb[ctb$codon %in% nostops, ]
-    } else {
-        ctab <- ctb
+        ctab <- ctab[ctab$codon %in% nostops, ]
     }
-    cl <- lapply(levels(droplevels(ctab$aa)), function(x) which(ctab$aa==x))
-    deg <- sapply(cl, length)
 
+    cl <- lapply(levels(droplevels(ctab$AA)), function(x) which(ctab$AA==x))
+    deg <- sapply(cl, length)
     len <- cdt$len
     counts <- cdt[, ctab$codon, with=FALSE]
-    # codon counts summed by aa
+    # codon counts summed by AA
     csums <- sapply(cl, function(x) counts[, Reduce('+',.SD), .SDcols = x])
     # normalized codon frequencies
     freqs <- sapply(seq_along(cl), function(x)
@@ -126,7 +136,7 @@ calcCU <- function(cdt,
 
     } else if (method == "ENC") {
         pi <- sapply(freqs, function(x) rowSums(x^2, na.rm = TRUE))
-        # remove aa with count <= 1
+        # remove AA with count <= 1
         csums[which(csums <= 1, arr.ind = T)] <- NA
         fa <- as.data.table((csums * pi - 1) / (csums - 1))
         enc <- effNc(fa, deg)

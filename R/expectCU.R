@@ -64,6 +64,6 @@ expectCU <- function(cdt, ctab, subsets, self, ribosomal){
              measure.vars = ctab$codon,
              variable.name = "codon",
              value.name = "c"
-        )[, aa := ctab$aa][, g := c/sum(c), by = aa][, g]
+        )[, AA := ctab$AA][, g := c/sum(c), by = AA][, g]
     })
 }

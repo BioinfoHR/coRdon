@@ -5,8 +5,9 @@
 #' values.
 #'
 #' @param fa a vector containing homozygosity values for all 20 amino acids, or
-#' a matrix with homozygosity values for aminno acids in columns. If \code{fa} is
-#' a matrix, ENC is calculated for every row.
+#'   a matrix with homozygosity values for aminno acids in columns. If \code{fa} is
+#'   a matrix, ENC is calculated for every row.
+#' @param deg
 #'
 effNc <- function(fa, deg) {
     favg <- sapply(c(2,3,4,6), function(x){

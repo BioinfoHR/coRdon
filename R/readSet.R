@@ -14,6 +14,7 @@
 #'
 readSet <- function(folder = ".",
                     KOs = c(),
+                    gencode = "1",
                     zipped = FALSE) {
   if (length(KOs) == 0)
     pattern <- "(*.fasta|*.FASTA)$"
@@ -42,6 +43,8 @@ readSet <- function(folder = ".",
 
   #  KO <- str_replace_all(names(aset), ".*(K\\d{5}).*", "\\1")
   #  COG <- str_replace_all(names(aset), ".*(([KCN]|TW)OG\\d{5}).*", "\\1")
+
+  nostops <- getGenCode(gencode)$nostops
 
   ID <- names(aset)
   KO <- str_extract(ID, "K\\d{5}")
