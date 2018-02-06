@@ -10,7 +10,7 @@
 #'
 #' @import data.table
 #'
-expectCU <- function(cdt, ctab, subsets, self, ribosomal){
+expectCU <- function(cdt, ctab, subsets=list(), self=TRUE, ribosomal=FALSE){
 
     ns <- nrow(cdt)
 
@@ -26,8 +26,8 @@ expectCU <- function(cdt, ctab, subsets, self, ribosomal){
     if (length(subsets) != 0) {
         ok <- sapply(subsets, function(x) {
             all(is.vector(x, mode = "logical"), length(x) == ns) |
-                all(grep("K\\d{5}", x)) |
-                all(grep("([KCN]|TW)OG\\d{5}", x)) |
+                all(grepl("K\\d{5}", x), length(x) > 0) |
+                all(grepl("([KCN]|TW)OG\\d{5}", x), length(x) > 0) |
                 all(inherits(x, "codonTable"), nrow(x) > 0)
         })
         stopifnot(ok)
@@ -52,12 +52,12 @@ expectCU <- function(cdt, ctab, subsets, self, ribosomal){
     sapply(subsets, function(x) {
         if (is.vector(x, mode = "logical")) {
             x <- cdt[x, ctab$codon, with=FALSE]
-        } else if ( all(grep("K\\d{5}", x))) {
-            x <- cdt[KO %in% x, ctab$codons, with=FALSE]
-        } else if (all(grep("([KCN]|TW)OG\\d{5}", x))) {
-            x <- cdt[COG %in% x, ctab$codon, with=FALSE]
+        } else if (all(grepl("K\\d{5}", x))) {
+            x <- cdt[KO %in% x, ]
+        } else if (all(grepl("([KCN]|TW)OG\\d{5}", x))) {
+            x <- cdt[COG %in% x, a]
         } else {
-            x <- as.data.table(x)[, ctab$codon, with=FALSE]
+            x <- as.data.table(x)
         }
         x <- x[, lapply(.SD, sum), .SDcols = ctab$codon]
         melt(x,
