@@ -3,7 +3,7 @@
 #' @importFrom Biostrings getGeneticCode
 #' @import data.table
 #'
-getGenCode <- function(gencode, alt.init=TRUE) {
+getGenCode <- function(gencode, alt.init = TRUE) {
     ctab <- as.data.table(getGeneticCode(gencode, as.data.frame = T),
                           keep.rownames = "codon")
     ctab[, AA := as.factor(ctab$AA)]

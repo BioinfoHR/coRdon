@@ -24,9 +24,10 @@ effNc <- function(fa, deg) {
     # if F3 is absent, average F2 and F4
     if (any(is.na(favg[,"3"]))) {
         n <- which(is.na(favg[,"3"]))
-        if (all(favg[n, c("2","4")] > 0)) # ENC will be NA otherwise
+        if (all(favg[n, c("2","4")] > 0))
         favg[n,"3"] <- sapply(n, function(i)
             (favg[i, "2"]/sum(deg == 2) + favg[i, "4"]/sum(deg == 4)) / 2)
+        else favg[,"3"] <- 1/sum(deg == 3)
     }
     enc <- sum(deg==1)+rowSums(favg)
     replace(enc, which(enc>61), 61)
