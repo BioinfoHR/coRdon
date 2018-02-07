@@ -1,3 +1,14 @@
+#' Calculation of CU-based expression level predictors.
+#'
+#' Calculates statistics that predict relative gene expression levels,
+#' based on different synonymous codon usage (CU).
+#'
+#' @inheritParams calcCU
+#' @param perc Top percent of sequences to be used as reference set in calculation
+#'   of GCB statistic.
+#'
+#' @import data.table
+#' @export
 calcExpressivity <- function(cdt,
                              method,
                              subsets=list(),
@@ -41,23 +52,26 @@ calcExpressivity <- function(cdt,
     if (method %in% c("CAI","Fop")) {
         gc <- expectCU(cdt, ctab, subsets, self = FALSE, ribosomal)
         gcmax <-
-            apply(gc, 2, function(x)
+            apply(gc, 2, function(x) # freq of the most frequent codons by aa
                 by(x, droplevels(ctab$AA), max))
         x <- as.integer(droplevels(ctab$AA))
-        gcm <- sapply(colnames(gc), function(j)
+        gcm <- sapply(colnames(gc), function(j) # freq of the most frequent codons
             gc[, j] <- gcmax[x, j])
 
         if (method == "CAI"){
             cai <- lapply(colnames(gcm), function(y)
                 exp(rowSums(counts * t(log(
-                    t(fc) / gcm[, y]
+                    t(fc) / gcm[, y] # relative adaptivenes of codons
                 )), na.rm = TRUE) / len))
             cdt[, paste("CAI", colnames(gcm), sep = "_") := cai]
 
         } else if (method == "Fop"){
-            csums[which(csums == 0, arr.ind = T)] <- NA
-            fop <- lapply(colnames(gcmax), function(y)
-                t(t(csums)^-1 * gcmax[, y]))
+            fop <- lapply(colnames(gcm), function(y){
+                ra <- t(fc) / gcm[, y]
+                cnt <- as.matrix(counts)
+                cnt[which(t(ra) < 0.9, arr.ind = T)] <- NA # as implemented in INCA
+                rowSums(cnt, na.rm = T) / len
+            })
             cdt[, paste("Fop", colnames(gcm), sep = "_") := fop]
         }
 
@@ -73,16 +87,13 @@ calcExpressivity <- function(cdt,
                        list(seed),
                        self = FALSE,
                        ribosomal)
-        MatchRegExpr <- function(exp,string)
-            regmatches(string, gregexpr(exp,string))
         iter <- 0
         repeat {
             cb <- log(gc / colMeans(fc, na.rm = T))
             cb[gc == 0] <- -5
             gcb <- rowSums(t(t(counts) * as.numeric(cb)), na.rm = T) / len
-            diff <-
-                as.numeric(MatchRegExpr("(\\d)(\\.)*(\\d)*", all.equal(gcb, gcb_prev)))
-            if (diff < 0.005 | iter > 6)
+            diff <- all(gcb == gcb_prev)
+            if (diff | iter > 6)
                 break
             else {
                 iter <- iter + 1
