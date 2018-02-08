@@ -5,10 +5,10 @@
 #' @param cdt A codonTable object. Rows represent indivisual sequences. Must
 #'   contain the following columns:
 #'   \itemize{
-#'     \item ID, a unique sequence identifier
-#'     \item len, sequence length in codons
+#'     \item len, sequence length in codons, stop codons excluded
+#'     \item len.stop, sequence length in codons, including stop codons
 #'   }
-#'   and a single column with counts of every no-stop codon.
+#'   and a single column with counts of every codon.
 #' @param method A character string indicating which CU statistic will be
 #'   calculated, one of the following: "MILC", "B", "MCB", "ENC", "ENCp", "SCUO".
 #' @param subsets A (named) list of logical vectors, the length of each equal

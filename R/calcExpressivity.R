@@ -31,14 +31,14 @@ calcExpressivity <- function(cdt,
     nostops <- codontab$nostops
     len <- cdt$len.stop
     if (stop.rm |
-        all(stops %in% colnames(cdt)) == FALSE |
-        method %in% c("CAI")) {
+        all(stops %in% colnames(cdt)) == FALSE) {
         ctab <- ctab[ctab$codon %in% nostops, ]
         len <- cdt$len
     }
     cl <-
         lapply(levels(droplevels(ctab$AA)), function(x)
             which(ctab$AA == x))
+    deg <- sapply(cl, length)
     counts <- cdt[, ctab$codon, with = FALSE]
     csums <-
         sapply(cl, function(x)
@@ -54,23 +54,25 @@ calcExpressivity <- function(cdt,
         gcmax <-
             apply(gc, 2, function(x) # freq of the most frequent codons by aa
                 by(x, droplevels(ctab$AA), max))
+        gcmax[gcmax == 0] <- 0.5 # account for codons that are not used in ref. set
         x <- as.integer(droplevels(ctab$AA))
         gcm <- sapply(colnames(gc), function(j) # freq of the most frequent codons
             gc[, j] <- gcmax[x, j])
+        nondeg <- match(which(deg == 1), as.integer(ctab$AA))
+        counts[, (nondeg) := NA] # remove codons for non-degenerate aa
 
         if (method == "CAI"){
             cai <- lapply(colnames(gcm), function(y)
-                exp(rowSums(counts * t(log(
-                    t(fc) / gcm[, y] # relative adaptivenes of codons
-                )), na.rm = TRUE) / len))
+                exp(rowSums(counts * t(log(t(fc) / gcm[, y])), na.rm = TRUE) /
+                    rowSums(counts, na.rm = T)))
             cdt[, paste("CAI", colnames(gcm), sep = "_") := cai]
 
         } else if (method == "Fop"){
             fop <- lapply(colnames(gcm), function(y){
-                ra <- t(fc) / gcm[, y]
+                ra <- t(fc) / gcm[, y] # relative adaptivenes of codons
                 cnt <- as.matrix(counts)
                 cnt[which(t(ra) < 0.9, arr.ind = T)] <- NA # as implemented in INCA
-                rowSums(cnt, na.rm = T) / len
+                rowSums(cnt, na.rm = T) / rowSums(counts, na.rm = T)
             })
             cdt[, paste("Fop", colnames(gcm), sep = "_") := fop]
         }

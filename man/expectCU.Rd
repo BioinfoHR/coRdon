@@ -4,7 +4,7 @@
 \alias{expectCU}
 \title{Calculation of expected codon frequencies.}
 \usage{
-expectCU(cdt, ctab, subsets, self, ribosomal)
+expectCU(cdt, ctab, subsets = list(), self = TRUE, ribosomal = FALSE)
 }
 \arguments{
 \item{cdt}{A codonTable object. Rows represent indivisual sequences. Must
@@ -17,11 +17,7 @@ and a single column with counts of every no-stop codon.}
 
 \item{subsets}{A (named) list of logical vectors, the length of each equal
 to the number of sequences in the set, or character vectors (of any length)
-containing KEGG/eggNOG annotations, or codonTable objects (of any length).
-\code{subsets} should only be supplied if CU statistic that accounts for
-background nucleotide composition is calculated, i.e if \code{method} is
-one of the following: "MILC", "B", "MCB", "ENCp". Otherwise \code{subsets}
-parameter is ignored.}
+containing KEGG/eggNOG annotations, or codonTable objects (of any length).}
 
 \item{self}{Logical, if \code{TRUE} (default), CU statistic is also calculated
 against the average CU of the entire sequence set. Just as \code{subsets},
