@@ -13,3 +13,12 @@ License: What license is it under?
 LazyData: TRUE
 Imports: Biostrings, Biobase, plyr, stringr, data.table
 RoxygenNote: 6.0.1
+Collate: 
+    'coRdon.R'
+    'codonTable-class.R'
+    'genCode-class.R'
+    'functions.R'
+    'codonUsage.R'
+    'constants.R'
+    'cuExpressivity.R'
+    'readSet.R'

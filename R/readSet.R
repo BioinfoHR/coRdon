@@ -9,7 +9,6 @@
 #' @importFrom Biostrings readDNAStringSet
 #' @importFrom Biostrings oligonucleotideFrequency
 #' @importFrom plyr llply
-#' @importFrom stringr str_extract
 #' @export
 #'
 readSet <- function(folder = ".",
@@ -37,32 +36,5 @@ readSet <- function(folder = ".",
   if (zipped)
     unlink(where, recursive = TRUE)
 
-  aset <- DNAStringSet(unlist(combined))
-
-  ctable <- oligonucleotideFrequency(aset, width = 3, step = 3)
-
-  #  KO <- str_replace_all(names(aset), ".*(K\\d{5}).*", "\\1")
-  #  COG <- str_replace_all(names(aset), ".*(([KCN]|TW)OG\\d{5}).*", "\\1")
-
-  nostops <- getGenCode(gencode)$nostops
-
-  ID <- names(aset)
-  KO <- str_extract(ID, "K\\d{5}")
-  COG <- str_extract(ID, "([KCN]|TW)OG\\d{5}")
-  len.stop <- rowSums(ctable[,codons])
-  len <- rowSums(ctable[,nostops])
-  problem <- rowSums(ctable) != len.stop
-
-  ccc = data.frame(
-      ID = ID,
-      ctable,
-      KO = KO,
-      COG = COG,
-      len.stop = len.stop,
-      len = len,
-      problem = problem
-  )
-
-  class(ccc) <- c(class(ccc), "codonTable")
-  ccc
+  DNAStringSet(unlist(combined))
 }
