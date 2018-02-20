@@ -6,7 +6,7 @@
 {
     counts <- as.data.table(cTobject@counts)
     cl <- gCobject@cl
-    sapply(cl, function(x) counts[, Reduce('+',.SD), .SDcols = x])
+    rbind(sapply(cl, function(x) counts[, Reduce('+',.SD), .SDcols = x]))
 }
 
 .normFrequencies <- function(cTobject, gCobject)

@@ -31,15 +31,15 @@ setClass(
 setValidity(
     "codonTable",
     function(object){
-        ns <- length(object)
-        KOlen <- length(getKO(object))
-        COGlen <- length(getCOG(object))
+        ns <- nrow(object@counts)
+        KOlen <- length(object@KO)
+        COGlen <- length(object@COG)
         errors <- character()
-        if (!is.integer(codonCounts(object))) {
+        if (!is.integer(object@counts)) {
             msg <- paste("Codon counts have to be integers!")
             errors <- c(errors, msg)
         }
-        if (all(rowSums(codonCounts(object)) != getlen(object))) {
+        if (all(rowSums(object@counts) != object@len)) {
             msg <- "(Some of) summed codon counts differ from sequence length!"
             errors <- c(errors, msg)
         }
@@ -114,11 +114,12 @@ setMethod(
                 message("Assigned alphabetically sorted codons as column names.")
             }
         } else stop("Matrix should have 64 or 61 columns!")
+
         new(
             "codonTable",
             ID = if (!is.null(rownames(x))) rownames(x) else character(),
-            counts = x[,sort(colnames(x))], # sort codons alphabetically
-            len = rowSums(x, na.rm = TRUE),
+            counts = rbind(x[,sort(colnames(x))]), # sort codons alphabetically
+            len = rowSums(as.matrix(x), na.rm = TRUE),
             KO = regmatches(rownames(x), regexpr("K\\d{5}", rownames(x))),
             COG = regmatches(rownames(x), regexpr("([KCN]|TW)OG\\d{5}", rownames(x)))
         )
@@ -366,14 +367,16 @@ setMethod(
     f = "subset",
     signature = c("codonTable", "logical"),
     definition = function(x, subset){
+        if (length(x@ID[subset]) == 0) stop("Empty codnoTable object!")
         new("codonTable",
-            ID = x@ID[subset],
-            counts = x@counts[subset, ],
+            ID = getID(x)[subset],
+            counts = rbind(x@counts[subset, ]),
             len = x@len[subset],
             KO = x@KO[subset],
             COG = x@COG[subset])
     }
 )
+
 #' @rdname subset
 #' @export
 setMethod(

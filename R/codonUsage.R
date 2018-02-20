@@ -66,7 +66,8 @@ setMethod(
 setGeneric(
     name = "MILC",
     def = function(cTobject, subsets = list(), self = TRUE, ribosomal = FALSE,
-                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE) {
+                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
+                   filtering = "none", len.threshold = 80) {
         standardGeneric("MILC")
     }
 )
@@ -75,7 +76,15 @@ setMethod(
     f = "MILC",
     signature = c(cTobject = "codonTable"),
     definition = function(cTobject, subsets, self, ribosomal,
-                          id_or_name2, alt.init, stop.rm) {
+                          id_or_name2, alt.init, stop.rm,
+                          filtering, len.threshold) {
+
+        if (filtering == "hard") {
+            cTobject <- subset(cTobject, cTobject@len > len.threshold)
+        } else if (filtering == "soft") {
+            se <- which(cTobject@len > len.threshold)
+            message(cat("The following sequences have below-threshold length:", se))
+        } else if (filtering == "none") NULL
 
         gCobject <- genCode(id_or_name2, alt.init, stop.rm)
         if (stop.rm) {
@@ -103,7 +112,8 @@ setMethod(
 setGeneric(
     name = "B",
     def = function(cTobject, subsets = list(), self = TRUE, ribosomal = FALSE,
-                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE) {
+                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
+                   filtering = "none", len.threshold = 80) {
         standardGeneric("B")
     }
 )
@@ -112,7 +122,15 @@ setMethod(
     f = "B",
     signature = c(cTobject = "codonTable"),
     definition = function(cTobject, subsets, self, ribosomal,
-                          id_or_name2, alt.init, stop.rm) {
+                          id_or_name2, alt.init, stop.rm,
+                          filtering, len.threshold) {
+
+        if (filtering == "hard") {
+            cTobject <- subset(cTobject, cTobject@len > len.threshold)
+        } else if (filtering == "soft") {
+            se <- which(cTobject@len > len.threshold)
+            message(cat("The following sequences have below-threshold length:", se))
+        } else if (filtering == "none") NULL
 
         gCobject <- genCode(id_or_name2, alt.init, stop.rm)
         if (stop.rm) {
@@ -139,7 +157,8 @@ setMethod(
 setGeneric(
     name = "MCB",
     def = function(cTobject, subsets = list(), self = TRUE, ribosomal = FALSE,
-                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE) {
+                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
+                   filtering = "none", len.threshold = 80) {
         standardGeneric("MCB")
     }
 )
@@ -148,7 +167,15 @@ setMethod(
     f = "MCB",
     signature = c(cTobject = "codonTable"),
     definition = function(cTobject, subsets, self, ribosomal,
-                          id_or_name2, alt.init, stop.rm) {
+                          id_or_name2, alt.init, stop.rm,
+                          filtering, len.threshold) {
+
+        if (filtering == "hard") {
+            cTobject <- subset(cTobject, cTobject@len > len.threshold)
+        } else if (filtering == "soft") {
+            se <- which(cTobject@len > len.threshold)
+            message(cat("The following sequences have below-threshold length:", se))
+        } else if (filtering == "none") NULL
 
         gCobject <- genCode(id_or_name2, alt.init, stop.rm)
         if (stop.rm) {
@@ -179,7 +206,8 @@ setMethod(
 setGeneric(
     name = "ENCprime",
     def = function(cTobject, subsets = list(), self = TRUE, ribosomal = FALSE,
-                   id_or_name2 = "1", alt.init = TRUE, stop.rm = TRUE) {
+                   id_or_name2 = "1", alt.init = TRUE, stop.rm = TRUE,
+                   filtering = "none", len.threshold = 80) {
         standardGeneric("ENCprime")
     }
 )
@@ -188,7 +216,15 @@ setMethod(
     f = "ENCprime",
     signature = c(cTobject = "codonTable"),
     definition = function(cTobject, subsets, self, ribosomal,
-                          id_or_name2, alt.init, stop.rm) {
+                          id_or_name2, alt.init, stop.rm,
+                          filtering, len.threshold) {
+
+        if (filtering == "hard") {
+            cTobject <- subset(cTobject, cTobject@len > len.threshold)
+        } else if (filtering == "soft") {
+            se <- which(cTobject@len > len.threshold)
+            message(cat("The following sequences have below-threshold length:", se))
+        } else if (filtering == "none") NULL
 
         gCobject <- genCode(id_or_name2, alt.init, stop.rm)
         if (stop.rm) {
@@ -226,7 +262,8 @@ setMethod(
 
 setGeneric(
     name = "ENC",
-    def = function(cTobject, id_or_name2 = "1", alt.init = TRUE, stop.rm = TRUE) {
+    def = function(cTobject, id_or_name2 = "1", alt.init = TRUE, stop.rm = TRUE,
+                   filtering = "none", len.threshold = 80) {
         standardGeneric("ENC")
     }
 )
@@ -234,7 +271,15 @@ setGeneric(
 setMethod(
     f = "ENC",
     signature = c(cTobject = "codonTable"),
-    definition = function(cTobject, id_or_name2, alt.init, stop.rm) {
+    definition = function(cTobject, id_or_name2, alt.init, stop.rm,
+                          filtering, len.threshold) {
+
+        if (filtering == "hard") {
+            cTobject <- subset(cTobject, cTobject@len > len.threshold)
+        } else if (filtering == "soft") {
+            se <- which(cTobject@len > len.threshold)
+            message(cat("The following sequences have below-threshold length:", se))
+        } else if (filtering == "none") NULL
 
         gCobject <- genCode(id_or_name2, alt.init, stop.rm)
         if (stop.rm) {
@@ -260,7 +305,8 @@ setMethod(
 
 setGeneric(
     name = "SCUO",
-    def = function(cTobject, id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE) {
+    def = function(cTobject, id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
+                   filtering = "none", len.threshold = 80) {
         standardGeneric("SCUO")
     }
 )
@@ -268,7 +314,15 @@ setGeneric(
 setMethod(
     f = "SCUO",
     signature = c(cTobject = "codonTable"),
-    definition = function(cTobject, id_or_name2, alt.init, stop.rm) {
+    definition = function(cTobject, id_or_name2, alt.init, stop.rm,
+                          filtering, len.threshold) {
+
+        if (filtering == "hard") {
+            cTobject <- subset(cTobject, cTobject@len > len.threshold)
+        } else if (filtering == "soft") {
+            se <- which(cTobject@len > len.threshold)
+            message(cat("The following sequences have below-threshold length:", se))
+        } else if (filtering == "none") NULL
 
         gCobject <- genCode(id_or_name2, alt.init, stop.rm)
         if (stop.rm) {
