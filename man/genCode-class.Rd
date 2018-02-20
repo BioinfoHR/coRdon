@@ -25,7 +25,7 @@ Default is \code{TRUE}.}
 \item{stop.rm}{logical, whether to remove stop codons. Default is \code{FALSE}.}
 }
 \description{
-Objects of \code{genCode} class indicate the variant of genetic code
+Object of \code{genCode} class describes the variant of genetic code
 to be used in CU calculations.
 }
 \section{Methods (by generic)}{

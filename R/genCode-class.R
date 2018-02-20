@@ -1,6 +1,6 @@
 #' An S4 class \code{genCode}
 #'
-#' Objects of \code{genCode} class indicate the variant of genetic code
+#' Object of \code{genCode} class describes the variant of genetic code
 #' to be used in CU calculations.
 #'
 #' @slot ctab A \code{data.table} with two colums: \code{codon} and \code{AA},

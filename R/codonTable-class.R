@@ -1,3 +1,6 @@
+#' @include genCode-class.R
+NULL
+
 #' An S4 class \code{codonTable}
 #'
 #' Contains codon counts and optional annotation for a set DNA sequences.
@@ -28,15 +31,15 @@ setClass(
 setValidity(
     "codonTable",
     function(object){
-        ns <- nrow(object@counts)
-        KOlen <- length(object@KO)
-        COGlen <- length(object@COG)
+        ns <- length(object)
+        KOlen <- length(getKO(object))
+        COGlen <- length(getCOG(object))
         errors <- character()
-        if (!is.integer(object@counts)) {
+        if (!is.integer(codonCounts(object))) {
             msg <- paste("Codon counts have to be integers!")
             errors <- c(errors, msg)
         }
-        if (all(rowSums(object@counts) != object@len)) {
+        if (all(rowSums(codonCounts(object)) != getlen(object))) {
             msg <- "(Some of) summed codon counts differ from sequence length!"
             errors <- c(errors, msg)
         }
@@ -99,7 +102,18 @@ setMethod(
 setMethod(
     f = "codonTable",
     signature = "matrix",
-    definition = function(x)
+    definition = function(x) {
+        if (ncol(x) == 64) {
+            if (is.null(colnames(x))) {
+                colnames(x) <- genCode()@codons
+                message("Assigned alphabetically sorted codons as column names.")
+            }
+        } else if (ncol(x) == 61) {
+            if (is.null(colnames(x))) {
+                colnames(x) <- genCode()@nostops
+                message("Assigned alphabetically sorted codons as column names.")
+            }
+        } else stop("Matrix should have 64 or 61 columns!")
         new(
             "codonTable",
             ID = if (!is.null(rownames(x))) rownames(x) else character(),
@@ -108,6 +122,7 @@ setMethod(
             KO = regmatches(rownames(x), regexpr("K\\d{5}", rownames(x))),
             COG = regmatches(rownames(x), regexpr("([KCN]|TW)OG\\d{5}", rownames(x)))
         )
+    }
 )
 
 #' @rdname codonTable-class
@@ -130,19 +145,11 @@ setMethod(
 ### codonTable accesor methods
 ###
 
-#' @rdname codonTable-class
-#' @export
-setGeneric(
-    name = "show",
-    def = function(object){
-        standardGeneric("show")
-    }
-)
-
-#' @describeIn codonTable Display the object of \code{codonTable} class.
+#' Display the object of \code{codonTable} class.
 #'
 #' @inheritParams methods::show
 #'
+#' @rdname show
 #' @export
 setMethod(
     f = "show",
@@ -150,6 +157,23 @@ setMethod(
     definition = function(object){
         ns <- nrow(object@counts)
         cat("codonTable instance with codon counts from", ns, "sequences")
+    }
+)
+
+#' Length of \code{codonTable} object
+#'
+#' Get the length of \code{codonTable} object, i.e. the number of sequences
+#' for which there are codon counts contained in the object.
+#'
+#' @param x A \code{codonTable} object.
+#'
+#' @rdname length
+#' @export
+setMethod(
+    f = "length",
+    signature = "codonTable",
+    definition = function(x){
+        nrow(codonCounts(x))
     }
 )
 
@@ -200,47 +224,21 @@ setMethod(
 #' @rdname codonTable-class
 #' @export
 setGeneric(
-    name = "setKO",
-    def = function(cTobject, x){
-        standardGeneric("setKO")
+    name = "getlen",
+    def = function(cTobject){
+        standardGeneric("getlen")
     }
 )
-#' @describeIn codonTable Set KO annotations for \code{codonTable} object.
+#' @describeIn codonTable Get KO annotations for \code{codonTable} object.
 #'
 #' @inheritParams getID
-#' @param x A character vector of length equal to \code{nrow(counts(cTobject))}.
 #'
 #' @export
 setMethod(
-    f = "setKO",
+    f = "getlen",
     signature = "codonTable",
-    definition = function(cTobject, x){
-        cTobject@KO <- x
-        ok <- validObject(cTobject)
-        if (ok) return(cTobject)
-    }
-)
-
-#' @rdname codonTable-class
-#' @export
-setGeneric(
-    name = "setCOG",
-    def = function(cTobject, x){
-        standardGeneric("setCOG")
-    }
-)
-#' @describeIn codonTable Set COG annotations for \code{codonTable} object.
-#'
-#' @inheritParams setKO
-#'
-#' @export
-setMethod(
-    f = "setCOG",
-    signature = "codonTable",
-    definition = function(cTobject, x){
-        cTobject@COG <- x
-        ok <- validObject(cTobject)
-        if (ok) return(cTobject)
+    definition = function(cTobject){
+        return(cTobject@len)
     }
 )
 
@@ -268,6 +266,31 @@ setMethod(
 #' @rdname codonTable-class
 #' @export
 setGeneric(
+    name = "setKO",
+    def = function(cTobject, ann){
+        standardGeneric("setKO")
+    }
+)
+#' @describeIn codonTable Set KO annotations for \code{codonTable} object.
+#'
+#' @inheritParams getID
+#' @param ann A character vector of sequence annotations, must be of length
+#'    equal to \code{length(cTobject)}.
+#'
+#' @export
+setMethod(
+    f = "setKO",
+    signature = "codonTable",
+    definition = function(cTobject, ann){
+        cTobject@KO <- ann
+        ok <- validObject(cTobject)
+        if (ok) return(cTobject)
+    }
+)
+
+#' @rdname codonTable-class
+#' @export
+setGeneric(
     name = "getCOG",
     def = function(cTobject){
         standardGeneric("getCOG")
@@ -287,11 +310,41 @@ setMethod(
     }
 )
 
+
+#' @rdname codonTable-class
+#' @export
+setGeneric(
+    name = "setCOG",
+    def = function(cTobject, a){
+        standardGeneric("setCOG")
+    }
+)
+
+#' @describeIn codonTable Set COG annotations for \code{codonTable} object.
+#'
+#' @inheritParams setKO
+#'
+#' @export
+setMethod(
+    f = "setCOG",
+    signature = "codonTable",
+    definition = function(cTobject, a){
+        cTobject@COG <- a
+        ok <- validObject(cTobject)
+        if (ok) return(cTobject)
+    }
+)
+
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### codonTable subset methods
 ###
 
-#' @rdname codonTable-class
+#' Subsetting objects of \code{codonTable} class.
+#'
+#' Return subsets of \code{codonTable} object, keeping in each slot only those
+#' elements that meet the criteria in \code{subset}.
+#'
+#' @rdname subset
 #' @export
 setGeneric(
     name = "subset",
@@ -299,7 +352,7 @@ setGeneric(
         standardGeneric("subset")
     }
 )
-#' Subset \code{codonTable} object.
+#' @describeIn subset Subset \code{codonTable} object.
 #'
 #' @param x A \code{codonTable} object to be subset.
 #' @param subset A logical or character vector indicating which elements of
@@ -308,7 +361,6 @@ setGeneric(
 #'     at least some of the elements of either \code{getKO(codonTable)} or
 #'     \code{getCOG(codonTable)}.
 #'
-#' @rdname subset
 #' @export
 setMethod(
     f = "subset",

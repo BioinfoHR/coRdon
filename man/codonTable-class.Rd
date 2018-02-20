@@ -7,21 +7,20 @@
 \alias{codonTable,DNAStringSet-method}
 \alias{codonTable,matrix-method}
 \alias{codonTable,data.frame-method}
-\alias{show}
-\alias{show,codonTable-method}
 \alias{getID}
 \alias{getID,codonTable-method}
 \alias{codonCounts}
 \alias{codonCounts,codonTable-method}
-\alias{setKO}
-\alias{setKO,codonTable-method}
-\alias{setCOG}
-\alias{setCOG,codonTable-method}
+\alias{getlen}
+\alias{getlen,codonTable-method}
 \alias{getKO}
 \alias{getKO,codonTable-method}
+\alias{setKO}
+\alias{setKO,codonTable-method}
 \alias{getCOG}
 \alias{getCOG,codonTable-method}
-\alias{subset}
+\alias{setCOG}
+\alias{setCOG,codonTable-method}
 \title{An S4 class \code{codonTable}}
 \usage{
 codonTable(x)
@@ -32,10 +31,6 @@ codonTable(x)
 
 \S4method{codonTable}{data.frame}(x)
 
-show(object)
-
-\S4method{show}{codonTable}(object)
-
 getID(cTobject)
 
 \S4method{getID}{codonTable}(cTobject)
@@ -44,32 +39,33 @@ codonCounts(cTobject)
 
 \S4method{codonCounts}{codonTable}(cTobject)
 
-setKO(cTobject, x)
+getlen(cTobject)
 
-\S4method{setKO}{codonTable}(cTobject, x)
-
-setCOG(cTobject, x)
-
-\S4method{setCOG}{codonTable}(cTobject, x)
+\S4method{getlen}{codonTable}(cTobject)
 
 getKO(cTobject)
 
 \S4method{getKO}{codonTable}(cTobject)
 
+setKO(cTobject, ann)
+
+\S4method{setKO}{codonTable}(cTobject, ann)
+
 getCOG(cTobject)
 
 \S4method{getCOG}{codonTable}(cTobject)
 
-subset(x, subset)
+setCOG(cTobject, a)
+
+\S4method{setCOG}{codonTable}(cTobject, a)
 }
 \arguments{
 \item{x}{An object of \code{DNAStringSet}, \code{matrix} or \code{data.frame} class.}
 
-\item{object}{Any R object}
-
 \item{cTobject}{A \code{codonTable} object.}
 
-\item{x}{A character vector of length equal to \code{nrow(counts(cTobject))}.}
+\item{ann}{A character vector of sequence annotations, must be of length
+equal to \code{length(cTobject)}.}
 }
 \description{
 Contains codon counts and optional annotation for a set DNA sequences.
@@ -78,19 +74,19 @@ Contains codon counts and optional annotation for a set DNA sequences.
 \itemize{
 \item \code{codonTable}: Create new objects of class \code{codonTable}.
 
-\item \code{show}: Display the object of \code{codonTable} class.
-
 \item \code{getID}: Get IDs for \code{codonTable} class.
 
 \item \code{codonCounts}: Get codon counts from \code{codonTable} object.
 
-\item \code{setKO}: Set KO annotations for \code{codonTable} object.
-
-\item \code{setCOG}: Set COG annotations for \code{codonTable} object.
+\item \code{getlen}: Get KO annotations for \code{codonTable} object.
 
 \item \code{getKO}: Get KO annotations for \code{codonTable} object.
 
+\item \code{setKO}: Set KO annotations for \code{codonTable} object.
+
 \item \code{getCOG}: Get COG annotations for \code{codonTable} object.
+
+\item \code{setCOG}: Set COG annotations for \code{codonTable} object.
 }}
 
 \section{Slots}{
