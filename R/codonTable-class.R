@@ -36,24 +36,24 @@ setValidity(
         COGlen <- length(object@COG)
         errors <- character()
         if (!is.integer(object@counts)) {
-            msg <- paste("Codon counts have to be integers!")
+            msg <- paste("Codon counts have to be integers. \n")
             errors <- c(errors, msg)
         }
         if (all(rowSums(object@counts) != object@len)) {
-            msg <- "(Some of) summed codon counts differ from sequence length!"
+            msg <- "(Some of) summed codon counts differ from sequence length. \n"
             errors <- c(errors, msg)
         }
         if (KOlen != 0 & KOlen != ns) {
             msg <- cat("Number of KO annotations,", KOlen,
-                       "differ from the number of sequences,", ns, "!")
+                       "differ from the number of sequences,", ns, "\n")
             errors <- c(errors, msg)
         }
         if (COGlen != 0 & COGlen != ns) {
             msg <- cat("Number of COG annotations,", COGlen,
-                       " differ from the number of sequences,", ns, "!")
+                       " differ from the number of sequences,", ns, "\n")
             errors <- c(errors, msg)
         }
-        if (length(errors) == 0) TRUE else errors
+        if (length(errors) == 0) TRUE else stop(errors)
     }
 )
 
@@ -284,8 +284,8 @@ setMethod(
     signature = "codonTable",
     definition = function(cTobject, ann){
         cTobject@KO <- ann
-        ok <- validObject(cTobject)
-        if (ok) return(cTobject)
+        validObject(cTobject)
+        return(cTobject)
     }
 )
 
@@ -331,8 +331,8 @@ setMethod(
     signature = "codonTable",
     definition = function(cTobject, a){
         cTobject@COG <- a
-        ok <- validObject(cTobject)
-        if (ok) return(cTobject)
+        validObject(cTobject)
+        return(cTobject)
     }
 )
 
