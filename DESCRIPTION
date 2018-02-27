@@ -21,4 +21,5 @@ Collate:
     'codonUsage.R'
     'constants.R'
     'cuExpressivity.R'
+    'enrichment.R'
     'readSet.R'

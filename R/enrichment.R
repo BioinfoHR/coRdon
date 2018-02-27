@@ -57,8 +57,8 @@ make.contable <- function(geneList, variable,
 
 #' Reduce contingency table
 #'
-#' Given contingency table with KO identifiers, reduce the table by associating
-#' KO identifiers with either KEGG pathway or module identifiers.
+#' Given contingency table with gene identifiers, reduce the table by associating
+#' gene identifiers with either KEGG Pathway or KEGG Module identifiers.
 #'
 #' @param contable A contingency table.
 #' @param target A character vector indicating which onthology to use, either
@@ -92,7 +92,7 @@ reduce.contable <- function(contable, target) {
 #'
 #' @param contable A contingency table.
 #'
-#' @return  Returns a list of data.tables, each containing categories in rows
+#' @return  Returns a list of data.tables, each containing categories in rows,
 #'    and the following columns:
 #'    \itemize{
 #'      \item background counts
