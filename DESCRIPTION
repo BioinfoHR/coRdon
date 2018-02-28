@@ -20,6 +20,7 @@ Collate:
     'functions.R'
     'codonUsage.R'
     'constants.R'
-    'cuExpressivity.R'
     'enrichment.R'
+    'crossTab-class.R'
+    'cuExpressivity.R'
     'readSet.R'
