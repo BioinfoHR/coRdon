@@ -54,7 +54,7 @@ reduce.contable <- function(contable, target) {
 
 
 #' @importClassesFrom DOSE enrichResult
-.enrichment <- function(contable, pvalueCutoff = numeric(), pAdjustMethod = "BH") {
+.enrichment <- function(contable, pvalueCutoff, pAdjustMethod, padjCutoff) {
 
     rows <- names(contable)
     top_rows <- rows[grep("top|gt", rows)]
@@ -88,7 +88,7 @@ reduce.contable <- function(contable, target) {
                   padj = padj)]
 
         if(length(pvalueCutoff) != 0) ct <- ct[pvals <= pvalueCutoff,]
-
+        if(length(padjCutoff) != 0) ct <- ct[padj <= padjCutoff,]
         ct
 
     }, simplify = FALSE)

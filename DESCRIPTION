@@ -23,4 +23,5 @@ Collate:
     'enrichment.R'
     'crossTab-class.R'
     'cuExpressivity.R'
+    'enrichment-visualization.R'
     'readSet.R'

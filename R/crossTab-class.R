@@ -107,7 +107,7 @@ setMethod(
 #' @export
 setGeneric(
     name = "enrichment",
-    def = function(x, ...){
+    def = function(x, pvalueCutoff = numeric(), pAdjustMethod = "BH", padjCutoff = numeric()){
         standardGeneric("enrichment")
     }
 )
@@ -137,8 +137,8 @@ setGeneric(
 #'
 setMethod(
     f = "enrichment",
-    signature = c("crossTab"),
-    definition = function(x, pvalueCutoff = numeric(), pAdjustMethod = "BH"){
-        .enrichment(x@table)
+    signature = "crossTab",
+    definition = function(x, pvalueCutoff, pAdjustMethod, padjCutoff){
+        .enrichment(x@table, pvalueCutoff, pAdjustMethod, padjCutoff)
     }
 )
