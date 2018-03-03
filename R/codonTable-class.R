@@ -157,9 +157,13 @@ setMethod(
     signature = "codonTable",
     definition = function(object){
         ns <- nrow(object@counts)
+        IDs <- capture.output(str(object@ID))
+        lens <- capture.output(str(object@len))
         KOs <- capture.output(str(object@KO))
         COGs <- capture.output(str(object@COG))
         cat("codonTable instance with codon counts from", ns, "sequences.\n",
+            "sequence IDs:\n", IDs, "\n",
+            "sequence lengths:\n", lens, "\n",
             "KO annotations:\n", KOs, "\n",
             "COG annotations:\n", COGs, "\n")
     }
