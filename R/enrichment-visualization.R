@@ -2,7 +2,11 @@
 #' @importFrom corrplot corrplot
 NULL
 
-# @param pvals "pvals" or "padj"
+### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+### correlation plot
+###
+
+# @param pvals A character vector, either "pvals" or "padj".
 setGeneric(
     name = "correlationplot",
     def = function(x, variable, method = "color", add = FALSE, col = NULL, bg = "white", title = "",

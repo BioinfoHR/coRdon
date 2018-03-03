@@ -62,7 +62,7 @@ setMethod(
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### MILC, Supek and Vlahovicek 2005.
 ###
-
+#' @export
 setGeneric(
     name = "MILC",
     def = function(cTobject, subsets = list(), self = TRUE, ribosomal = FALSE,
@@ -71,7 +71,7 @@ setGeneric(
         standardGeneric("MILC")
     }
 )
-
+#' @export
 setMethod(
     f = "MILC",
     signature = c(cTobject = "codonTable"),
@@ -108,7 +108,7 @@ setMethod(
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### B, Karlin and Mrazek 1998.
 ###
-
+#' @export
 setGeneric(
     name = "B",
     def = function(cTobject, subsets = list(), self = TRUE, ribosomal = FALSE,
@@ -117,7 +117,7 @@ setGeneric(
         standardGeneric("B")
     }
 )
-
+#' @export
 setMethod(
     f = "B",
     signature = c(cTobject = "codonTable"),
@@ -153,7 +153,7 @@ setMethod(
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### MCB, Urutia and Hurst 2001.
 ###
-
+#' @export
 setGeneric(
     name = "MCB",
     def = function(cTobject, subsets = list(), self = TRUE, ribosomal = FALSE,
@@ -162,7 +162,7 @@ setGeneric(
         standardGeneric("MCB")
     }
 )
-
+#' @export
 setMethod(
     f = "MCB",
     signature = c(cTobject = "codonTable"),
@@ -202,7 +202,7 @@ setMethod(
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### ENC' Npvembre 2002.
 ###
-
+#' @export
 setGeneric(
     name = "ENCprime",
     def = function(cTobject, subsets = list(), self = TRUE, ribosomal = FALSE,
@@ -211,7 +211,7 @@ setGeneric(
         standardGeneric("ENCprime")
     }
 )
-
+#' @export
 setMethod(
     f = "ENCprime",
     signature = c(cTobject = "codonTable"),
@@ -259,7 +259,7 @@ setMethod(
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### ENC, Wright 1990.
 ###
-
+#' @export
 setGeneric(
     name = "ENC",
     def = function(cTobject, id_or_name2 = "1", alt.init = TRUE, stop.rm = TRUE,
@@ -267,7 +267,7 @@ setGeneric(
         standardGeneric("ENC")
     }
 )
-
+#' @export
 setMethod(
     f = "ENC",
     signature = c(cTobject = "codonTable"),
@@ -302,7 +302,7 @@ setMethod(
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### SCUO, Wan et al. 2004.
 ###
-
+#' @export
 setGeneric(
     name = "SCUO",
     def = function(cTobject, id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
@@ -310,7 +310,7 @@ setGeneric(
         standardGeneric("SCUO")
     }
 )
-
+#' @export
 setMethod(
     f = "SCUO",
     signature = c(cTobject = "codonTable"),

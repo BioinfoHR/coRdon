@@ -53,7 +53,7 @@ reduce.contable <- function(contable, target) {
 }
 
 
-#' @importClassesFrom DOSE enrichResult
+# #' @importClassesFrom DOSE enrichResult
 .enrichment <- function(contable, pvalueCutoff, pAdjustMethod, padjCutoff) {
 
     rows <- names(contable)

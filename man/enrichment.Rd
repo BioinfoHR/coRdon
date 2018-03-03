@@ -6,10 +6,11 @@
 \alias{enrichment,crossTab-method}
 \title{Enrichment analysis for object \code{crossTab} class.}
 \usage{
-enrichment(x, ...)
+enrichment(x, pvalueCutoff = numeric(), pAdjustMethod = "BH",
+  padjCutoff = numeric())
 
 \S4method{enrichment}{crossTab}(x, pvalueCutoff = numeric(),
-  pAdjustMethod = "BH")
+  pAdjustMethod = "BH", padjCutoff = numeric())
 }
 \arguments{
 \item{x}{A \code{crossTab} object.}

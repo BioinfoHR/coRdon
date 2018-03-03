@@ -3,7 +3,12 @@
 #' @include functions.R
 #' @include codonUsage.R
 #' @import data.table
+NULL
 
+### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+### MELP, Supek and Vlahovicek 2005.
+###
+#' @export
 setGeneric(
     name = "MELP",
     def = function(cTobject, subsets = list(), ribosomal = FALSE,
@@ -11,7 +16,7 @@ setGeneric(
         standardGeneric("MELP")
     }
 )
-
+#' @export
 setMethod(
     f = "MELP",
     signature = c(cTobject = "codonTable"),
@@ -24,6 +29,10 @@ setMethod(
     }
 )
 
+### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+### E, Karlin and Mrazek 2000
+###
+#' @export
 setGeneric(
     name = "E",
     def = function(cTobject, subsets = list(), ribosomal = FALSE,
@@ -31,7 +40,7 @@ setGeneric(
         standardGeneric("E")
     }
 )
-
+#' @export
 setMethod(
     f = "E",
     signature = c(cTobject = "codonTable"),
@@ -44,6 +53,10 @@ setMethod(
     }
 )
 
+### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+### CAI, Sharp & Lee 1987
+###
+#' @export
 setGeneric(
     name = "CAI",
     def = function(cTobject, subsets = list(), ribosomal = FALSE,
@@ -51,7 +64,7 @@ setGeneric(
         standardGeneric("CAI")
     }
 )
-
+#' @export
 setMethod(
     f = "CAI",
     signature = c(cTobject = "codonTable"),
@@ -85,6 +98,10 @@ setMethod(
     }
 )
 
+### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+### Fop, Ikemura 1981
+###
+#' @export
 setGeneric(
     name = "Fop",
     def = function(cTobject, subsets = list(), ribosomal = FALSE,
@@ -92,7 +109,7 @@ setGeneric(
         standardGeneric("Fop")
     }
 )
-
+#' @export
 setMethod(
     f = "Fop",
     signature = c(cTobject = "codonTable"),
@@ -128,6 +145,10 @@ setMethod(
     }
 )
 
+### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+### GCB, Merkl 2003
+###
+#' @export
 setGeneric(
     name = "GCB",
     def = function(cTobject, seed, ribosomal = FALSE, perc = 0.05,
@@ -135,7 +156,7 @@ setGeneric(
         standardGeneric("GCB")
     }
 )
-
+#' @export
 setMethod(
     f = "GCB",
     signature = c(cTobject = "codonTable"),
