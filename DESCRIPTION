@@ -1,14 +1,16 @@
 Package: coRdon
 Type: Package
-Title: MILC based codon usage analysis and prediction of expression (MELP)
+Title: Codon usage analysis and prediction of expression.
 Version: 0.1.0
 Date: 2015-07-21
 Author: Fabijanic M., Vlahovicek K.
 Maintainer: Maja Fabijanic <mfabijanic@bioinfo.hr>
 Description: Tool for analysis of codone usage in various 
-  unannotated or KEGG/eggNOG annotated fasta sequences.Predicts 
-  expression based on goodness of fit to centroid of MILC values
-  of sample and highly expressed sequences.   
+  unannotated or KEGG/eggNOG annotated DNA sequences. Calculates
+  various measures of CU and CU-based predictors of gene expression,
+  and performs gene set enrichment analysis for annotated sequences.
+  Implements several methods for visualization of CU and enrichment
+  analysis results.
 License: What license is it under?
 LazyData: TRUE
 Imports: Biostrings, Biobase, plyr, stringr, data.table
