@@ -7,6 +7,7 @@ NULL
 ###
 
 # @param pvals A character vector, either "pvals" or "padj".
+#' @export
 setGeneric(
     name = "correlationplot",
     def = function(x, variable, method = "color", add = FALSE, col = NULL, bg = "white", title = "",
@@ -21,7 +22,7 @@ setGeneric(
         standardGeneric("correlationplot")
     }
 )
-
+#' @export
 setMethod(
     f = "correlationplot",
     signature = "list",

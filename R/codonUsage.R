@@ -82,8 +82,8 @@ setMethod(
         if (filtering == "hard") {
             cTobject <- subset(cTobject, cTobject@len > len.threshold)
         } else if (filtering == "soft") {
-            se <- which(cTobject@len > len.threshold)
-            message(cat("The following sequences have below-threshold length:", se))
+            if (any(cTobject@len < len.threshold))
+                warning("Some sequences have below-threshold length!")
         } else if (filtering == "none") NULL
 
         gCobject <- genCode(id_or_name2, alt.init, stop.rm)
@@ -128,8 +128,8 @@ setMethod(
         if (filtering == "hard") {
             cTobject <- subset(cTobject, cTobject@len > len.threshold)
         } else if (filtering == "soft") {
-            se <- which(cTobject@len > len.threshold)
-            message(cat("The following sequences have below-threshold length:", se))
+            if (any(cTobject@len < len.threshold))
+                warning("Some sequences have below-threshold length!")
         } else if (filtering == "none") NULL
 
         gCobject <- genCode(id_or_name2, alt.init, stop.rm)
@@ -173,8 +173,8 @@ setMethod(
         if (filtering == "hard") {
             cTobject <- subset(cTobject, cTobject@len > len.threshold)
         } else if (filtering == "soft") {
-            se <- which(cTobject@len > len.threshold)
-            message(cat("The following sequences have below-threshold length:", se))
+            if (any(cTobject@len < len.threshold))
+                warning("Some sequences have below-threshold length!")
         } else if (filtering == "none") NULL
 
         gCobject <- genCode(id_or_name2, alt.init, stop.rm)
@@ -222,8 +222,8 @@ setMethod(
         if (filtering == "hard") {
             cTobject <- subset(cTobject, cTobject@len > len.threshold)
         } else if (filtering == "soft") {
-            se <- which(cTobject@len > len.threshold)
-            message(cat("The following sequences have below-threshold length:", se))
+            if (any(cTobject@len < len.threshold))
+                warning("Some sequences have below-threshold length!")
         } else if (filtering == "none") NULL
 
         gCobject <- genCode(id_or_name2, alt.init, stop.rm)
@@ -277,8 +277,8 @@ setMethod(
         if (filtering == "hard") {
             cTobject <- subset(cTobject, cTobject@len > len.threshold)
         } else if (filtering == "soft") {
-            se <- which(cTobject@len > len.threshold)
-            message(cat("The following sequences have below-threshold length:", se))
+            if (any(cTobject@len < len.threshold))
+                warning("Some sequences have below-threshold length!")
         } else if (filtering == "none") NULL
 
         gCobject <- genCode(id_or_name2, alt.init, stop.rm)
@@ -320,8 +320,8 @@ setMethod(
         if (filtering == "hard") {
             cTobject <- subset(cTobject, cTobject@len > len.threshold)
         } else if (filtering == "soft") {
-            se <- which(cTobject@len > len.threshold)
-            message(cat("The following sequences have below-threshold length:", se))
+            if (any(cTobject@len < len.threshold))
+                warning("Some sequences have below-threshold length!")
         } else if (filtering == "none") NULL
 
         gCobject <- genCode(id_or_name2, alt.init, stop.rm)
