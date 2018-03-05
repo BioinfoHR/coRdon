@@ -1,18 +1,23 @@
 #' @import data.table
+#' @import ggplot2
 #' @importFrom corrplot corrplot
 NULL
 
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### MA plot
 ###
-.maplot <- function(x, pvalue, alpha,
+.maplot <- function(dt, pvalue, alpha,
                     xlab, ylab, title, subtitle, caption) {
 
-    ggplot(dt,aes(x = A, y = M, colour = get(pvalue) < alpha)) +
+    p <- ggplot(dt,aes(x = A, y = M, colour = get(pvalue) < alpha)) +
         geom_point() +
-        facet_grid(subset ~ .) +
         labs(x = xlab, y = ylab, colour = "significant",
              title = title, subtitle = subtitle, caption = caption)
+
+    if ("subset" %in% names(dt))
+        p <- p + facet_grid(subset ~ .)
+
+    return(p)
 }
 
 #' @export
@@ -47,9 +52,7 @@ setMethod(
         if (!("data.table" %in% class(x)))
             x <- as.data.table(x)
 
-        dt <- x[, subset := NA][, c("subset", "category", "M", "A", pvalue), with = FALSE]
-
-        .maplot(dt, pvalue, alpha,
+        .maplot(x, pvalue, alpha,
                 xlab, ylab, title, subtitle, caption)
     }
 )
@@ -69,19 +72,23 @@ setMethod(
     #if (length(percentiles) == 1)
     #    dt <- dt[(.N-percentiles*.N):.N]
 
-    ggplot(dt, aes(x = reorder(category, -get(variable)), y = get(variable), fill = get(pvalue))) +
+    p <- ggplot(dt, aes(x = reorder(category, -get(variable)), y = get(variable), fill = get(pvalue))) +
         geom_bar(stat = "identity", position=position_dodge()) +
-        facet_grid(subset ~ .) +
         labs(x = xlab, y = ylab, fill = pvalue,
              title = title, subtitle = subtitle, caption = caption) +
         theme(axis.text.x  = element_text(angle=xangle, size=xsize, vjust=vjust),
               axis.text.y  = element_text(angle=yangle, size=ysize, hjust=hjust))
+
+    if ("subset" %in% names(dt))
+        p <- p + facet_grid(subset ~ .)
+
+    return(p)
 }
 
 #' @export
 setGeneric(
     name = "enrichbarplot",
-    def = function(x, variable, pvalue = NULL, threshold = numeric(),
+    def = function(x, variable, pvalue = "pvals", threshold = numeric(),
                    xlab = character(), ylab = character(),
                    title = character(), subtitle = character(), caption = character(),
                    xangle = 90, xsize = 10, vjust = 1,
@@ -124,9 +131,8 @@ setMethod(
         if (!("data.table" %in% class(x)))
             x <- as.data.table(x)
 
-        dt <- x[, subset := NA][, c("subset", "category", variable, pvalue), with = FALSE]
-        keycols <- c("subset", variable)
-        setkeyv(dt, keycols)
+        dt <- x[, c("category", variable, pvalue), with = FALSE]
+        setkeyv(dt, variable)
 
         .barplot(dt, variable, pvalue, threshold,
                  xlab, ylab, title, subtitle, caption,
