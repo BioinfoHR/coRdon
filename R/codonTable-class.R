@@ -161,11 +161,13 @@ setMethod(
         lens <- capture.output(str(object@len))
         KOs <- capture.output(str(object@KO))
         COGs <- capture.output(str(object@COG))
-        cat("codonTable instance with codon counts from", ns, "sequences.\n",
-            "sequence IDs:\n", IDs, "\n",
-            "sequence lengths:\n", lens, "\n",
-            "KO annotations:\n", KOs, "\n",
-            "COG annotations:\n", COGs, "\n")
+        cat("codonTable instance with codon counts from", ns, "sequences.\n")
+        cat("sequence IDs:\n", IDs, "\n")
+        cat("sequence lengths:\n", lens, "\n")
+        if (length(object@KO) != 0)
+            cat("KO annotations:\n", KOs, "\n")
+        if (length(object@COG) != 0)
+            cat("COG annotations:\n", COGs, "\n")
     }
 )
 
