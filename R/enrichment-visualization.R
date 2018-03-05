@@ -3,7 +3,88 @@
 NULL
 
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-### correlation plot
+### Barplot
+###
+
+.barplot <- function(dt, variable, pvals, threshold,
+                     xlab, ylab, title, subtitle, caption,
+                     xangle, xsize, vjust,
+                     yangle, ysize, hjust) {
+
+    if (length(threshold) == 1)
+        dt <- dt[get(variable) > threshold,]
+
+    #if (length(percentiles) == 1)
+    #    dt <- dt[(.N-percentiles*.N):.N]
+
+    ggplot(dt, aes(x = reorder(category, -get(variable)), y = get(variable), fill= pvals)) +
+        geom_bar(stat = "identity", position=position_dodge()) +
+        facet_grid(subset ~ .) +
+        labs(x = xlab, y = ylab,
+             title = title, subtitle = subtitle, caption = caption) +
+        theme(axis.text.x  = element_text(angle=xangle, size=xsize, vjust=vjust),
+              axis.text.y  = element_text(angle=yangle, size=ysize, hjust=hjust))
+}
+
+#' @export
+setGeneric(
+    name = "enrichbarplot",
+    def = function(x, variable, pvals = NULL, threshold = numeric(),
+                   xlab = character(), ylab = character(),
+                   title = character(), subtitle = character(), caption = character(),
+                   xangle = 90, xsize = 10, vjust = 1,
+                   yangle = 0, ysize = 10, hjust = 1) {
+        standardGeneric("enrichbarplot")
+    }
+)
+#' @export
+setMethod(
+    f = "enrichbarplot",
+    signature = c(x = "list"),
+    definition = function(x, variable, pvals, threshold,
+                          xlab, ylab, title, subtitle, caption,
+                          xangle, xsize, vjust,
+                          yangle, ysize, hjust) {
+
+        out <- sapply(x, function(y){
+            y[, c("category", variable, pvals), with = FALSE]
+        }, simplify = FALSE, USE.NAMES = TRUE)
+
+        dt <-data.table::rbindlist(out, fill = TRUE, idcol = "subset")
+        keycols <- c("subset", variable)
+        setkeyv(dt, keycols)
+
+        .barplot(dt, variable, pvals, threshold,
+                 xlab, ylab, title, subtitle, caption,
+                 xangle, xsize, vjust,
+                 yangle, ysize, hjust)
+    }
+)
+#' @export
+setMethod(
+    f = "enrichbarplot",
+    signature = c(x = "data.frame"),
+    definition = function(x, variable, pvals, threshold,
+                          xlab, ylab, title, subtitle, caption,
+                          xangle, xsize, vjust,
+                          yangle, ysize, hjust) {
+
+        if (!("data.table" %in% class(x)))
+            x <- as.data.table(x)
+
+        dt <- x[, subset := NA][, c("subset", "category", variable, pvals), with = FALSE]
+        keycols <- c("subset", variable)
+        setkeyv(dt, keycols)
+
+        .barplot(dt, variable, pvals, threshold,
+                 xlab, ylab, title, subtitle, caption,
+                 xangle, xsize, vjust,
+                 yangle, ysize, hjust)
+    }
+)
+
+### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+### Sample correlation plot
 ###
 
 # @param pvals A character vector, either "pvals" or "padj".
