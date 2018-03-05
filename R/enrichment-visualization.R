@@ -15,7 +15,7 @@ NULL
              title = title, subtitle = subtitle, caption = caption)
 
     if ("subset" %in% names(dt))
-        p <- p + facet_grid(subset ~ .)
+        p <- p + facet_wrap( ~ subset)
 
     return(p)
 }
