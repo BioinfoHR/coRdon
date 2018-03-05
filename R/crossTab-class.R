@@ -5,14 +5,14 @@ NULL
 #'
 #' A contingency table that displays...
 #'
-#' @slot genes A character vector of sequences annotations (KO, COG).
+#' @slot sequences A character vector of sequences annotations (KO, COG).
 #' @slot variable A coresponding numeric vector of CU values.
 #' @slot table A contingecy table.
 #'
 setClass(
     "crossTab",
     slots = c(
-        genes = "character",
+        sequences = "character",
         variable = "numeric",
         table = "data.table"
     )
@@ -26,7 +26,7 @@ setClass(
 #' @export
 setGeneric(
     name = "crossTab",
-    def = function(genes, variable, ...){
+    def = function(sequences, variable, ...){
         standardGeneric("crossTab")
     }
 )
@@ -36,7 +36,7 @@ setGeneric(
 #' Creates a contingency table for the list of annotated sequences and
 #' the corresponding list of codon usage (CU) values.
 #'
-#' @param genes A character vector of sequences annotations (KO, COG).
+#' @param sequences A character vector of sequences annotations (KO, COG).
 #' @param variable A coresponding numeric vector of CU values.
 #' @param threshold A threshold value (or a vector of values) of the variable.
 #'    Sequences with value of the given variable greater than threshold are
@@ -52,12 +52,122 @@ setGeneric(
 #' @export
 setMethod(
     f = "crossTab",
-    signature = c(genes = "character", variable = "numeric"),
-    definition = function(genes, variable, threshold = 1L, percentiles = NULL) {
+    signature = c(sequences = "character", variable = "numeric"),
+    definition = function(sequences, variable, threshold = 1L, percentiles = NULL) {
         new("crossTab",
-            genes = genes,
+            sequences = sequences,
             variable = variable,
-            table = make.contable(genes, variable, threshold, percentiles))
+            table = make.contable(sequences, variable, threshold, percentiles))
+    }
+)
+
+### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+### crossTab accesor methods
+###
+
+#' Display the object of \code{crossTab} class.
+#'
+#' @inheritParams methods::show
+#'
+#' @rdname show
+#' @export
+setMethod(
+    f = "show",
+    signature = "crossTab",
+    definition = function(object){
+        l <- length(object@sequences)
+        s <- capture.output(str(object@sequences))
+        v <- capture.output(str(object@variable))
+        tab <- object@table
+        cat("crossTab instance for", l, "sequences.\n")
+        cat("Sequence annotations:\n", s, "\n")
+        cat("Corresponding variable values:\n", v, "\n")
+        cat("Contingecy table:\n")
+        print(tab)
+    }
+)
+
+#' Length of \code{crossTab} object
+#'
+#' Get the length of \code{crossTab} object, i.e. the number of sequences
+#' for which the contingency table is contained in the object.
+#'
+#' @param x A \code{crossTab} object.
+#'
+#' @rdname length
+#' @export
+setMethod(
+    f = "length",
+    signature = "crossTab",
+    definition = function(x){
+        length(x@sequences)
+    }
+)
+
+#' @rdname codonTable-class
+#' @export
+setGeneric(
+    name = "getSeqAnnot",
+    def = function(x){
+        standardGeneric("getSeqAnnot")
+    }
+)
+
+#' @describeIn crossTab Get sequence annotations from \code{crossTab} object.
+#'
+#' @param x A \code{crossTab} object.
+#'
+#' @export
+setMethod(
+    f = "getSeqAnnot",
+    signature = "crossTab",
+    definition = function(x){
+        return(x@sequences)
+    }
+)
+
+#' @rdname codonTable-class
+#' @export
+setGeneric(
+    name = "getVariable",
+    def = function(x){
+        standardGeneric("getVariable")
+    }
+)
+
+#' @describeIn crossTab Get values of the variable used to create contingency table
+#'    contained in \code{crossTab} object.
+#'
+#' @param x A \code{crossTab} object.
+#'
+#' @export
+setMethod(
+    f = "getVariable",
+    signature = "crossTab",
+    definition = function(x){
+        return(x@variable)
+    }
+)
+
+#' @rdname codonTable-class
+#' @export
+setGeneric(
+    name = "contable",
+    def = function(x){
+        standardGeneric("contable")
+    }
+)
+
+#' @describeIn crossTab Get contingency table from \code{crossTab} object.
+#'
+#' @param x A \code{crossTab} object.
+#'
+#' @export
+setMethod(
+    f = "contable",
+    signature = "crossTab",
+    definition = function(x){
+        return(x@table)
     }
 )
 
@@ -76,7 +186,7 @@ setGeneric(
 )
 #' @describeIn reduceCrossTab Reduce \code{crossTab}.
 #'
-#' Reduce the input contingency table by associating genes with KEGG Pathway
+#' Reduce the input contingency table by associating sequences with KEGG Pathway
 #' or KEGG Module identifiers.
 #'
 #' @param x A \code{crossTab} object to be reduced.
@@ -93,7 +203,7 @@ setMethod(
     signature = c("crossTab", "character"),
     definition = function(x, target){
         new("crossTab",
-            genes = x@genes,
+            sequences = x@sequences,
             variable = x@variable,
             table = reduce.contable(x@table, target))
     }
