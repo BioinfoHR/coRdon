@@ -3,10 +3,62 @@
 NULL
 
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+### MA plot
+###
+.maplot <- function(x, pvalue, alpha,
+                    xlab, ylab, title, subtitle, caption) {
+
+    ggplot(dt,aes(x = A, y = M, colour = get(pvalue) < alpha)) +
+        geom_point() +
+        facet_grid(subset ~ .) +
+        labs(x = xlab, y = ylab, colour = "significant",
+             title = title, subtitle = subtitle, caption = caption)
+}
+
+#' @export
+setGeneric(
+    name = "enrichmaplot",
+    def = function(x, variable, pvalue = "pvals", alpha = 0.05,
+                   xlab = "A", ylab = "M",
+                   title = character(), subtitle = character(), caption = character()) {
+        standardGeneric("enrichmaplot")
+    }
+)
+#' @export
+setMethod(
+    f = "enrichmaplot",
+    signature = c(x = "list"),
+    definition = function(x, pvalue, alpha,
+                          xlab, ylab, title, subtitle, caption) {
+
+        dt <-data.table::rbindlist(x, fill = TRUE, idcol = "subset")
+
+        .maplot(dt, pvalue, alpha,
+                 xlab, ylab, title, subtitle, caption)
+    }
+)
+#' @export
+setMethod(
+    f = "enrichmaplot",
+    signature = c(x = "data.frame"),
+    definition = function(x, pvalue, alpha,
+                          xlab, ylab, title, subtitle, caption) {
+
+        if (!("data.table" %in% class(x)))
+            x <- as.data.table(x)
+
+        dt <- x[, subset := NA][, c("subset", "category", "M", "A", pvalue), with = FALSE]
+
+        .maplot(dt, pvalue, alpha,
+                xlab, ylab, title, subtitle, caption)
+    }
+)
+
+### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### Barplot
 ###
 
-.barplot <- function(dt, variable, pvals, threshold,
+.barplot <- function(dt, variable, pvalue, threshold,
                      xlab, ylab, title, subtitle, caption,
                      xangle, xsize, vjust,
                      yangle, ysize, hjust) {
@@ -17,10 +69,10 @@ NULL
     #if (length(percentiles) == 1)
     #    dt <- dt[(.N-percentiles*.N):.N]
 
-    ggplot(dt, aes(x = reorder(category, -get(variable)), y = get(variable), fill= pvals)) +
+    ggplot(dt, aes(x = reorder(category, -get(variable)), y = get(variable), fill = get(pvalue))) +
         geom_bar(stat = "identity", position=position_dodge()) +
         facet_grid(subset ~ .) +
-        labs(x = xlab, y = ylab,
+        labs(x = xlab, y = ylab, fill = pvalue,
              title = title, subtitle = subtitle, caption = caption) +
         theme(axis.text.x  = element_text(angle=xangle, size=xsize, vjust=vjust),
               axis.text.y  = element_text(angle=yangle, size=ysize, hjust=hjust))
@@ -29,7 +81,7 @@ NULL
 #' @export
 setGeneric(
     name = "enrichbarplot",
-    def = function(x, variable, pvals = NULL, threshold = numeric(),
+    def = function(x, variable, pvalue = NULL, threshold = numeric(),
                    xlab = character(), ylab = character(),
                    title = character(), subtitle = character(), caption = character(),
                    xangle = 90, xsize = 10, vjust = 1,
@@ -41,20 +93,20 @@ setGeneric(
 setMethod(
     f = "enrichbarplot",
     signature = c(x = "list"),
-    definition = function(x, variable, pvals, threshold,
+    definition = function(x, variable, pvalue, threshold,
                           xlab, ylab, title, subtitle, caption,
                           xangle, xsize, vjust,
                           yangle, ysize, hjust) {
 
         out <- sapply(x, function(y){
-            y[, c("category", variable, pvals), with = FALSE]
+            y[, c("category", variable, pvalue), with = FALSE]
         }, simplify = FALSE, USE.NAMES = TRUE)
 
         dt <-data.table::rbindlist(out, fill = TRUE, idcol = "subset")
         keycols <- c("subset", variable)
         setkeyv(dt, keycols)
 
-        .barplot(dt, variable, pvals, threshold,
+        .barplot(dt, variable, pvalue, threshold,
                  xlab, ylab, title, subtitle, caption,
                  xangle, xsize, vjust,
                  yangle, ysize, hjust)
@@ -64,7 +116,7 @@ setMethod(
 setMethod(
     f = "enrichbarplot",
     signature = c(x = "data.frame"),
-    definition = function(x, variable, pvals, threshold,
+    definition = function(x, variable, pvalue, threshold,
                           xlab, ylab, title, subtitle, caption,
                           xangle, xsize, vjust,
                           yangle, ysize, hjust) {
@@ -72,11 +124,11 @@ setMethod(
         if (!("data.table" %in% class(x)))
             x <- as.data.table(x)
 
-        dt <- x[, subset := NA][, c("subset", "category", variable, pvals), with = FALSE]
+        dt <- x[, subset := NA][, c("subset", "category", variable, pvalue), with = FALSE]
         keycols <- c("subset", variable)
         setkeyv(dt, keycols)
 
-        .barplot(dt, variable, pvals, threshold,
+        .barplot(dt, variable, pvalue, threshold,
                  xlab, ylab, title, subtitle, caption,
                  xangle, xsize, vjust,
                  yangle, ysize, hjust)
@@ -87,7 +139,7 @@ setMethod(
 ### Sample correlation plot
 ###
 
-# @param pvals A character vector, either "pvals" or "padj".
+# @param pvalue A character vector, either "pvals" or "padj".
 #' @export
 setGeneric(
     name = "correlationplot",
@@ -97,7 +149,7 @@ setGeneric(
                    cl.pos = "b", cl.lim = NULL, cl.length = 2, cl.cex = 0.6,
                    cl.ratio = 0.15, cl.align.text = "c", cl.offset = 0.5,
                    addshade = "all", shade.lwd = 1, shade.col = shade.col,
-                   pvals = NULL, sig.level = sig.level, insig = "n",
+                   pvalue = NULL, sig.level = sig.level, insig = "n",
                    pch = 4, pch.col = "black", pch.cex = 3,
                    na.label = "square", na.label.col = "white"){
         standardGeneric("correlationplot")
@@ -114,7 +166,7 @@ setMethod(
                           cl.pos, cl.lim, cl.length, cl.cex,
                           cl.ratio, cl.align.text, cl.offset,
                           addshade, shade.lwd, shade.col,
-                          pvals, sig.level, insig,
+                          pvalue, sig.level, insig,
                           pch, pch.col, pch.cex,
                           na.label, na.label.col) {
         # if nested list, unlist elements which are lists
@@ -135,10 +187,10 @@ setMethod(
         dm <- data.matrix(dt[,-1])
         rownames(dm) <- unname(unlist(dt[,1]))
 
-        if (!is.null(pvals)) {
+        if (!is.null(pvalue)) {
             p.mat <- lapply(1:length(x), function(y){
-                DT <- x[[y]][, c("category", pvals), with = FALSE]
-                setnames(DT, pvals, names(x)[y])
+                DT <- x[[y]][, c("category", pvalue), with = FALSE]
+                setnames(DT, pvalue, names(x)[y])
             })
             p.mat <- Reduce(function(...) merge(..., all = TRUE), p.mat)
         } else {

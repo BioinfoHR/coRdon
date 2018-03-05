@@ -14,7 +14,7 @@ make.contable <- function(genes, variable,
 
   if(!is.null(percentiles)) {
     top.perc <- lapply(percentiles, function(x) {
-      as.vector(table(genes[variable >= quantile(variable, x)]))
+      as.vector(table(genes[variable >= quantile(variable, 1-x)]))
     })
     names <- make.names(paste("top", percentiles, sep="_"))
     result[, (names) := top.perc]
