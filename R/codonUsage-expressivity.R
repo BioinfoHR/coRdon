@@ -12,7 +12,8 @@ NULL
 setGeneric(
     name = "MELP",
     def = function(cTobject, subsets = list(), ribosomal = FALSE,
-                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE) {
+                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
+                   filtering = "none", len.threshold = 80) {
         standardGeneric("MELP")
     }
 )
@@ -21,7 +22,15 @@ setMethod(
     f = "MELP",
     signature = c(cTobject = "codonTable"),
     definition = function(cTobject, subsets, ribosomal,
-                          id_or_name2, alt.init, stop.rm) {
+                          id_or_name2, alt.init, stop.rm,
+                          filtering, len.threshold) {
+
+        if (filtering == "hard") {
+            cTobject <- subset(cTobject, cTobject@len > len.threshold)
+        } else if (filtering == "soft") {
+            if (any(cTobject@len < len.threshold))
+                warning("Some sequences have below-threshold length!")
+        } else if (filtering == "none") NULL
 
         milcs <- MILC(cTobject, subsets, self = TRUE, ribosomal,
              id_or_name2, alt.init, stop.rm)
@@ -36,7 +45,8 @@ setMethod(
 setGeneric(
     name = "E",
     def = function(cTobject, subsets = list(), ribosomal = FALSE,
-                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE) {
+                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
+                   filtering = "none", len.threshold = 80) {
         standardGeneric("E")
     }
 )
@@ -45,7 +55,15 @@ setMethod(
     f = "E",
     signature = c(cTobject = "codonTable"),
     definition = function(cTobject, subsets, ribosomal,
-                          id_or_name2, alt.init, stop.rm) {
+                          id_or_name2, alt.init, stop.rm,
+                          filtering, len.threshold) {
+
+        if (filtering == "hard") {
+            cTobject <- subset(cTobject, cTobject@len > len.threshold)
+        } else if (filtering == "soft") {
+            if (any(cTobject@len < len.threshold))
+                warning("Some sequences have below-threshold length!")
+        } else if (filtering == "none") NULL
 
         b <- B(cTobject, subsets, self = TRUE, ribosomal,
                id_or_name2, alt.init, stop.rm)
@@ -60,7 +78,8 @@ setMethod(
 setGeneric(
     name = "CAI",
     def = function(cTobject, subsets = list(), ribosomal = FALSE,
-                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE) {
+                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
+                   filtering = "none", len.threshold = 80) {
         standardGeneric("CAI")
     }
 )
@@ -69,7 +88,15 @@ setMethod(
     f = "CAI",
     signature = c(cTobject = "codonTable"),
     definition = function(cTobject, subsets, ribosomal,
-                          id_or_name2, alt.init, stop.rm) {
+                          id_or_name2, alt.init, stop.rm,
+                          filtering, len.threshold) {
+
+        if (filtering == "hard") {
+            cTobject <- subset(cTobject, cTobject@len > len.threshold)
+        } else if (filtering == "soft") {
+            if (any(cTobject@len < len.threshold))
+                warning("Some sequences have below-threshold length!")
+        } else if (filtering == "none") NULL
 
         gCobject <- genCode(id_or_name2, alt.init, stop.rm)
         if (stop.rm) {
@@ -105,7 +132,8 @@ setMethod(
 setGeneric(
     name = "Fop",
     def = function(cTobject, subsets = list(), ribosomal = FALSE,
-                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE) {
+                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
+                   filtering = "none", len.threshold = 80) {
         standardGeneric("Fop")
     }
 )
@@ -114,7 +142,15 @@ setMethod(
     f = "Fop",
     signature = c(cTobject = "codonTable"),
     definition = function(cTobject, subsets, ribosomal,
-                          id_or_name2, alt.init, stop.rm)  {
+                          id_or_name2, alt.init, stop.rm,
+                          filtering, len.threshold)  {
+
+        if (filtering == "hard") {
+            cTobject <- subset(cTobject, cTobject@len > len.threshold)
+        } else if (filtering == "soft") {
+            if (any(cTobject@len < len.threshold))
+                warning("Some sequences have below-threshold length!")
+        } else if (filtering == "none") NULL
 
         gCobject <- genCode(id_or_name2, alt.init, stop.rm)
         if (stop.rm) {
@@ -152,7 +188,8 @@ setMethod(
 setGeneric(
     name = "GCB",
     def = function(cTobject, seed, ribosomal = FALSE, perc = 0.05,
-                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE) {
+                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
+                   filtering = "none", len.threshold = 80) {
         standardGeneric("GCB")
     }
 )
@@ -161,7 +198,15 @@ setMethod(
     f = "GCB",
     signature = c(cTobject = "codonTable"),
     definition = function(cTobject, seed, ribosomal, perc,
-                          id_or_name2, alt.init, stop.rm)  {
+                          id_or_name2, alt.init, stop.rm,
+                          filtering, len.threshold)  {
+
+        if (filtering == "hard") {
+            cTobject <- subset(cTobject, cTobject@len > len.threshold)
+        } else if (filtering == "soft") {
+            if (any(cTobject@len < len.threshold))
+                warning("Some sequences have below-threshold length!")
+        } else if (filtering == "none") NULL
 
         if (length(seed) == 0 & ribosomal == FALSE)
             stop("Seed is not specified!")

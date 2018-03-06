@@ -164,9 +164,9 @@ setMethod(
         cat("codonTable instance with codon counts from", ns, "sequences.\n")
         cat("sequence IDs:\n", IDs, "\n")
         cat("sequence lengths:\n", lens, "\n")
-        if (length(object@KO) != 0)
+        if (length(object@KO) != 0 & any(!is.na(object@KO)))
             cat("KO annotations:\n", KOs, "\n")
-        if (length(object@COG) != 0)
+        if (length(object@COG) != 0 & any(!is.na(object@COG)))
             cat("COG annotations:\n", COGs, "\n")
     }
 )
