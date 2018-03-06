@@ -5,15 +5,24 @@
 \alias{crossTab-class}
 \alias{crossTab}
 \alias{crossTab,character,numeric-method}
+\alias{getSeqAnnot,crossTab-method}
+\alias{getVariable,crossTab-method}
+\alias{contable,crossTab-method}
 \title{An S4 class \code{crossTab}}
 \usage{
-crossTab(genes, variable, ...)
+crossTab(sequences, variable, ...)
 
-\S4method{crossTab}{character,numeric}(genes, variable, threshold = 1L,
+\S4method{crossTab}{character,numeric}(sequences, variable, threshold = 1L,
   percentiles = NULL)
+
+\S4method{getSeqAnnot}{crossTab}(x)
+
+\S4method{getVariable}{crossTab}(x)
+
+\S4method{contable}{crossTab}(x)
 }
 \arguments{
-\item{genes}{A character vector of sequences annotations (KO, COG).}
+\item{sequences}{A character vector of sequences annotations (KO, COG).}
 
 \item{variable}{A coresponding numeric vector of CU values.}
 
@@ -24,6 +33,12 @@ counted as a subset. Default is 1.}
 \item{percentiles}{A single value or a vector of values between 0 and 1.
 Sequences with value of the given variable in the top percentiles are
 counted as a subset.}
+
+\item{x}{A \code{crossTab} object.}
+
+\item{x}{A \code{crossTab} object.}
+
+\item{x}{A \code{crossTab} object.}
 }
 \value{
 Returns a data.table with category values in rows, and with separate
@@ -39,12 +54,19 @@ A contingency table that displays...
 
 Creates a contingency table for the list of annotated sequences and
 the corresponding list of codon usage (CU) values.
+
+\item \code{getSeqAnnot}: Get sequence annotations from \code{crossTab} object.
+
+\item \code{getVariable}: Get values of the variable used to create contingency table
+contained in \code{crossTab} object.
+
+\item \code{contable}: Get contingency table from \code{crossTab} object.
 }}
 
 \section{Slots}{
 
 \describe{
-\item{\code{genes}}{A character vector of sequences annotations (KO, COG).}
+\item{\code{sequences}}{A character vector of sequences annotations (KO, COG).}
 
 \item{\code{variable}}{A coresponding numeric vector of CU values.}
 

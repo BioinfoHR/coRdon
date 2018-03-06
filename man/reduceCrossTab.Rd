@@ -27,7 +27,7 @@ Reduce objects of \code{crossTab} class.
 \itemize{
 \item \code{x = crossTab,target = character}: Reduce \code{crossTab}.
 
-Reduce the input contingency table by associating genes with KEGG Pathway
+Reduce the input contingency table by associating sequences with KEGG Pathway
 or KEGG Module identifiers.
 }}
 
