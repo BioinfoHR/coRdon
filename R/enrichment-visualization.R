@@ -1,6 +1,7 @@
 #' @import data.table
 #' @import ggplot2
 #' @importFrom corrplot corrplot
+#' @importFrom ComplexHeatmap Heatmap
 NULL
 
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -145,11 +146,41 @@ setMethod(
 ### Sample correlation plot
 ###
 
+
+.makemat <- function(x, variable, replace.na) {
+    out <- lapply(1:length(x), function(y){
+        DT <- x[[y]][, c("category", variable), with = FALSE]
+        setnames(DT, variable, names(x)[y])
+    })
+    dt <- Reduce(function(...) merge(..., all = TRUE), out)
+    if (replace.na) {
+        if (is.logical(replace.na)) replace.na = 0
+        for (j in seq_len(ncol(dt)))
+            set(dt, which(is.na(dt[[j]])), j, replace.na)
+    }
+    dm <- data.matrix(dt[,-1])
+    rownames(dm) <- unname(unlist(dt[,1]))
+    return(dm)
+}
+
+.pvalmat <- function(x, pvalue) {
+    if (!is.null(pvalue)) {
+        p.mat <- lapply(1:length(x), function(y){
+            DT <- x[[y]][, c("category", pvalue), with = FALSE]
+            setnames(DT, pvalue, names(x)[y])
+        })
+        p.mat <- Reduce(function(...) merge(..., all = TRUE), p.mat)
+    } else {
+        p.mat = NULL
+    }
+    return(p.mat)
+}
+
 # @param pvalue A character vector, either "pvals" or "padj".
 #' @export
 setGeneric(
     name = "correlationplot",
-    def = function(x, variable, method = "color", add = FALSE, col = NULL, bg = "white", title = "",
+    def = function(x, variable, replace.na = FALSE, method = "color", add = FALSE, col = NULL, bg = "white", title = "",
                    outline = FALSE, mar = c(0, 0, 0, 0), addgrid.col = NULL,
                    tl.pos = "lt", tl.cex = 0.6, tl.col = "black", tl.offset = 0.4, tl.srt = 90,
                    cl.pos = "b", cl.lim = NULL, cl.length = 2, cl.cex = 0.6,
@@ -165,7 +196,7 @@ setGeneric(
 setMethod(
     f = "correlationplot",
     signature = "list",
-    definition = function(x, variable,
+    definition = function(x, variable, replace.na,
                           method, add, col, bg, title,
                           outline, mar, addgrid.col,
                           tl.pos, tl.cex, tl.col, tl.offset, tl.srt,
@@ -184,26 +215,11 @@ setMethod(
 
         #TO-DO check that elements of the list are data.tables w. enrichment results
 
-        out <- lapply(1:length(x), function(y){
-            DT <- x[[y]][, c("category", variable), with = FALSE]
-            setnames(DT, variable, names(x)[y])
-        })
-        dt <- Reduce(function(...) merge(..., all = TRUE), out)
-        # dt[is.na(dt)] <- 0
-        dm <- data.matrix(dt[,-1])
-        rownames(dm) <- unname(unlist(dt[,1]))
+        dm <- .makemat(x, variable)
+        p.mat <- .pvalmat (x, pvalue)
 
-        if (!is.null(pvalue)) {
-            p.mat <- lapply(1:length(x), function(y){
-                DT <- x[[y]][, c("category", pvalue), with = FALSE]
-                setnames(DT, pvalue, names(x)[y])
-            })
-            p.mat <- Reduce(function(...) merge(..., all = TRUE), p.mat)
-        } else {
-            p.mat = NULL
-        }
 
-        corrplot(dm, method, type = "full", add = add, col = col, bg = bg, title = "",
+        corrplot(dm, replace.na, method, type = "full", add = add, col = col, bg = bg, title = "",
                  is.corr = FALSE, diag = FALSE, outline = outline, mar = mar,
                  addgrid.col = addgrid.col, addCoef.col = NULL, order = "original",
                  tl.pos = tl.pos, tl.cex = tl.cex, tl.col = tl.col, tl.offset = tl.offset, tl.srt = tl.srt,
@@ -214,5 +230,36 @@ setMethod(
                  pch = pch, pch.col = pch.col, pch.cex = pch.cex,
                  plotCI = "n", na.label = na.label, na.label.col = na.label.col)
 
+    }
+)
+
+### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+### Heatmap
+###
+
+#' @export
+setGeneric(
+    name = "enrichheatmap",
+    def = function(x, variable, replace.na = TRUE, ...){
+        standardGeneric("enrichheatmap")
+    }
+)
+#' @export
+setMethod(
+    f = "enrichheatmap",
+    signature = "list",
+    definition = function(x, variable, ...) {
+
+        # if nested list, unlist elements which are lists
+        nl <- lapply(x, class) == "list"
+        if (any(nl)) {
+            x <- unlist(x[nl], recursive = F)
+            x <- c(x, x[!nl])
+        }
+        #TO-DO check that elements of the list are data.tables w. enrichment results
+
+        dm <- .makemat(x, variable, replace.na) # a matrix for plotting heatmap
+        # p.mat <- .pvalmat (x, pvalue)
+        Heatmap(matrix = dm, ...)
     }
 )
