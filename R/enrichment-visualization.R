@@ -1,7 +1,7 @@
 #' @import data.table
 #' @import ggplot2
+#' @import ComplexHeatmap
 #' @importFrom corrplot corrplot
-#' @importFrom ComplexHeatmap Heatmap
 NULL
 
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -23,16 +23,16 @@ NULL
 
 #' @export
 setGeneric(
-    name = "enrichmaplot",
+    name = "enrichMAplot",
     def = function(x, variable, pvalue = "pvals", alpha = 0.05,
                    xlab = "A", ylab = "M",
                    title = character(), subtitle = character(), caption = character()) {
-        standardGeneric("enrichmaplot")
+        standardGeneric("enrichMAplot")
     }
 )
 #' @export
 setMethod(
-    f = "enrichmaplot",
+    f = "enrichMAplot",
     signature = c(x = "list"),
     definition = function(x, pvalue, alpha,
                           xlab, ylab, title, subtitle, caption) {
@@ -45,7 +45,7 @@ setMethod(
 )
 #' @export
 setMethod(
-    f = "enrichmaplot",
+    f = "enrichMAplot",
     signature = c(x = "data.frame"),
     definition = function(x, pvalue, alpha,
                           xlab, ylab, title, subtitle, caption) {
@@ -93,18 +93,18 @@ setMethod(
 
 #' @export
 setGeneric(
-    name = "enrichbarplot",
+    name = "enrichBarplot",
     def = function(x, variable, pvalue = "pvals", alpha = numeric(),
                    xlab = character(), ylab = character(),
                    title = character(), subtitle = character(), caption = character(),
                    xangle = 90, xsize = 10, vjust = 1,
                    yangle = 0, ysize = 10, hjust = 1) {
-        standardGeneric("enrichbarplot")
+        standardGeneric("enrichBarplot")
     }
 )
 #' @export
 setMethod(
-    f = "enrichbarplot",
+    f = "enrichBarplot",
     signature = c(x = "list"),
     definition = function(x, variable, pvalue, alpha,
                           xlab, ylab, title, subtitle, caption,
@@ -127,7 +127,7 @@ setMethod(
 )
 #' @export
 setMethod(
-    f = "enrichbarplot",
+    f = "enrichBarplot",
     signature = c(x = "data.frame"),
     definition = function(x, variable, pvalue, alpha,
                           xlab, ylab, title, subtitle, caption,
@@ -160,6 +160,9 @@ setMethod(
     dt <- Reduce(function(...) merge(..., all = TRUE), out)
     if (replace.na) {
         if (is.logical(replace.na)) replace.na = 0
+    }
+    if (is.numeric(replace.na)) {
+        cat(sprintf("Replacing NAs with %f\n", replace.na))
         for (j in seq_len(ncol(dt)))
             set(dt, which(is.na(dt[[j]])), j, replace.na)
     }
@@ -220,7 +223,7 @@ setMethod(
 
         #TO-DO check that elements of the list are data.tables w. enrichment results
 
-        dm <- .makemat(x, variable)
+        dm <- .makemat(x, variable, replace.na)
         p.mat <- .pvalmat (x, pvalue)
 
 
@@ -244,16 +247,16 @@ setMethod(
 
 #' @export
 setGeneric(
-    name = "enrichheatmap",
+    name = "enrichHeatmap",
     def = function(x, variable, replace.na = TRUE, ...){
-        standardGeneric("enrichheatmap")
+        standardGeneric("enrichHeatmap")
     }
 )
 #' @export
 setMethod(
-    f = "enrichheatmap",
+    f = "enrichHeatmap",
     signature = "list",
-    definition = function(x, variable, ...) {
+    definition = function(x, variable, replace.na, ...) {
 
         # if nested list, unlist elements which are lists
         nl <- lapply(x, class) == "list"
