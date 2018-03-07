@@ -62,13 +62,18 @@ setMethod(
 ### Barplot
 ###
 
-.barplot <- function(dt, variable, pvalue, threshold,
+.barplot <- function(dt, variable, pvalue, alpha,
                      xlab, ylab, title, subtitle, caption,
                      xangle, xsize, vjust,
                      yangle, ysize, hjust) {
 
-    if (length(threshold) == 1)
-        dt <- dt[get(variable) > threshold,]
+    if (length(alpha) == 1)
+        dt <- dt[get(pvalue) < alpha]
+    else if (length(alpha) > 1)
+        stop("A single value of alpha should be specified!")
+
+    #if (length(threshold) == 1)
+    #    dt <- dt[get(variable) > threshold,]
 
     #if (length(percentiles) == 1)
     #    dt <- dt[(.N-percentiles*.N):.N]
@@ -89,7 +94,7 @@ setMethod(
 #' @export
 setGeneric(
     name = "enrichbarplot",
-    def = function(x, variable, pvalue = "pvals", threshold = numeric(),
+    def = function(x, variable, pvalue = "pvals", alpha = numeric(),
                    xlab = character(), ylab = character(),
                    title = character(), subtitle = character(), caption = character(),
                    xangle = 90, xsize = 10, vjust = 1,
@@ -101,7 +106,7 @@ setGeneric(
 setMethod(
     f = "enrichbarplot",
     signature = c(x = "list"),
-    definition = function(x, variable, pvalue, threshold,
+    definition = function(x, variable, pvalue, alpha,
                           xlab, ylab, title, subtitle, caption,
                           xangle, xsize, vjust,
                           yangle, ysize, hjust) {
@@ -114,7 +119,7 @@ setMethod(
         keycols <- c("subset", variable)
         setkeyv(dt, keycols)
 
-        .barplot(dt, variable, pvalue, threshold,
+        .barplot(dt, variable, pvalue, alpha,
                  xlab, ylab, title, subtitle, caption,
                  xangle, xsize, vjust,
                  yangle, ysize, hjust)
@@ -124,7 +129,7 @@ setMethod(
 setMethod(
     f = "enrichbarplot",
     signature = c(x = "data.frame"),
-    definition = function(x, variable, pvalue, threshold,
+    definition = function(x, variable, pvalue, alpha,
                           xlab, ylab, title, subtitle, caption,
                           xangle, xsize, vjust,
                           yangle, ysize, hjust) {
@@ -135,7 +140,7 @@ setMethod(
         dt <- x[, c("category", variable, pvalue), with = FALSE]
         setkeyv(dt, variable)
 
-        .barplot(dt, variable, pvalue, threshold,
+        .barplot(dt, variable, pvalue, alpha,
                  xlab, ylab, title, subtitle, caption,
                  xangle, xsize, vjust,
                  yangle, ysize, hjust)
