@@ -215,12 +215,14 @@ reduce.contable <- function(contable, target) {
         DT <- KO_PATHWAYS
     } else if (target == "module") {
         DT <- KO_MODULES
+    } else if (target == "cogfunction") {
+        DT <- COGs
     }
     values <- unique(DT[,CATEGORY])
     tt <- sapply(values, function(x){
-        KOs <- DT[CATEGORY == x, KO]
-        if (any(KOs %in% contable[,category]))
-            contable[category %in% KOs, lapply(.SD, sum), .SDcols = names(contable)[-1]]
+        anns <- DT[CATEGORY == x, ANN]
+        if (any(anns %in% contable[,category]))
+            contable[category %in% anns, lapply(.SD, sum), .SDcols = names(contable)[-1]]
         else NULL
     }, simplify = FALSE, USE.NAMES = TRUE)
     out <- Filter(Negate(is.null), tt)
