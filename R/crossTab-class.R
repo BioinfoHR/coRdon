@@ -1,4 +1,6 @@
-#' @include enrichment.R
+#' @include codonTable-class.R
+#' @include genCode-class.R
+#' @import data.table
 NULL
 
 #' An S4 class \code{crossTab}
@@ -21,6 +23,39 @@ setClass(
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### crossTab constructor
 ###
+
+make.contable <- function(genes, variable,
+                          threshold = 1L, percentiles = NULL) {
+
+    # genes <- as.factor(slot(cTobject, category))
+    genes <- as.factor(genes)
+    all <- as.vector(table(genes))
+    result <- data.table(category = levels(genes),
+                         all = all)
+
+    if(!is.null(percentiles)) {
+        top.perc <- lapply(percentiles, function(x) {
+            as.vector(table(genes[variable >= quantile(variable, 1-x)]))
+        })
+        names <- make.names(paste("top", percentiles, sep="_"))
+        result[, (names) := top.perc]
+    } else {
+        top.perc <- NULL
+    }
+
+    if(!is.null(threshold)) {
+        top.thresh <- lapply(threshold, function(x) {
+            as.vector(table(genes[variable >= x]))
+        })
+        names <- make.names(paste("gt", threshold, sep="_"))
+        result[, (names) := top.thresh]
+    } else {
+        top.thresh <- NULL
+    }
+
+    return(result)
+}
+
 
 #' @rdname crossTab-class
 #' @export
@@ -175,6 +210,23 @@ setMethod(
 ### reduce crossTab
 ###
 
+reduce.contable <- function(contable, target) {
+    if (target == "pathway") {
+        DT <- KO_PATHWAYS
+    } else if (target == "module") {
+        DT <- KO_MODULES
+    }
+    values <- unique(DT[,CATEGORY])
+    tt <- sapply(values, function(x){
+        KOs <- DT[CATEGORY == x, KO]
+        if (any(KOs %in% contable[,category]))
+            contable[category %in% KOs, lapply(.SD, sum), .SDcols = names(contable)[-1]]
+        else NULL
+    }, simplify = FALSE, USE.NAMES = TRUE)
+    out <- Filter(Negate(is.null), tt)
+    rbindlist(out, idcol = "category")
+}
+
 #' Reduce objects of \code{crossTab} class.
 #'
 #' @export
@@ -209,46 +261,3 @@ setMethod(
     }
 )
 
-### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-### Enrichment analysis
-###
-
-#' Enrichment analysis for object \code{crossTab} class.
-#' @export
-setGeneric(
-    name = "enrichment",
-    def = function(x, pvalueCutoff = numeric(), pAdjustMethod = "BH", padjCutoff = numeric()){
-        standardGeneric("enrichment")
-    }
-)
-#' @describeIn enrichment Enrichment analysis.
-#'
-#' @param x A \code{crossTab} object.
-#' @param target A character vector indicating which onthology to use, either
-#'    \code{"pathway"} or \code{"module"}.
-#'
-#' @return  Returns a list of data.tables, each containing categories in rows,
-#'    and the following columns:
-#'    \itemize{
-#'      \item background counts
-#'      \item counts for a given subset
-#'      \item enrichment, calculated as the ratio:
-#'          (scaled sample counts - scaled backg. counts) / scaled backg. counts * 100,
-#'          where scaling means that sample counts are simply increased by 1,
-#'          and background counts are multiplied by ratio of summed sample counts
-#'          and summed backgroun counts, and also increased by 1.
-#'      \item M, log ratios of scaled counts
-#'      \item A, mean average of scaled counts
-#'      \item pvals, p values for exact binomial test
-#'      \item padj, p values corrected by BH method.
-#'    }
-#'
-#' @export
-#'
-setMethod(
-    f = "enrichment",
-    signature = "crossTab",
-    definition = function(x, pvalueCutoff, pAdjustMethod, padjCutoff){
-        .enrichment(x@table, pvalueCutoff, pAdjustMethod, padjCutoff)
-    }
-)
