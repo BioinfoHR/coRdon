@@ -8,7 +8,8 @@
 #' @importFrom Biostrings DNAStringSet
 #' @importFrom Biostrings readDNAStringSet
 #' @importFrom Biostrings oligonucleotideFrequency
-#' @importFrom plyr llply
+#' @importFrom purrr map
+#' @importFrom dplyr progress_estimated
 #' @export
 #'
 readSet <- function(folder = ".",
@@ -27,10 +28,10 @@ readSet <- function(folder = ".",
   }
   files <- dir(folder, pattern = pattern)
 
-  combined <- llply(files, function(x) {
+  combined <- map(files, function(x) {
     aset <- readDNAStringSet(paste(folder, x, sep = "/"))
     as.character(aset)
-  }, .progress = "text")
+  })
   names(combined) <- files
 
   if (zipped)
