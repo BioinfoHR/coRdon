@@ -240,7 +240,7 @@ setGeneric(
         standardGeneric("getlen")
     }
 )
-#' @describeIn codonTable Get KO annotations for \code{codonTable} object.
+#' @describeIn codonTable Get lengths of sequences in \code{codonTable} object.
 #'
 #' @inheritParams getID
 #'
@@ -261,7 +261,7 @@ setGeneric(
         standardGeneric("getKO")
     }
 )
-#' @describeIn codonTable Get KO annotations for \code{codonTable} object.
+#' @describeIn codonTable Get KO annotations of sequences in \code{codonTable} object.
 #'
 #' @inheritParams getID
 #'
@@ -308,7 +308,7 @@ setGeneric(
     }
 )
 
-#' @describeIn codonTable Get COG annotations for \code{codonTable} object.
+#' @describeIn codonTable Get COG annotations of sequences in \code{codonTable} object.
 #'
 #' @inheritParams getID
 #'
@@ -349,21 +349,7 @@ setMethod(
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### codonTable subset methods
 ###
-
-#' Subsetting objects of \code{codonTable} class.
-#'
-#' Return subsets of \code{codonTable} object, keeping in each slot only those
-#' elements that meet the criteria in \code{subset}.
-#'
-#' @rdname subset
-#' @export
-setGeneric(
-    name = "subset",
-    def = function(x, subset){
-        standardGeneric("subset")
-    }
-)
-#' @describeIn subset Subset \code{codonTable} object.
+#' Subset \code{codonTable} object.
 #'
 #' @param x A \code{codonTable} object to be subset.
 #' @param subset A logical or character vector indicating which elements of
@@ -372,40 +358,43 @@ setGeneric(
 #'     at least some of the elements of either \code{getKO(codonTable)} or
 #'     \code{getCOG(codonTable)}.
 #'
-#' @export
-setMethod(
-    f = "subset",
-    signature = c("codonTable", "logical"),
-    definition = function(x, subset){
-        if (length(x@ID[subset]) == 0) stop("Empty codnoTable object!")
-        new("codonTable",
-            ID = getID(x)[subset],
-            counts = rbind(x@counts[subset, ]),
-            len = x@len[subset],
-            KO = x@KO[subset],
-            COG = x@COG[subset])
-    }
-)
-
+#' @return subsets of \code{codonTable} object, keeping in each slot only those
+#' elements that meet the criteria in \code{subset}.
+#'
 #' @rdname subset
 #' @export
 setMethod(
     f = "subset",
-    signature = c("codonTable", "character"),
+    signature = c(x = "codonTable"),
     definition = function(x, subset){
-        KOs <- x@KO %in% subset
-        COGs <- x@COG %in% subset
-        if (any(KOs)) {
-            s <- KOs
-        } else if (any(COGs)) {
-            s <- COGs
-        } else stop("No sequence has given annotation!")
 
-        new("codonTable",
-            ID = x@ID[s, ],
-            counts = x@counts[s, ],
-            len = x@len[s, ],
-            KO = x@KO[s, ],
-            COG = x@COG[s, ])
+        if (subset == "logical") {
+
+            if (length(x@ID[subset]) == 0) stop("Empty codonTable object!")
+            new("codonTable",
+                ID = getID(x)[subset],
+                counts = rbind(x@counts[subset, ]),
+                len = x@len[subset],
+                KO = x@KO[subset],
+                COG = x@COG[subset])
+
+        } else if (subset == "character") {
+
+            KOs <- x@KO %in% subset
+            COGs <- x@COG %in% subset
+            if (any(KOs)) {
+                s <- KOs
+            } else if (any(COGs)) {
+                s <- COGs
+            } else stop("No sequence has given annotation!")
+
+            new("codonTable",
+                ID = x@ID[s, ],
+                counts = x@counts[s, ],
+                len = x@len[s, ],
+                KO = x@KO[s, ],
+                COG = x@COG[s, ])
+
+        }
     }
 )
