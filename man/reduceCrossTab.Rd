@@ -3,11 +3,8 @@
 \docType{methods}
 \name{reduceCrossTab}
 \alias{reduceCrossTab}
-\alias{reduceCrossTab,crossTab,character-method}
-\title{Reduce objects of \code{crossTab} class.}
+\title{Reduce \code{crossTab}.}
 \usage{
-reduceCrossTab(x, target)
-
 \S4method{reduceCrossTab}{crossTab,character}(x, target)
 }
 \arguments{
@@ -21,13 +18,6 @@ Returns input \code{crossTab} object, with updated contingency table,
    displaying new category values in rows, and updated counts in columns.
 }
 \description{
-Reduce objects of \code{crossTab} class.
-}
-\section{Methods (by class)}{
-\itemize{
-\item \code{x = crossTab,target = character}: Reduce \code{crossTab}.
-
 Reduce the input contingency table by associating sequences with KEGG Pathway
 or KEGG Module identifiers.
-}}
-
+}

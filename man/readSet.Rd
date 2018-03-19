@@ -4,11 +4,19 @@
 \alias{readSet}
 \title{Read Set}
 \usage{
-readSet(folder = ".", KOs = c(), gencode = "1", zipped = FALSE)
+readSet(folder = ".", KOs = c(), zipped = FALSE)
+}
+\arguments{
+\item{folder}{Path to directory containing .fasta files.}
+
+\item{KOs}{An optional character vector of sequence annotations (e.g. KO) contained
+in the names of fasta files to be selectively read.}
+
+\item{zipped}{Logical, whether \code{folder} is zipped. Default is \code{FALSE}.}
 }
 \value{
-Returns codon usage table for all files.
+Returns a \code{DNAStringSet} object.
 }
 \description{
-Reads sets of fasta sequences stored in \code{folder}.
+Reads set of fasta files stored in \code{folder}.
 }

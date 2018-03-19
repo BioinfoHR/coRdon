@@ -55,17 +55,19 @@ setGeneric(
 #'
 #' Performs enrichment analysis, given a contongency table of codon counts.
 #' p values are calculated by binomial test, adjustment for multiple testing
-#' can be performed by any of the `p.adjust.methods`.
+#' can be performed by any of the \code{p.adjust.methods}.
 #'
-#' @param x `crossTab` object
-#' @param pvaluCutoff numeric, discard categories with p value below this
-#'    threshold. By default, no threshold is set (`numeric()`).
-#' @param pAdjustMethod character, one of the `p.adjust.methods`.
-#' @param padjCutoff numeric, discard categories with adjusted p value below
-#'    this threshold. By default, no threshold is set (`numeric()`).
+#' @param x A \code{crossTab} object
+#' @param pvaluCutoff Numeric, discard categories with p value below this
+#'    threshold. By default, no threshold is set (\code{numeric()}).
+#' @param pAdjustMethod Character, one of the \code{p.adjust.methods}.
+#' @param padjCutoff Numeric, discard categories with adjusted p value below
+#'    this threshold. By default, no threshold is set (\code{numeric()}).
 #'
-#' @return An `enrich.data.frame` object, or a list of those.
+#' @return An \code{enrich.data.frame} object, or a list of those.
 #'
+#' @name enrichment
+#' @export
 setMethod(
     f = "enrichment",
     signature = "crossTab",
@@ -92,18 +94,6 @@ setMethod(
     return(dm)
 }
 
-#' Extract enrichment values from multiple samples. Note that the samples should
-#' contain annotations of the same type (i.e. the same onthology).
-#'
-#' @param x list of `enrich.data.frame` objects
-#' @param variable character string indicating the statistic values to extract
-#'    from `enrich.data.frame` objects in x, must be one of `c("enrich","M","A")`.
-#' @param replace.na logical, whether to replace NA values in the output.
-#'    If `TRUE` (default), NAs will be replaced by 0. Alternatively, if numueric,
-#'    NAs will be replaced by that given value.
-#' @return `matrix` with sequences' annotations as rows, and variable values
-#'   for different samples as columns.
-#'
 #' @export
 setGeneric(
     name = "enrich.matrix",
@@ -111,7 +101,25 @@ setGeneric(
         standardGeneric("enrich.matrix")
     }
 )
-
+#' Extract chosen enrichment values to a matrix.
+#'
+#' Extract enrichment values from multiple samples, i.e. \code{enrich.data.frame}
+#' objects. Note that the samples should contain annotations of the same type
+#' (i.e. the same ontology). The data in matrix format can be efortlessly used in
+#' different types downstream analyses, such as GAGE, and visualised, e.g. using
+#' a heatmap.
+#'
+#' @param x list of \code{enrich.data.frame} objects
+#' @param variable Character, indicating the statistic values to extract from
+#'    \code{enrich.data.frame} objects in x, must be one of \code{c("enrich","M","A")}.
+#' @param replace.na logical, whether to replace NA values in the output.
+#'    If `TRUE` (default), NAs will be replaced by 0. Alternatively, if numueric,
+#'    NAs will be replaced by that given value.
+#'
+#' @return \code{matrix} with sequences' annotations as rows, and variable values
+#'   for different samples as columns.
+#'
+#' @name enrich.matrix
 #' @export
 setMethod(
     f = "enrich.matrix",

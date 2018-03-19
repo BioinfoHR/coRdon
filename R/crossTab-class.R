@@ -139,7 +139,7 @@ setMethod(
     }
 )
 
-#' @rdname codonTable-class
+#' @rdname crossTab-class
 #' @export
 setGeneric(
     name = "getSeqAnnot",
@@ -161,7 +161,7 @@ setMethod(
     }
 )
 
-#' @rdname codonTable-class
+#' @rdname crossTab-class
 #' @export
 setGeneric(
     name = "getVariable",
@@ -184,7 +184,7 @@ setMethod(
     }
 )
 
-#' @rdname codonTable-class
+#' @rdname crossTab-class
 #' @export
 setGeneric(
     name = "contable",
@@ -229,8 +229,6 @@ reduce.contable <- function(contable, target) {
     rbindlist(out, idcol = "category")
 }
 
-#' Reduce objects of \code{crossTab} class.
-#'
 #' @export
 setGeneric(
     name = "reduceCrossTab",
@@ -238,7 +236,7 @@ setGeneric(
         standardGeneric("reduceCrossTab")
     }
 )
-#' @describeIn reduceCrossTab Reduce \code{crossTab}.
+#' Reduce \code{crossTab}.
 #'
 #' Reduce the input contingency table by associating sequences with KEGG Pathway
 #' or KEGG Module identifiers.
@@ -250,8 +248,8 @@ setGeneric(
 #' @return Returns input \code{crossTab} object, with updated contingency table,
 #'    displaying new category values in rows, and updated counts in columns.
 #'
+#' @name reduceCrossTab
 #' @export
-#'
 setMethod(
     f = "reduceCrossTab",
     signature = c("crossTab", "character"),

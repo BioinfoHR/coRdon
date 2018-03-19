@@ -26,6 +26,18 @@ setGeneric(
         standardGeneric("enrichMAplot")
     }
 )
+#' MA plot of enriched annotations.
+#'
+#' Make an MA-like plot of enriched annotations, similar to the commonly used
+#' plots in differential expression analysis.
+#'
+#' @param x \code{enrich.data.frame} object, or a list of those.
+#' @param pvalue Character, one of \code{c("pvals", "padj")}.
+#' @param alpha Numeric, significance level to be used for plotting.
+#'
+#' @return A \code{ggplot} object.
+#'
+#' @name enrichMAplot
 #' @export
 setMethod(
     f = "enrichMAplot",
@@ -41,6 +53,7 @@ setMethod(
     }
 )
 
+#' @rdname enrichMAplot
 #' @export
 setMethod(
     f = "enrichMAplot",
@@ -83,6 +96,19 @@ setGeneric(
         standardGeneric("enrichBarplot")
     }
 )
+#' Barplot of enriched and depleted annotations.
+#'
+#' Make a barplot of enriched annotations. Bars' heights represent values of
+#' the chosen enrichment statistic (\code{c("enrich","M","A")}), and the colours
+#' represent the p values (\code{c("pvals", "padj")}).
+#'
+#' @inheritParams enrichMAplot
+#' @param variable Character, indicating the statistic values to be used for
+#'    plotting, must be one of \code{c("enrich","M","A")}.
+#'
+#' @return A \code{ggplot} object.
+#'
+#' @name enrichBarplot
 #' @export
 setMethod(
     f = "enrichBarplot",
@@ -103,6 +129,7 @@ setMethod(
         .barplot(dt, variable, pvalue, alpha)
     }
 )
+#' @rdname enrichBarplot
 #' @export
 setMethod(
     f = "enrichBarplot",

@@ -17,6 +17,19 @@ setGeneric(
         standardGeneric("MELP")
     }
 )
+#' Calculate MILC-based Expression Level Predictor (MELP).
+#'
+#' Calculate MELP values for every sequence in the given \code{codonTable} object.
+#'
+#' @inheritParams MILC
+#'
+#' @return A matrix with MELP values for every specified subset (\code{subsets},
+#'    \code{self}, \code{ribosomal}) in columns.
+#'
+#'    For definition of MELP, see
+#'    \href{https://www.ncbi.nlm.nih.gov/pubmed/16029499}{Supek & Vlahovicek (2005)}.
+#'
+#' @name MELP
 #' @export
 setMethod(
     f = "MELP",
@@ -50,6 +63,19 @@ setGeneric(
         standardGeneric("E")
     }
 )
+#' Calculate gene expression measure (E).
+#'
+#' Calculate E values for every sequence in the given \code{codonTable} object.
+#'
+#' @inheritParams MILC
+#'
+#' @return A matrix with E values for every specified subset (\code{subsets},
+#'    \code{self}, \code{ribosomal}) in columns.
+#'
+#'    For definition of gene expression measure (E), see
+#'    \href{https://www.ncbi.nlm.nih.gov/pubmed/10960111}{Karlin and Mrazek (2000)}.
+#'
+#' @name E
 #' @export
 setMethod(
     f = "E",
@@ -83,6 +109,19 @@ setGeneric(
         standardGeneric("CAI")
     }
 )
+#' Calculate Codon Adaptation Index (CAI).
+#'
+#' Calculate CAI values for every sequence in the given \code{codonTable} object.
+#'
+#' @inheritParams MILC
+#'
+#' @return A matrix with CAI values for every specified subset (\code{subsets},
+#'    \code{self}, \code{ribosomal}) in columns.
+#'
+#'    For definition of Codon Adaptation Index (CAI), see
+#'    \href{https://www.ncbi.nlm.nih.gov/pubmed/3547335}{Sharp and Li (1987)}.
+#'
+#' @name CAI
 #' @export
 setMethod(
     f = "CAI",
@@ -137,6 +176,19 @@ setGeneric(
         standardGeneric("Fop")
     }
 )
+#' Calculate frequency of optimal codons (Fop).
+#'
+#' Calculate Fop values for every sequence in the given \code{codonTable} object.
+#'
+#' @inheritParams MILC
+#'
+#' @return A matrix with Fop values for every specified subset (\code{subsets},
+#'    \code{self}, \code{ribosomal}) in columns.
+#'
+#'    For definition of frequency of optimal codons (Fop), see
+#'    \href{https://www.ncbi.nlm.nih.gov/pubmed/6175758}{Ikemura (1981)}.
+#'
+#' @name Fop
 #' @export
 setMethod(
     f = "Fop",
@@ -193,6 +245,25 @@ setGeneric(
         standardGeneric("GCB")
     }
 )
+#' Calculate gene codon bias (GCB).
+#'
+#' Calculate GCB values for every sequence in the given \code{codonTable} object.
+#'
+#' @inheritParams MILC
+#' @param seed A logical vector, of the length equal to \code{getlen(cTobject)},
+#'    or a character vector (of any length) containing KEGG/eggNOG annotations,
+#'    or a codonTable object (of any length). Indicates a set of genes, or their CU,
+#'    to be used as a target in the first iteration of the algorithm.
+#' @param ribosomal Logical, if \code{TRUE}, ribosomal genes are used as a seed.
+#' @param perc percent of top ranking genes to be used as a target set for the
+#'    next iteration
+#'
+#' @return A numeric vector with GCB values.
+#'
+#'    For definition of gene codon bias (GCB), see
+#'    \href{https://www.ncbi.nlm.nih.gov/pubmed/6175758}{Ikemura (1981)}.
+#'
+#' @name GCB
 #' @export
 setMethod(
     f = "GCB",

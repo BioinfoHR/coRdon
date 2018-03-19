@@ -5,8 +5,11 @@
 \alias{crossTab-class}
 \alias{crossTab}
 \alias{crossTab,character,numeric-method}
+\alias{getSeqAnnot}
 \alias{getSeqAnnot,crossTab-method}
+\alias{getVariable}
 \alias{getVariable,crossTab-method}
+\alias{contable}
 \alias{contable,crossTab-method}
 \title{An S4 class \code{crossTab}}
 \usage{
@@ -15,9 +18,15 @@ crossTab(sequences, variable, ...)
 \S4method{crossTab}{character,numeric}(sequences, variable, threshold = 1L,
   percentiles = NULL)
 
+getSeqAnnot(x)
+
 \S4method{getSeqAnnot}{crossTab}(x)
 
+getVariable(x)
+
 \S4method{getVariable}{crossTab}(x)
+
+contable(x)
 
 \S4method{contable}{crossTab}(x)
 }

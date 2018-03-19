@@ -2,6 +2,7 @@
 #' @include genCode-class.R
 #' @include functions.R
 #' @import data.table
+NULL
 
 setGeneric(
     name = "expectedCU",
@@ -71,6 +72,39 @@ setGeneric(
         standardGeneric("MILC")
     }
 )
+#' Calculate codon usage Measure Independent of Length and Composition (MILC)
+#'
+#' Calculate MILC values for every sequence in the given \code{codonTable} object.
+#'
+#' @param cTobject A \code{codonTable} object.
+#' @param subsets A (named) list of logical vectors, the length of each equal
+#'    to \code{getlen(cTobject)}, i.e. the number of sequences in the set, or
+#'    character vectors (of any length) containing KEGG/eggNOG annotations,
+#'    or codonTable objects (of any length).
+#' @param self Logical, if \code{TRUE} (default), CU statistic is also calculated
+#'    against the average CU of the entire set of sequences.
+#' @param ribosomal Logical, if \code{TRUE}, CU statistic is also calculated
+#'    against the average CU of the ribosomal genes in the sequence set.
+#' @inheritParams Biostrings::getGeneticCode
+#' @param alt.init logical, whether to use alternative initiation codons.
+#'    Default is \code{TRUE}.
+#' @param stop.rm Logical, whether to remove stop codons. Default is \code{FALSE}.
+#' @param filtering Character vector, one of \code{c("none", "soft", "hard")}.
+#'    Specifies wether sequences shorther than some threshold value of length
+#'    (in codons), \code{len.threshold}, should be excluded from calculations. If
+#'    \code{"none"} (default), length of sequences is not checked, if \code{"soft"},
+#'    a warrning is printed if there are shorter sequences, and if \code{"hard"},
+#'    these sequences are excluded.
+#' @param len.threshold Optional numeric, specifying sequence length, in codons,
+#'    used for filtering.
+#'
+#' @return A matrix with MILC values for every specified subset (\code{subsets},
+#'    \code{self}, \code{ribosomal}) in columns.
+#'
+#'    For definition of MILC, see
+#'    \href{https://www.ncbi.nlm.nih.gov/pubmed/16029499}{Supek & Vlahovicek (2005)}.
+#'
+#' @name MILC
 #' @export
 setMethod(
     f = "MILC",
@@ -106,7 +140,7 @@ setMethod(
 )
 
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-### B, Karlin and Mrazek 1998.
+### B, Karlin et al. 2001.
 ###
 #' @export
 setGeneric(
@@ -117,6 +151,19 @@ setGeneric(
         standardGeneric("B")
     }
 )
+#' Calculate codon usage bias (B)
+#'
+#' Calculate B values for every sequence in the given \code{codonTable} object.
+#'
+#' @inheritParams MILC
+#'
+#' @return A matrix with B values for every specified subset (\code{subsets},
+#'    \code{self}, \code{ribosomal}) in columns.
+#'
+#'    For definition of codon usage bias (B), see
+#'    \href{https://www.ncbi.nlm.nih.gov/pubmed/11489855}{Karlin et al. (2001)}.
+#'
+#' @name B
 #' @export
 setMethod(
     f = "B",
@@ -162,6 +209,19 @@ setGeneric(
         standardGeneric("MCB")
     }
 )
+#' Calculate maximum-likelihood codon bias (MCB)
+#'
+#' Calculate MCB values for every sequence in the given \code{codonTable} object.
+#'
+#' @inheritParams MILC
+#'
+#' @return A matrix with MCB values for every specified subset (\code{subsets},
+#'    \code{self}, \code{ribosomal}) in columns.
+#'
+#'    For definition of maximum-likelihood codon bias (MCB), see
+#'    \href{https://www.ncbi.nlm.nih.gov/pubmed/2110097}{Urrutia and Hurst (2001)}.
+#'
+#' @name MCB
 #' @export
 setMethod(
     f = "MCB",
@@ -211,6 +271,19 @@ setGeneric(
         standardGeneric("ENCprime")
     }
 )
+#' Calculate effective number of codons prime (ENC').
+#'
+#' Calculate ENC' values for every sequence in the given \code{codonTable} object.
+#'
+#' @inheritParams MILC
+#'
+#' @return A matrix with ENC' values for every specified subset (\code{subsets},
+#'    \code{self}, \code{ribosomal}) in columns.
+#'
+#'    For definition of effective number of codons prime (ENC'), see
+#'    \href{https://www.ncbi.nlm.nih.gov/pubmed/12140252}{Novembre (2002)}.
+#'
+#' @name ENCprime
 #' @export
 setMethod(
     f = "ENCprime",
@@ -267,6 +340,18 @@ setGeneric(
         standardGeneric("ENC")
     }
 )
+#' Calculate effective number of codons (ENC).
+#'
+#' Calculate ENC values for every sequence in the given \code{codonTable} object.
+#'
+#' @inheritParams MILC
+#'
+#' @return A numeric vector with ENC values.
+#'
+#'    For definition of effective number of codons (ENC), see
+#'    \href{https://www.ncbi.nlm.nih.gov/pubmed/2110097}{Wright (1990)}.
+#'
+#' @name ENC
 #' @export
 setMethod(
     f = "ENC",
@@ -310,6 +395,18 @@ setGeneric(
         standardGeneric("SCUO")
     }
 )
+#' Calculate eorderliness of synonymous codon usage  (SCUO).
+#'
+#' Calculate SCUO values for every sequence in the given \code{codonTable} object.
+#'
+#' @inheritParams MILC
+#'
+#' @return A numeric vector with SCUO values.
+#'
+#'    For definition of synonymous codon usage eorderliness (SCUO), see
+#'    \href{https://www.ncbi.nlm.nih.gov/pubmed/15222899}{Wan et al. (2004)}.
+#'
+#' @name SCUO
 #' @export
 setMethod(
     f = "SCUO",

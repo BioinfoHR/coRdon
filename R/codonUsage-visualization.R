@@ -59,19 +59,28 @@ setGeneric(
         standardGeneric("bplot")
     }
 )
-# @param x,y Character, both must be in \code{colnames(data)}, or nuneric vectors
-#   of CU statistic values for two subsets of genes, must be of the same length.
-# @param data A matrix with CU statistic values for subsets of genes in columns.
-# @param annotation A character vector giving KO annotations for sequences
-#   for which the CU values were calculated, must be of length \code{nrow(data)}.
-# @param ribosomal Logical, whether to indicate ribosomal genes in the plot.
-#   Befault is \code{FALSE}, if set to \code{TRUE}, then \code{annotation} must
-#   be given.
-# @param reference A named list of logical vector(s) (each of length \code{nrow(data)})
-#   of reference genes to be indicated on the plot, or a named list of character
-#   vector(s) (of any length) of the reference genes' anotations. If latter is
-#   the case, then \code{annotation} must be given.
-#
+#' Karlin B plot
+#'
+#' Plot distances of each gene's CU frequency to specified gene (sub)sets (given by
+#' \code{x} and \code{y}).
+#'
+#' @param x,y Character, both must be in \code{colnames(data)}, or numeric vectors
+#'   of CU statistic values for two subsets of genes. If numeric, the vectors
+#'   must be of the same length.
+#' @param data A matrix with CU statistic values for subsets of genes in columns.
+#' @param annotation A character vector giving KO annotations for sequences
+#'   for which the CU values were calculated, must be of length \code{nrow(data)}.
+#' @param ribosomal Logical, whether to indicate ribosomal genes in the plot.
+#'   Default is \code{FALSE}, if set to \code{TRUE}, then \code{annotation} must
+#'   be given.
+#' @param reference A named list of logical vector(s) (each of length
+#'   \code{nrow(data)}) of reference genes to be indicated on the plot, or a named
+#'   list of character vector(s) (of any length) of the reference genes' anotations.
+#'   If latter is the case, then \code{annotation} must be given.
+#'
+#' @return A \code{ggplot} object.
+#'
+#' @name bplot
 #' @export
 setMethod(
     f = "bplot",
@@ -90,6 +99,7 @@ setMethod(
         .bplot(dt, xlab, ylab, title, subtitle, caption)
     }
 )
+#' @rdname bplot
 #' @export
 setMethod(
     f = "bplot",
