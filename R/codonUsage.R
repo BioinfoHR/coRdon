@@ -90,7 +90,7 @@ setGeneric(
 #'    Default is \code{TRUE}.
 #' @param stop.rm Logical, whether to remove stop codons. Default is \code{FALSE}.
 #' @param filtering Character vector, one of \code{c("none", "soft", "hard")}.
-#'    Specifies wether sequences shorther than some threshold value of length
+#'    Specifies whether sequences shorther than some threshold value of length
 #'    (in codons), \code{len.threshold}, should be excluded from calculations. If
 #'    \code{"none"} (default), length of sequences is not checked, if \code{"soft"},
 #'    a warrning is printed if there are shorter sequences, and if \code{"hard"},

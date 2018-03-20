@@ -1,4 +1,5 @@
 #' @include genCode-class.R
+#' @importFrom Biostrings oligonucleotideFrequency
 NULL
 
 #' An S4 class \code{codonTable}
@@ -57,7 +58,6 @@ setValidity(
     }
 )
 
-#' @importFrom Biostrings oligonucleotideFrequency
 .codonTable <- function(x)
 {
     oligonucleotideFrequency(x, width = 3, step = 3)
@@ -66,7 +66,6 @@ setValidity(
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### codonTable constructor
 ###
-
 #' @rdname codonTable-class
 #' @export
 setGeneric(
@@ -85,12 +84,19 @@ setMethod(
     f = "codonTable",
     signature = "DNAStringSet",
     definition = function(x) {
+        bad <- which(width(x) %% 3 != 0)
+        if (length(bad) != 0)
+            warning(paste0("\nLength of sequence(s) at the following postion(s) is not divisible by 3: \n",
+                           bad, "\nDiscarding surplus nucleotides.\n"))
         ctb <- .codonTable(x)
+        ctb <- ctb[,order(colnames(ctb))] # sort codons alphabetically
+        if (class(ctb) == "integer") # in case there is only one sequence
+            ctb <- rbind(ctb)
         new(
             "codonTable",
-            ID = names(x),
-            counts = ctb[,order(colnames(ctb))], # sort codons alphabetically
-            len = rowSums(ctb),
+            ID = if (!is.null(names(x))) names(x) else character(),
+            counts = ctb,
+            len = unname(rowSums(ctb)),
             KO = regmatches(names(x), regexpr("K\\d{5}", names(x))),
             COG = regmatches(names(x), regexpr("([KCN]|TW)OG\\d{5}", names(x)))
         )
@@ -349,6 +355,57 @@ setMethod(
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### codonTable subset methods
 ###
+setGeneric(
+    name = "mySubset",
+    def = function(x, subset){
+        stop("this is only a generic function: it should never be called!")
+    }
+)
+
+setMethod(
+    f = "mySubset",
+    signature = c(x = "codonTable", subset = "logical"),
+    definition = function(x, subset){
+        if (length(x@ID[subset]) == 0) stop("Empty codonTable object!")
+        nms <- getID(x)[subset]
+        new("codonTable",
+            ID = if(all(is.na(nms))) character() else nms,
+            counts = rbind(x@counts[subset, ]),
+            len = x@len[subset],
+            KO = x@KO[subset],
+            COG = x@COG[subset])
+    }
+)
+
+setMethod(
+    f = "mySubset",
+    signature = c(x = "codonTable", subset = "character"),
+    definition = function(x, subset){
+        KOs <- x@KO %in% subset
+        COGs <- x@COG %in% subset
+        if (any(KOs)) {
+            s <- KOs
+        } else if (any(COGs)) {
+            s <- COGs
+        } else stop("No sequence has given annotation!")
+        nms <- x@ID[s]
+        new("codonTable",
+            ID = if(all(is.na(nms))) character() else nms,
+            counts = rbind(x@counts[s, ]),
+            len = x@len[s],
+            KO = x@KO[s],
+            COG = x@COG[s])
+    }
+)
+
+setMethod(
+    f = "mySubset",
+    signature = c(x = "codonTable", subset = "ANY"),
+    definition = function(x, subset){
+        stop("Object to be subset should be of class codonTable!")
+    }
+)
+
 #' Subset \code{codonTable} object.
 #'
 #' @param x A \code{codonTable} object to be subset.
@@ -363,38 +420,6 @@ setMethod(
 #'
 #' @rdname subset
 #' @export
-setMethod(
-    f = "subset",
-    signature = c(x = "codonTable"),
-    definition = function(x, subset){
-
-        if (class(subset) == "logical") {
-
-            if (length(x@ID[subset]) == 0) stop("Empty codonTable object!")
-            new("codonTable",
-                ID = getID(x)[subset],
-                counts = rbind(x@counts[subset, ]),
-                len = x@len[subset],
-                KO = x@KO[subset],
-                COG = x@COG[subset])
-
-        } else if (class(subset) == "character") {
-
-            KOs <- x@KO %in% subset
-            COGs <- x@COG %in% subset
-            if (any(KOs)) {
-                s <- KOs
-            } else if (any(COGs)) {
-                s <- COGs
-            } else stop("No sequence has given annotation!")
-
-            new("codonTable",
-                ID = x@ID[s, ],
-                counts = x@counts[s, ],
-                len = x@len[s, ],
-                KO = x@KO[s, ],
-                COG = x@COG[s, ])
-
-        }
-    }
-)
+subset.codonTable <- function(x,subset){
+    mySubset(x,subset)
+}
