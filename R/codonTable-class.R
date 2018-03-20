@@ -1,5 +1,6 @@
 #' @include genCode-class.R
 #' @importFrom Biostrings oligonucleotideFrequency
+#' @importFrom Biostrings width
 NULL
 
 #' An S4 class \code{codonTable}
