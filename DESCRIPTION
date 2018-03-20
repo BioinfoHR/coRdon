@@ -1,6 +1,6 @@
 Package: coRdon
 Type: Package
-Title: Codon usage analysis and prediction of expression.
+Title: Codon usage analysis and prediction of expression
 Version: 0.1.0
 Date: 2015-07-21
 Author: Fabijanic M., Vlahovicek K.
@@ -11,11 +11,13 @@ Description: Tool for analysis of codone usage in various
   and performs gene set enrichment analysis for annotated sequences.
   Implements several methods for visualization of CU and enrichment
   analysis results.
-License: What license is it under?
+License: Artistic-2.0
 LazyData: TRUE
-Imports: Biostrings, Biobase, plyr, stringr, data.table
+Depends: R (>= 2.10), methods
+Imports: Biostrings, Biobase, data.table, purrr, ggplot2
+Suggests: testthat
 RoxygenNote: 6.0.1
-Collate:
+Collate: 
     'coRdon.R'
     'genCode-class.R'
     'codonTable-class.R'
@@ -29,4 +31,3 @@ Collate:
     'enrichment-visualization.R'
     'enrichment.R'
     'readSet.R'
-Suggests: testthat

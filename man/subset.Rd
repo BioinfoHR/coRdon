@@ -4,7 +4,7 @@
 \alias{subset.codonTable}
 \title{Subset \code{codonTable} object.}
 \usage{
-\method{subset}{codonTable}(x, subset)
+\method{subset}{codonTable}(x, subset, ...)
 }
 \arguments{
 \item{x}{A \code{codonTable} object to be subset.}
@@ -14,6 +14,8 @@
 \code{nrow(counts(cTobject))}. If character, \code{subset} should contain
  at least some of the elements of either \code{getKO(codonTable)} or
  \code{getCOG(codonTable)}.}
+
+\item{...}{further arguments to be passed to or from other methods.}
 }
 \value{
 subsets of \code{codonTable} object, keeping in each slot only those

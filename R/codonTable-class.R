@@ -415,12 +415,13 @@ setMethod(
 #'    \code{nrow(counts(cTobject))}. If character, \code{subset} should contain
 #'     at least some of the elements of either \code{getKO(codonTable)} or
 #'     \code{getCOG(codonTable)}.
+#' @inheritParams base::subset
 #'
 #' @return subsets of \code{codonTable} object, keeping in each slot only those
 #' elements that meet the criteria in \code{subset}.
 #'
 #' @rdname subset
 #' @export
-subset.codonTable <- function(x,subset){
+subset.codonTable <- function(x, subset, ...){
     mySubset(x,subset)
 }
