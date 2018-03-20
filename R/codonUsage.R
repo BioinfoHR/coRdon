@@ -13,7 +13,7 @@ setGeneric(
 
 setMethod(
     f = "expectedCU",
-    signature = c("codonTable", "genCode", "list", "logical", "logical"),
+    signature = c(cTobject = "codonTable", subsets = "list"),
     definition = function(cTobject, gCobject, subsets, self, ribosomal) {
         ns <- length(cTobject@len)
         if (!is.list(subsets))

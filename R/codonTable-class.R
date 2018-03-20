@@ -326,7 +326,7 @@ setMethod(
 #' @export
 setGeneric(
     name = "setCOG",
-    def = function(cTobject, a){
+    def = function(cTobject, ann){
         standardGeneric("setCOG")
     }
 )
@@ -339,8 +339,8 @@ setGeneric(
 setMethod(
     f = "setCOG",
     signature = "codonTable",
-    definition = function(cTobject, a){
-        cTobject@COG <- a
+    definition = function(cTobject, ann){
+        cTobject@COG <- ann
         validObject(cTobject)
         return(cTobject)
     }
@@ -368,7 +368,7 @@ setMethod(
     signature = c(x = "codonTable"),
     definition = function(x, subset){
 
-        if (subset == "logical") {
+        if (class(subset) == "logical") {
 
             if (length(x@ID[subset]) == 0) stop("Empty codonTable object!")
             new("codonTable",
@@ -378,7 +378,7 @@ setMethod(
                 KO = x@KO[subset],
                 COG = x@COG[subset])
 
-        } else if (subset == "character") {
+        } else if (class(subset) == "character") {
 
             KOs <- x@KO %in% subset
             COGs <- x@COG %in% subset

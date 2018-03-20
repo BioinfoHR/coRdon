@@ -8,9 +8,9 @@
 \S4method{reduceCrossTab}{crossTab,character}(x, target)
 }
 \arguments{
-\item{x}{A \code{crossTab} object to be reduced.}
+\item{x}{\code{crossTab} object to be reduced.}
 
-\item{target}{A character vector indicating which onthology to use, either
+\item{target}{Character vector indicating which onthology to use, either
 \code{"pathway"} or \code{"module"}.}
 }
 \value{

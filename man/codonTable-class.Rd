@@ -55,9 +55,9 @@ getCOG(cTobject)
 
 \S4method{getCOG}{codonTable}(cTobject)
 
-setCOG(cTobject, a)
+setCOG(cTobject, ann)
 
-\S4method{setCOG}{codonTable}(cTobject, a)
+\S4method{setCOG}{codonTable}(cTobject, ann)
 }
 \arguments{
 \item{x}{An object of \code{DNAStringSet}, \code{matrix} or \code{data.frame} class.}

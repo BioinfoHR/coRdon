@@ -5,11 +5,11 @@ NULL
 
 #' An S4 class \code{crossTab}
 #'
-#' A contingency table that displays...
+#' Contingency table of sequences' annotations and the corresponding numeric values.
 #'
-#' @slot sequences A character vector of sequences annotations (KO, COG).
-#' @slot variable A coresponding numeric vector of CU values.
-#' @slot table A contingecy table.
+#' @slot sequences Character vector of sequences annotations (KO, COG).
+#' @slot variable Numeric vector of the coresponding CU values.
+#' @slot table Contingecy table.
 #'
 setClass(
     "crossTab",
@@ -57,7 +57,6 @@ make.contable <- function(genes, variable,
 }
 
 
-#' @rdname crossTab-class
 #' @export
 setGeneric(
     name = "crossTab",
@@ -66,24 +65,27 @@ setGeneric(
     }
 )
 
-#' @describeIn crossTab Create new objects of class \code{crossTab}.
+#' Make a contingency table.
 #'
-#' Creates a contingency table for the list of annotated sequences and
-#' the corresponding list of codon usage (CU) values.
+#' Create a contingency table for the set of annotated sequences and
+#' the corresponding codon usage (CU) values.
 #'
-#' @param sequences A character vector of sequences annotations (KO, COG).
-#' @param variable A coresponding numeric vector of CU values.
+#' @param sequences Character vector of sequences' annotations (KO, COG).
+#' @param variable Numeric vector of the coresponding CU values.
 #' @param threshold A threshold value (or a vector of values) of the variable.
 #'    Sequences with value of the given variable greater than threshold are
-#'    counted as a subset. Default is 1.
+#'    taken as a subset. Default is 1. If no threshold should be set, specify
+#'    \code{threshold = NULL}
 #' @param percentiles A single value or a vector of values between 0 and 1.
 #'    Sequences with value of the given variable in the top percentiles are
-#'    counted as a subset.
+#'    taken as a subset. If no percentiles should be specified, the argument
+#'    takes the value \code{NULL}.
 #'
 #' @return Returns a data.table with category values in rows, and with separate
 #'    columns for counts in background (all) and subsets, i.e. for diferrent
 #'    thresholds/percentiles provided.
 #'
+#' @name crossTab
 #' @export
 setMethod(
     f = "crossTab",
@@ -139,7 +141,6 @@ setMethod(
     }
 )
 
-#' @rdname crossTab-class
 #' @export
 setGeneric(
     name = "getSeqAnnot",
@@ -148,10 +149,11 @@ setGeneric(
     }
 )
 
-#' @describeIn crossTab Get sequence annotations from \code{crossTab} object.
+#' Get sequence annotations from \code{crossTab} object.
 #'
 #' @param x A \code{crossTab} object.
 #'
+#' @rdname crossTab-class
 #' @export
 setMethod(
     f = "getSeqAnnot",
@@ -161,7 +163,6 @@ setMethod(
     }
 )
 
-#' @rdname crossTab-class
 #' @export
 setGeneric(
     name = "getVariable",
@@ -170,11 +171,12 @@ setGeneric(
     }
 )
 
-#' @describeIn crossTab Get values of the variable used to create contingency table
+#' Get values of the variable used to create contingency table
 #'    contained in \code{crossTab} object.
 #'
 #' @param x A \code{crossTab} object.
 #'
+#' @rdname crossTab-class
 #' @export
 setMethod(
     f = "getVariable",
@@ -184,7 +186,6 @@ setMethod(
     }
 )
 
-#' @rdname crossTab-class
 #' @export
 setGeneric(
     name = "contable",
@@ -193,10 +194,11 @@ setGeneric(
     }
 )
 
-#' @describeIn crossTab Get contingency table from \code{crossTab} object.
+#' Get contingency table from \code{crossTab} object.
 #'
 #' @param x A \code{crossTab} object.
 #'
+#' @rdname crossTab-class
 #' @export
 setMethod(
     f = "contable",
@@ -241,8 +243,8 @@ setGeneric(
 #' Reduce the input contingency table by associating sequences with KEGG Pathway
 #' or KEGG Module identifiers.
 #'
-#' @param x A \code{crossTab} object to be reduced.
-#' @param target A character vector indicating which onthology to use, either
+#' @param x \code{crossTab} object to be reduced.
+#' @param target Character vector indicating which onthology to use, either
 #'    \code{"pathway"} or \code{"module"}.
 #'
 #' @return Returns input \code{crossTab} object, with updated contingency table,
