@@ -43,6 +43,23 @@ NULL
     }, simplify = FALSE, USE.NAMES = TRUE)
 }
 
+#' Enrichment analysis for codon usage (CU) data.
+#'
+#' Performs enrichment analysis, given a contongency table of codon counts.
+#' p values are calculated by binomial test, adjustment for multiple testing
+#' can be performed by any of the \code{p.adjust.methods}.
+#'
+#' @param x A \code{crossTab} object
+#' @param pvalueCutoff Numeric, discard categories with p value below this
+#'    threshold. By default, no threshold is set (\code{numeric()}).
+#' @param pAdjustMethod Character, one of the \code{p.adjust.methods}.
+#' @param padjCutoff Numeric, discard categories with adjusted p value below
+#'    this threshold. By default, no threshold is set (\code{numeric()}).
+#'
+#' @return An \code{enrich.data.frame} object, or a list of those.
+#'
+#' @rdname enrichment
+#' @export
 #' @export
 setGeneric(
     name = "enrichment",
@@ -51,22 +68,7 @@ setGeneric(
     }
 )
 
-#' Enrichment analysis for codon usage (CU) data.
-#'
-#' Performs enrichment analysis, given a contongency table of codon counts.
-#' p values are calculated by binomial test, adjustment for multiple testing
-#' can be performed by any of the \code{p.adjust.methods}.
-#'
-#' @param x A \code{crossTab} object
-#' @param pvaluCutoff Numeric, discard categories with p value below this
-#'    threshold. By default, no threshold is set (\code{numeric()}).
-#' @param pAdjustMethod Character, one of the \code{p.adjust.methods}.
-#' @param padjCutoff Numeric, discard categories with adjusted p value below
-#'    this threshold. By default, no threshold is set (\code{numeric()}).
-#'
-#' @return An \code{enrich.data.frame} object, or a list of those.
-#'
-#' @name enrichment
+#' @rdname enrichment
 #' @export
 setMethod(
     f = "enrichment",
@@ -94,13 +96,6 @@ setMethod(
     return(dm)
 }
 
-#' @export
-setGeneric(
-    name = "enrich.matrix",
-    def = function(x, variable, replace.na = TRUE, ...){
-        standardGeneric("enrich.matrix")
-    }
-)
 #' Extract chosen enrichment values to a matrix.
 #'
 #' Extract enrichment values from multiple samples, i.e. \code{enrich.data.frame}
@@ -119,7 +114,16 @@ setGeneric(
 #' @return \code{matrix} with sequences' annotations as rows, and variable values
 #'   for different samples as columns.
 #'
-#' @name enrich.matrix
+#' @rdname enrich.matrix
+#' @export
+setGeneric(
+    name = "enrich.matrix",
+    def = function(x, variable, replace.na = TRUE){
+        standardGeneric("enrich.matrix")
+    }
+)
+
+#' @rdname enrich.matrix
 #' @export
 setMethod(
     f = "enrich.matrix",

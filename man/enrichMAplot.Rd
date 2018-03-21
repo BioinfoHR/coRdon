@@ -3,15 +3,21 @@
 \docType{methods}
 \name{enrichMAplot}
 \alias{enrichMAplot}
+\alias{enrichMAplot,list-method}
 \alias{enrichMAplot,enrich.data.frame-method}
 \title{MA plot of enriched annotations.}
 \usage{
+enrichMAplot(x, variable, pvalue = "pvals", alpha = 0.05)
+
 \S4method{enrichMAplot}{list}(x, pvalue, alpha)
 
 \S4method{enrichMAplot}{enrich.data.frame}(x, pvalue, alpha)
 }
 \arguments{
 \item{x}{\code{enrich.data.frame} object, or a list of those.}
+
+\item{variable}{Character, indicating the statistic values to be used for
+plotting, must be one of \code{c("enrich","M","A")}.}
 
 \item{pvalue}{Character, one of \code{c("pvals", "padj")}.}
 

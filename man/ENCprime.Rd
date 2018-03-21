@@ -3,8 +3,13 @@
 \docType{methods}
 \name{ENCprime}
 \alias{ENCprime}
+\alias{ENCprime,codonTable-method}
 \title{Calculate effective number of codons prime (ENC').}
 \usage{
+ENCprime(cTobject, subsets = list(), self = TRUE, ribosomal = FALSE,
+  id_or_name2 = "1", alt.init = TRUE, stop.rm = TRUE,
+  filtering = "none", len.threshold = 80)
+
 \S4method{ENCprime}{codonTable}(cTobject, subsets = list(), self = TRUE,
   ribosomal = FALSE, id_or_name2 = "1", alt.init = TRUE, stop.rm = TRUE,
   filtering = "none", len.threshold = 80)

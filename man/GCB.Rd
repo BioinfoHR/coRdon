@@ -3,8 +3,13 @@
 \docType{methods}
 \name{GCB}
 \alias{GCB}
+\alias{GCB,codonTable-method}
 \title{Calculate gene codon bias (GCB).}
 \usage{
+GCB(cTobject, seed, ribosomal = FALSE, perc = 0.05, id_or_name2 = "1",
+  alt.init = TRUE, stop.rm = FALSE, filtering = "none",
+  len.threshold = 80)
+
 \S4method{GCB}{codonTable}(cTobject, seed, ribosomal = FALSE, perc = 0.05,
   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
   filtering = "none", len.threshold = 80)

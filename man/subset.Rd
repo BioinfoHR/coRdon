@@ -10,8 +10,8 @@
 \item{x}{A \code{codonTable} object to be subset.}
 
 \item{subset}{A logical or character vector indicating which elements of
-\code{cTobject} to keep. If logical, \code{subset} should be of length
-\code{nrow(counts(cTobject))}. If character, \code{subset} should contain
+\code{object} to keep. If logical, \code{subset} should be of length
+\code{nrow(counts(object))}. If character, \code{subset} should contain
  at least some of the elements of either \code{getKO(codonTable)} or
  \code{getCOG(codonTable)}.}
 

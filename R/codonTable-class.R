@@ -155,9 +155,9 @@ setMethod(
 
 #' Display the object of \code{codonTable} class.
 #'
-#' @inheritParams methods::show
+#' @param object A \code{codonTable} object.
 #'
-#' @rdname show
+#' @name codonTable-show
 #' @export
 setMethod(
     f = "show",
@@ -178,14 +178,12 @@ setMethod(
     }
 )
 
-#' Length of \code{codonTable} object
-#'
-#' Get the length of \code{codonTable} object, i.e. the number of sequences
-#' for which there are codon counts contained in the object.
+#' Length of \code{codonTable} object, i.e. the number
+#' of sequences for which there are codon counts contained in the object.
 #'
 #' @param x A \code{codonTable} object.
 #'
-#' @rdname length
+#' @name codonTable-length
 #' @export
 setMethod(
     f = "length",
@@ -199,21 +197,21 @@ setMethod(
 #' @export
 setGeneric(
     name = "getID",
-    def = function(cTobject){
+    def = function(object){
         standardGeneric("getID")
     }
 )
 
 #' @describeIn codonTable Get IDs for \code{codonTable} class.
 #'
-#' @param cTobject A \code{codonTable} object.
+#' @param object A \code{codonTable} object.
 #'
 #' @export
 setMethod(
     f = "getID",
     signature = "codonTable",
-    definition = function(cTobject){
-        return(cTobject@ID)
+    definition = function(object){
+        return(object@ID)
     }
 )
 
@@ -221,7 +219,7 @@ setMethod(
 #' @export
 setGeneric(
     name = "codonCounts",
-    def = function(cTobject){
+    def = function(object){
         standardGeneric("codonCounts")
     }
 )
@@ -234,8 +232,8 @@ setGeneric(
 setMethod(
     f = "codonCounts",
     signature = "codonTable",
-    definition = function(cTobject){
-        return(cTobject@counts)
+    definition = function(object){
+        return(object@counts)
     }
 )
 
@@ -243,7 +241,7 @@ setMethod(
 #' @export
 setGeneric(
     name = "getlen",
-    def = function(cTobject){
+    def = function(object){
         standardGeneric("getlen")
     }
 )
@@ -255,8 +253,8 @@ setGeneric(
 setMethod(
     f = "getlen",
     signature = "codonTable",
-    definition = function(cTobject){
-        return(cTobject@len)
+    definition = function(object){
+        return(object@len)
     }
 )
 
@@ -264,7 +262,7 @@ setMethod(
 #' @export
 setGeneric(
     name = "getKO",
-    def = function(cTobject){
+    def = function(object){
         standardGeneric("getKO")
     }
 )
@@ -276,8 +274,8 @@ setGeneric(
 setMethod(
     f = "getKO",
     signature = "codonTable",
-    definition = function(cTobject){
-        return(cTobject@KO)
+    definition = function(object){
+        return(object@KO)
     }
 )
 
@@ -285,7 +283,7 @@ setMethod(
 #' @export
 setGeneric(
     name = "setKO",
-    def = function(cTobject, ann){
+    def = function(object, ann){
         standardGeneric("setKO")
     }
 )
@@ -293,16 +291,16 @@ setGeneric(
 #'
 #' @inheritParams getID
 #' @param ann A character vector of sequence annotations, must be of length
-#'    equal to \code{length(cTobject)}.
+#'    equal to \code{length(object)}.
 #'
 #' @export
 setMethod(
     f = "setKO",
     signature = "codonTable",
-    definition = function(cTobject, ann){
-        cTobject@KO <- ann
-        validObject(cTobject)
-        return(cTobject)
+    definition = function(object, ann){
+        object@KO <- ann
+        validObject(object)
+        return(object)
     }
 )
 
@@ -310,7 +308,7 @@ setMethod(
 #' @export
 setGeneric(
     name = "getCOG",
-    def = function(cTobject){
+    def = function(object){
         standardGeneric("getCOG")
     }
 )
@@ -323,8 +321,8 @@ setGeneric(
 setMethod(
     f = "getCOG",
     signature = "codonTable",
-    definition = function(cTobject){
-        return(cTobject@COG)
+    definition = function(object){
+        return(object@COG)
     }
 )
 
@@ -333,7 +331,7 @@ setMethod(
 #' @export
 setGeneric(
     name = "setCOG",
-    def = function(cTobject, ann){
+    def = function(object, ann){
         standardGeneric("setCOG")
     }
 )
@@ -346,10 +344,10 @@ setGeneric(
 setMethod(
     f = "setCOG",
     signature = "codonTable",
-    definition = function(cTobject, ann){
-        cTobject@COG <- ann
-        validObject(cTobject)
-        return(cTobject)
+    definition = function(object, ann){
+        object@COG <- ann
+        validObject(object)
+        return(object)
     }
 )
 
@@ -411,8 +409,8 @@ setMethod(
 #'
 #' @param x A \code{codonTable} object to be subset.
 #' @param subset A logical or character vector indicating which elements of
-#'    \code{cTobject} to keep. If logical, \code{subset} should be of length
-#'    \code{nrow(counts(cTobject))}. If character, \code{subset} should contain
+#'    \code{object} to keep. If logical, \code{subset} should be of length
+#'    \code{nrow(counts(object))}. If character, \code{subset} should contain
 #'     at least some of the elements of either \code{getKO(codonTable)} or
 #'     \code{getCOG(codonTable)}.
 #' @inheritParams base::subset

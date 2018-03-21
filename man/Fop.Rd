@@ -3,8 +3,13 @@
 \docType{methods}
 \name{Fop}
 \alias{Fop}
+\alias{Fop,codonTable-method}
 \title{Calculate frequency of optimal codons (Fop).}
 \usage{
+Fop(cTobject, subsets = list(), ribosomal = FALSE, id_or_name2 = "1",
+  alt.init = TRUE, stop.rm = FALSE, filtering = "none",
+  len.threshold = 80)
+
 \S4method{Fop}{codonTable}(cTobject, subsets = list(), ribosomal = FALSE,
   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
   filtering = "none", len.threshold = 80)

@@ -3,12 +3,15 @@
 \docType{methods}
 \name{reduceCrossTab}
 \alias{reduceCrossTab}
+\alias{reduceCrossTab,crossTab,character-method}
 \title{Reduce \code{crossTab}.}
 \usage{
+reduceCrossTab(x, target)
+
 \S4method{reduceCrossTab}{crossTab,character}(x, target)
 }
 \arguments{
-\item{x}{\code{crossTab} object to be reduced.}
+\item{x}{A \code{crossTab} object to be reduced.}
 
 \item{target}{Character vector indicating which onthology to use, either
 \code{"pathway"} or \code{"module"}.}

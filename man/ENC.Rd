@@ -3,8 +3,12 @@
 \docType{methods}
 \name{ENC}
 \alias{ENC}
+\alias{ENC,codonTable-method}
 \title{Calculate effective number of codons (ENC).}
 \usage{
+ENC(cTobject, id_or_name2 = "1", alt.init = TRUE, stop.rm = TRUE,
+  filtering = "none", len.threshold = 80)
+
 \S4method{ENC}{codonTable}(cTobject, id_or_name2 = "1", alt.init = TRUE,
   stop.rm = TRUE, filtering = "none", len.threshold = 80)
 }

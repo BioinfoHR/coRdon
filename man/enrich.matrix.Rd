@@ -3,9 +3,12 @@
 \docType{methods}
 \name{enrich.matrix}
 \alias{enrich.matrix}
+\alias{enrich.matrix,list-method}
 \title{Extract chosen enrichment values to a matrix.}
 \usage{
-\S4method{enrich.matrix}{list}(x, variable, replace.na)
+enrich.matrix(x, variable, replace.na = TRUE)
+
+\S4method{enrich.matrix}{list}(x, variable, replace.na = TRUE)
 }
 \arguments{
 \item{x}{list of \code{enrich.data.frame} objects}

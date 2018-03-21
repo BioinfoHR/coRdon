@@ -3,9 +3,12 @@
 \docType{methods}
 \name{enrichBarplot}
 \alias{enrichBarplot}
+\alias{enrichBarplot,list-method}
 \alias{enrichBarplot,enrich.data.frame-method}
 \title{Barplot of enriched and depleted annotations.}
 \usage{
+enrichBarplot(x, variable, pvalue = "pvals", alpha = numeric())
+
 \S4method{enrichBarplot}{list}(x, variable, pvalue = "pvals",
   alpha = numeric())
 

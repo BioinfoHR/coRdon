@@ -3,34 +3,71 @@
 \docType{class}
 \name{crossTab-class}
 \alias{crossTab-class}
+\alias{crossTab}
+\alias{crossTab,character,numeric-method}
+\alias{getSeqAnnot}
 \alias{getSeqAnnot,crossTab-method}
+\alias{getVariable}
 \alias{getVariable,crossTab-method}
+\alias{contable}
 \alias{contable,crossTab-method}
 \title{An S4 class \code{crossTab}}
 \usage{
+crossTab(sequences, variable, threshold = 1L, percentiles = NULL)
+
+\S4method{crossTab}{character,numeric}(sequences, variable, threshold = 1L,
+  percentiles = NULL)
+
+getSeqAnnot(x)
+
 \S4method{getSeqAnnot}{crossTab}(x)
 
+getVariable(x)
+
 \S4method{getVariable}{crossTab}(x)
+
+contable(x)
 
 \S4method{contable}{crossTab}(x)
 }
 \arguments{
-\item{x}{A \code{crossTab} object.}
+\item{sequences}{Character vector of sequences' annotations (KO, COG).}
+
+\item{variable}{Numeric vector of the coresponding CU values.}
+
+\item{threshold}{A threshold value (or a vector of values) of the variable.
+Sequences with value of the given variable greater than threshold are
+taken as a subset. Default is 1. If no threshold should be set, specify
+\code{threshold = NULL}}
+
+\item{percentiles}{A single value or a vector of values between 0 and 1.
+Sequences with value of the given variable in the top percentiles are
+taken as a subset. If no percentiles should be specified, the argument
+takes the value \code{NULL}.}
 
 \item{x}{A \code{crossTab} object.}
-
-\item{x}{A \code{crossTab} object.}
+}
+\value{
+Returns a \code{crossTab} object with category values in rows, and
+   with separate columns for counts in background (all) and subsets, i.e.
+   for diferrent thresholds/percentiles provided.
 }
 \description{
 Contingency table of sequences' annotations and the corresponding numeric values.
-
-Get sequence annotations from \code{crossTab} object.
-
-Get values of the variable used to create contingency table
-   contained in \code{crossTab} object.
-
-Get contingency table from \code{crossTab} object.
 }
+\section{Methods (by generic)}{
+\itemize{
+\item \code{crossTab}: Create a contingency table for the set of annotated
+sequences and the corresponding codon usage (CU) values.
+
+\item \code{getSeqAnnot}: Get sequence annotations from \code{crossTab} object.
+
+\item \code{getVariable}: Get values of the variable used to create contingency
+table in \code{crossTab} object.
+
+\item \code{contable}: Get contingency table from \code{crossTab} object.
+}}
+
 \section{Slots}{
 
 \describe{

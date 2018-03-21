@@ -56,19 +56,16 @@ make.contable <- function(genes, variable,
     return(result)
 }
 
-
+#' @rdname crossTab-class
 #' @export
 setGeneric(
     name = "crossTab",
-    def = function(sequences, variable, ...){
+    def = function(sequences, variable, threshold = 1L, percentiles = NULL){
         standardGeneric("crossTab")
     }
 )
-
-#' Make a contingency table.
-#'
-#' Create a contingency table for the set of annotated sequences and
-#' the corresponding codon usage (CU) values.
+#' @describeIn crossTab Create a contingency table for the set of annotated
+#' sequences and the corresponding codon usage (CU) values.
 #'
 #' @param sequences Character vector of sequences' annotations (KO, COG).
 #' @param variable Numeric vector of the coresponding CU values.
@@ -81,16 +78,15 @@ setGeneric(
 #'    taken as a subset. If no percentiles should be specified, the argument
 #'    takes the value \code{NULL}.
 #'
-#' @return Returns a data.table with category values in rows, and with separate
-#'    columns for counts in background (all) and subsets, i.e. for diferrent
-#'    thresholds/percentiles provided.
+#' @return Returns a \code{crossTab} object with category values in rows, and
+#'    with separate columns for counts in background (all) and subsets, i.e.
+#'    for diferrent thresholds/percentiles provided.
 #'
-#' @name crossTab
 #' @export
 setMethod(
     f = "crossTab",
     signature = c(sequences = "character", variable = "numeric"),
-    definition = function(sequences, variable, threshold = 1L, percentiles = NULL) {
+    definition = function(sequences, variable, threshold, percentiles) {
         new("crossTab",
             sequences = sequences,
             variable = variable,
@@ -104,9 +100,9 @@ setMethod(
 
 #' Display the object of \code{crossTab} class.
 #'
-#' @inheritParams methods::show
+#' @param object A \code{crossTab} object.
 #'
-#' @rdname show
+#' @name crossTab-show
 #' @export
 setMethod(
     f = "show",
@@ -124,14 +120,12 @@ setMethod(
     }
 )
 
-#' Length of \code{crossTab} object
-#'
-#' Get the length of \code{crossTab} object, i.e. the number of sequences
-#' for which the contingency table is contained in the object.
+#' Length of \code{crossTab} object, i.e. the number of
+#' sequences for which the contingency table is contained in the object.
 #'
 #' @param x A \code{crossTab} object.
 #'
-#' @rdname length
+#' @name crossTab-length
 #' @export
 setMethod(
     f = "length",
@@ -141,6 +135,7 @@ setMethod(
     }
 )
 
+#' @rdname crossTab-class
 #' @export
 setGeneric(
     name = "getSeqAnnot",
@@ -149,11 +144,10 @@ setGeneric(
     }
 )
 
-#' Get sequence annotations from \code{crossTab} object.
+#' @describeIn crossTab Get sequence annotations from \code{crossTab} object.
 #'
 #' @param x A \code{crossTab} object.
 #'
-#' @rdname crossTab-class
 #' @export
 setMethod(
     f = "getSeqAnnot",
@@ -163,6 +157,7 @@ setMethod(
     }
 )
 
+#' @rdname crossTab-class
 #' @export
 setGeneric(
     name = "getVariable",
@@ -171,12 +166,11 @@ setGeneric(
     }
 )
 
-#' Get values of the variable used to create contingency table
-#'    contained in \code{crossTab} object.
+#' @describeIn crossTab Get values of the variable used to create contingency
+#' table in \code{crossTab} object.
 #'
-#' @param x A \code{crossTab} object.
+#' @inheritParams getSeqAnnot
 #'
-#' @rdname crossTab-class
 #' @export
 setMethod(
     f = "getVariable",
@@ -186,6 +180,7 @@ setMethod(
     }
 )
 
+#' @rdname crossTab-class
 #' @export
 setGeneric(
     name = "contable",
@@ -194,11 +189,10 @@ setGeneric(
     }
 )
 
-#' Get contingency table from \code{crossTab} object.
+#' @describeIn crossTab Get contingency table from \code{crossTab} object.
 #'
-#' @param x A \code{crossTab} object.
+#' @inheritParams getSeqAnnot
 #'
-#' @rdname crossTab-class
 #' @export
 setMethod(
     f = "contable",
@@ -231,6 +225,19 @@ reduce.contable <- function(contable, target) {
     rbindlist(out, idcol = "category")
 }
 
+#' Reduce \code{crossTab}.
+#'
+#' Reduce the input contingency table by associating sequences with KEGG Pathway
+#' or KEGG Module identifiers.
+#'
+#' @param x A \code{crossTab} object to be reduced.
+#' @param target Character vector indicating which onthology to use, either
+#'    \code{"pathway"} or \code{"module"}.
+#'
+#' @return Returns input \code{crossTab} object, with updated contingency table,
+#'    displaying new category values in rows, and updated counts in columns.
+#'
+#' @rdname reduceCrossTab
 #' @export
 setGeneric(
     name = "reduceCrossTab",
@@ -238,19 +245,8 @@ setGeneric(
         standardGeneric("reduceCrossTab")
     }
 )
-#' Reduce \code{crossTab}.
-#'
-#' Reduce the input contingency table by associating sequences with KEGG Pathway
-#' or KEGG Module identifiers.
-#'
-#' @param x \code{crossTab} object to be reduced.
-#' @param target Character vector indicating which onthology to use, either
-#'    \code{"pathway"} or \code{"module"}.
-#'
-#' @return Returns input \code{crossTab} object, with updated contingency table,
-#'    displaying new category values in rows, and updated counts in columns.
-#'
-#' @name reduceCrossTab
+
+#' @rdname reduceCrossTab
 #' @export
 setMethod(
     f = "reduceCrossTab",

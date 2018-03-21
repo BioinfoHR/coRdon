@@ -3,8 +3,13 @@
 \docType{methods}
 \name{MCB}
 \alias{MCB}
+\alias{MCB,codonTable-method}
 \title{Calculate maximum-likelihood codon bias (MCB)}
 \usage{
+MCB(cTobject, subsets = list(), self = TRUE, ribosomal = FALSE,
+  id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
+  filtering = "none", len.threshold = 80)
+
 \S4method{MCB}{codonTable}(cTobject, subsets = list(), self = TRUE,
   ribosomal = FALSE, id_or_name2 = "1", alt.init = TRUE,
   stop.rm = FALSE, filtering = "none", len.threshold = 80)

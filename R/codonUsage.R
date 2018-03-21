@@ -63,15 +63,6 @@ setMethod(
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### MILC, Supek and Vlahovicek 2005.
 ###
-#' @export
-setGeneric(
-    name = "MILC",
-    def = function(cTobject, subsets = list(), self = TRUE, ribosomal = FALSE,
-                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
-                   filtering = "none", len.threshold = 80) {
-        standardGeneric("MILC")
-    }
-)
 #' Calculate codon usage Measure Independent of Length and Composition (MILC)
 #'
 #' Calculate MILC values for every sequence in the given \code{codonTable} object.
@@ -98,13 +89,25 @@ setGeneric(
 #' @param len.threshold Optional numeric, specifying sequence length, in codons,
 #'    used for filtering.
 #'
+#'
 #' @return A matrix with MILC values for every specified subset (\code{subsets},
 #'    \code{self}, \code{ribosomal}) in columns.
 #'
 #'    For definition of MILC, see
 #'    \href{https://www.ncbi.nlm.nih.gov/pubmed/16029499}{Supek & Vlahovicek (2005)}.
 #'
-#' @name MILC
+#' @rdname MILC
+#' @export
+setGeneric(
+    name = "MILC",
+    def = function(cTobject, subsets = list(), self = TRUE, ribosomal = FALSE,
+                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
+                   filtering = "none", len.threshold = 80) {
+        standardGeneric("MILC")
+    }
+)
+
+#' @rdname MILC
 #' @export
 setMethod(
     f = "MILC",
@@ -142,15 +145,6 @@ setMethod(
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### B, Karlin et al. 2001.
 ###
-#' @export
-setGeneric(
-    name = "B",
-    def = function(cTobject, subsets = list(), self = TRUE, ribosomal = FALSE,
-                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
-                   filtering = "none", len.threshold = 80) {
-        standardGeneric("B")
-    }
-)
 #' Calculate codon usage bias (B)
 #'
 #' Calculate B values for every sequence in the given \code{codonTable} object.
@@ -163,7 +157,18 @@ setGeneric(
 #'    For definition of codon usage bias (B), see
 #'    \href{https://www.ncbi.nlm.nih.gov/pubmed/11489855}{Karlin et al. (2001)}.
 #'
-#' @name B
+#' @rdname B
+#' @export
+setGeneric(
+    name = "B",
+    def = function(cTobject, subsets = list(), self = TRUE, ribosomal = FALSE,
+                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
+                   filtering = "none", len.threshold = 80) {
+        standardGeneric("B")
+    }
+)
+
+#' @rdname B
 #' @export
 setMethod(
     f = "B",
@@ -200,15 +205,6 @@ setMethod(
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### MCB, Urutia and Hurst 2001.
 ###
-#' @export
-setGeneric(
-    name = "MCB",
-    def = function(cTobject, subsets = list(), self = TRUE, ribosomal = FALSE,
-                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
-                   filtering = "none", len.threshold = 80) {
-        standardGeneric("MCB")
-    }
-)
 #' Calculate maximum-likelihood codon bias (MCB)
 #'
 #' Calculate MCB values for every sequence in the given \code{codonTable} object.
@@ -221,7 +217,18 @@ setGeneric(
 #'    For definition of maximum-likelihood codon bias (MCB), see
 #'    \href{https://www.ncbi.nlm.nih.gov/pubmed/2110097}{Urrutia and Hurst (2001)}.
 #'
-#' @name MCB
+#' @rdname MCB
+#' @export
+setGeneric(
+    name = "MCB",
+    def = function(cTobject, subsets = list(), self = TRUE, ribosomal = FALSE,
+                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
+                   filtering = "none", len.threshold = 80) {
+        standardGeneric("MCB")
+    }
+)
+
+#' @rdname MCB
 #' @export
 setMethod(
     f = "MCB",
@@ -262,15 +269,6 @@ setMethod(
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### ENC' Npvembre 2002.
 ###
-#' @export
-setGeneric(
-    name = "ENCprime",
-    def = function(cTobject, subsets = list(), self = TRUE, ribosomal = FALSE,
-                   id_or_name2 = "1", alt.init = TRUE, stop.rm = TRUE,
-                   filtering = "none", len.threshold = 80) {
-        standardGeneric("ENCprime")
-    }
-)
 #' Calculate effective number of codons prime (ENC').
 #'
 #' Calculate ENC' values for every sequence in the given \code{codonTable} object.
@@ -283,7 +281,18 @@ setGeneric(
 #'    For definition of effective number of codons prime (ENC'), see
 #'    \href{https://www.ncbi.nlm.nih.gov/pubmed/12140252}{Novembre (2002)}.
 #'
-#' @name ENCprime
+#' @rdname ENCprime
+#' @export
+setGeneric(
+    name = "ENCprime",
+    def = function(cTobject, subsets = list(), self = TRUE, ribosomal = FALSE,
+                   id_or_name2 = "1", alt.init = TRUE, stop.rm = TRUE,
+                   filtering = "none", len.threshold = 80) {
+        standardGeneric("ENCprime")
+    }
+)
+
+#' @rdname ENCprime
 #' @export
 setMethod(
     f = "ENCprime",
@@ -332,14 +341,6 @@ setMethod(
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### ENC, Wright 1990.
 ###
-#' @export
-setGeneric(
-    name = "ENC",
-    def = function(cTobject, id_or_name2 = "1", alt.init = TRUE, stop.rm = TRUE,
-                   filtering = "none", len.threshold = 80) {
-        standardGeneric("ENC")
-    }
-)
 #' Calculate effective number of codons (ENC).
 #'
 #' Calculate ENC values for every sequence in the given \code{codonTable} object.
@@ -351,7 +352,17 @@ setGeneric(
 #'    For definition of effective number of codons (ENC), see
 #'    \href{https://www.ncbi.nlm.nih.gov/pubmed/2110097}{Wright (1990)}.
 #'
-#' @name ENC
+#' @rdname ENC
+#' @export
+setGeneric(
+    name = "ENC",
+    def = function(cTobject, id_or_name2 = "1", alt.init = TRUE, stop.rm = TRUE,
+                   filtering = "none", len.threshold = 80) {
+        standardGeneric("ENC")
+    }
+)
+
+#' @rdname ENC
 #' @export
 setMethod(
     f = "ENC",
@@ -387,14 +398,6 @@ setMethod(
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### SCUO, Wan et al. 2004.
 ###
-#' @export
-setGeneric(
-    name = "SCUO",
-    def = function(cTobject, id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
-                   filtering = "none", len.threshold = 80) {
-        standardGeneric("SCUO")
-    }
-)
 #' Calculate eorderliness of synonymous codon usage  (SCUO).
 #'
 #' Calculate SCUO values for every sequence in the given \code{codonTable} object.
@@ -406,7 +409,17 @@ setGeneric(
 #'    For definition of synonymous codon usage eorderliness (SCUO), see
 #'    \href{https://www.ncbi.nlm.nih.gov/pubmed/15222899}{Wan et al. (2004)}.
 #'
-#' @name SCUO
+#' @rdname SCUO
+#' @export
+setGeneric(
+    name = "SCUO",
+    def = function(cTobject, id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
+                   filtering = "none", len.threshold = 80) {
+        standardGeneric("SCUO")
+    }
+)
+
+#' @rdname SCUO
 #' @export
 setMethod(
     f = "SCUO",

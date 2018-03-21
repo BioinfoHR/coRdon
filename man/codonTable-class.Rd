@@ -31,41 +31,41 @@ codonTable(x)
 
 \S4method{codonTable}{data.frame}(x)
 
-getID(cTobject)
+getID(object)
 
-\S4method{getID}{codonTable}(cTobject)
+\S4method{getID}{codonTable}(object)
 
-codonCounts(cTobject)
+codonCounts(object)
 
-\S4method{codonCounts}{codonTable}(cTobject)
+\S4method{codonCounts}{codonTable}(object)
 
-getlen(cTobject)
+getlen(object)
 
-\S4method{getlen}{codonTable}(cTobject)
+\S4method{getlen}{codonTable}(object)
 
-getKO(cTobject)
+getKO(object)
 
-\S4method{getKO}{codonTable}(cTobject)
+\S4method{getKO}{codonTable}(object)
 
-setKO(cTobject, ann)
+setKO(object, ann)
 
-\S4method{setKO}{codonTable}(cTobject, ann)
+\S4method{setKO}{codonTable}(object, ann)
 
-getCOG(cTobject)
+getCOG(object)
 
-\S4method{getCOG}{codonTable}(cTobject)
+\S4method{getCOG}{codonTable}(object)
 
-setCOG(cTobject, ann)
+setCOG(object, ann)
 
-\S4method{setCOG}{codonTable}(cTobject, ann)
+\S4method{setCOG}{codonTable}(object, ann)
 }
 \arguments{
 \item{x}{An object of \code{DNAStringSet}, \code{matrix} or \code{data.frame} class.}
 
-\item{cTobject}{A \code{codonTable} object.}
+\item{object}{A \code{codonTable} object.}
 
 \item{ann}{A character vector of sequence annotations, must be of length
-equal to \code{length(cTobject)}.}
+equal to \code{length(object)}.}
 }
 \description{
 Contains codon counts and optional annotation for a set DNA sequences.

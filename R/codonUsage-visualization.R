@@ -42,23 +42,12 @@ NULL
     }
     dt
 }
-.bplot <- function(dt, xlab, ylab, title, subtitle, caption){
+.bplot <- function(dt){
     ggplot(dt, aes(x, y, colour = genes, alpha = genes)) +
         geom_jitter() +
-        labs(x = xlab, y = ylab,
-             title = title, subtitle = subtitle, caption = caption) +
         theme_light()
 }
 
-#' @export
-setGeneric(
-    name = "bplot",
-    def = function(x, y, data, annotations = character(),
-                   ribosomal = FALSE, reference = list(), xlab = character(), ylab = character(),
-                   title = character(), subtitle = character(), caption = character()){
-        standardGeneric("bplot")
-    }
-)
 #' Karlin B plot
 #'
 #' Plot distances of each gene's CU frequency to specified gene (sub)sets (given by
@@ -68,7 +57,7 @@ setGeneric(
 #'   of CU statistic values for two subsets of genes. If numeric, the vectors
 #'   must be of the same length.
 #' @param data A matrix with CU statistic values for subsets of genes in columns.
-#' @param annotation A character vector giving KO annotations for sequences
+#' @param annotations A character vector giving KO annotations for sequences
 #'   for which the CU values were calculated, must be of length \code{nrow(data)}.
 #' @param ribosomal Logical, whether to indicate ribosomal genes in the plot.
 #'   Default is \code{FALSE}, if set to \code{TRUE}, then \code{annotation} must
@@ -80,14 +69,22 @@ setGeneric(
 #'
 #' @return A \code{ggplot} object.
 #'
-#' @name bplot
+#' @rdname bplot
+#' @export
+setGeneric(
+    name = "bplot",
+    def = function(x, y, data, annotations = character(),
+                   ribosomal = FALSE, reference = list()){
+        standardGeneric("bplot")
+    }
+)
+
+#' @rdname bplot
 #' @export
 setMethod(
     f = "bplot",
     signature = c(x = "character", y = "character", data = "matrix"),
-    definition = function(x, y, data,
-                          annotations, ribosomal, reference, xlab, ylab,
-                          title, subtitle, caption){
+    definition = function(x, y, data, annotations, ribosomal, reference){
 
         dt <- as.data.table(data[, c(x,y)])
 
@@ -96,7 +93,7 @@ setMethod(
 
         setnames(dt, c(x, y), c("x","y"))
         dt <- .makedt(dt, annotations, ribosomal, reference)
-        .bplot(dt, xlab, ylab, title, subtitle, caption)
+        .bplot(dt)
     }
 )
 #' @rdname bplot
@@ -104,9 +101,7 @@ setMethod(
 setMethod(
     f = "bplot",
     signature = c(x = "numeric", y = "numeric", data = "missing"),
-    definition = function(x, y, data,
-                          annotations, ribosomal, reference, xlab, ylab,
-                          title, subtitle, caption){
+    definition = function(x, y, data, annotations, ribosomal, reference){
 
         dt <- data.table(cbind(x, y))
 
@@ -114,7 +109,7 @@ setMethod(
         if (length(ylab) == 0) ylab <- "y"
 
         dt <- .makedt(dt, annotations, ribosomal, reference)
-        .bplot(dt, xlab, ylab, title, subtitle, caption)
+        .bplot(dt)
 
     }
 )

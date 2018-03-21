@@ -3,18 +3,18 @@
 \docType{methods}
 \name{bplot}
 \alias{bplot}
+\alias{bplot,character,character,matrix-method}
 \alias{bplot,numeric,numeric,missing-method}
 \title{Karlin B plot}
 \usage{
+bplot(x, y, data, annotations = character(), ribosomal = FALSE,
+  reference = list())
+
 \S4method{bplot}{character,character,matrix}(x, y, data,
-  annotations = character(), ribosomal = FALSE, reference = list(),
-  xlab = character(), ylab = character(), title = character(),
-  subtitle = character(), caption = character())
+  annotations = character(), ribosomal = FALSE, reference = list())
 
 \S4method{bplot}{numeric,numeric,missing}(x, y, data,
-  annotations = character(), ribosomal = FALSE, reference = list(),
-  xlab = character(), ylab = character(), title = character(),
-  subtitle = character(), caption = character())
+  annotations = character(), ribosomal = FALSE, reference = list())
 }
 \arguments{
 \item{x, y}{Character, both must be in \code{colnames(data)}, or numeric vectors
@@ -22,6 +22,9 @@ of CU statistic values for two subsets of genes. If numeric, the vectors
 must be of the same length.}
 
 \item{data}{A matrix with CU statistic values for subsets of genes in columns.}
+
+\item{annotations}{A character vector giving KO annotations for sequences
+for which the CU values were calculated, must be of length \code{nrow(data)}.}
 
 \item{ribosomal}{Logical, whether to indicate ribosomal genes in the plot.
 Default is \code{FALSE}, if set to \code{TRUE}, then \code{annotation} must
@@ -31,9 +34,6 @@ be given.}
 \code{nrow(data)}) of reference genes to be indicated on the plot, or a named
 list of character vector(s) (of any length) of the reference genes' anotations.
 If latter is the case, then \code{annotation} must be given.}
-
-\item{annotation}{A character vector giving KO annotations for sequences
-for which the CU values were calculated, must be of length \code{nrow(data)}.}
 }
 \value{
 A \code{ggplot} object.

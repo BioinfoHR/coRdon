@@ -3,8 +3,13 @@
 \docType{methods}
 \name{E}
 \alias{E}
+\alias{E,codonTable-method}
 \title{Calculate gene expression measure (E).}
 \usage{
+E(cTobject, subsets = list(), ribosomal = FALSE, id_or_name2 = "1",
+  alt.init = TRUE, stop.rm = FALSE, filtering = "none",
+  len.threshold = 80)
+
 \S4method{E}{codonTable}(cTobject, subsets = list(), ribosomal = FALSE,
   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
   filtering = "none", len.threshold = 80)

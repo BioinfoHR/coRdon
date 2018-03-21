@@ -3,8 +3,13 @@
 \docType{methods}
 \name{MELP}
 \alias{MELP}
+\alias{MELP,codonTable-method}
 \title{Calculate MILC-based Expression Level Predictor (MELP).}
 \usage{
+MELP(cTobject, subsets = list(), ribosomal = FALSE, id_or_name2 = "1",
+  alt.init = TRUE, stop.rm = FALSE, filtering = "none",
+  len.threshold = 80)
+
 \S4method{MELP}{codonTable}(cTobject, subsets = list(), ribosomal = FALSE,
   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
   filtering = "none", len.threshold = 80)

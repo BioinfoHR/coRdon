@@ -8,15 +8,6 @@ NULL
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### MELP, Supek and Vlahovicek 2005.
 ###
-#' @export
-setGeneric(
-    name = "MELP",
-    def = function(cTobject, subsets = list(), ribosomal = FALSE,
-                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
-                   filtering = "none", len.threshold = 80) {
-        standardGeneric("MELP")
-    }
-)
 #' Calculate MILC-based Expression Level Predictor (MELP).
 #'
 #' Calculate MELP values for every sequence in the given \code{codonTable} object.
@@ -29,7 +20,18 @@ setGeneric(
 #'    For definition of MELP, see
 #'    \href{https://www.ncbi.nlm.nih.gov/pubmed/16029499}{Supek & Vlahovicek (2005)}.
 #'
-#' @name MELP
+#' @rdname MELP
+#' @export
+setGeneric(
+    name = "MELP",
+    def = function(cTobject, subsets = list(), ribosomal = FALSE,
+                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
+                   filtering = "none", len.threshold = 80) {
+        standardGeneric("MELP")
+    }
+)
+
+#' @rdname MELP
 #' @export
 setMethod(
     f = "MELP",
@@ -54,15 +56,6 @@ setMethod(
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### E, Karlin and Mrazek 2000
 ###
-#' @export
-setGeneric(
-    name = "E",
-    def = function(cTobject, subsets = list(), ribosomal = FALSE,
-                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
-                   filtering = "none", len.threshold = 80) {
-        standardGeneric("E")
-    }
-)
 #' Calculate gene expression measure (E).
 #'
 #' Calculate E values for every sequence in the given \code{codonTable} object.
@@ -75,7 +68,18 @@ setGeneric(
 #'    For definition of gene expression measure (E), see
 #'    \href{https://www.ncbi.nlm.nih.gov/pubmed/10960111}{Karlin and Mrazek (2000)}.
 #'
-#' @name E
+#' @rdname E
+#' @export
+setGeneric(
+    name = "E",
+    def = function(cTobject, subsets = list(), ribosomal = FALSE,
+                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
+                   filtering = "none", len.threshold = 80) {
+        standardGeneric("E")
+    }
+)
+
+#' @rdname E
 #' @export
 setMethod(
     f = "E",
@@ -100,15 +104,6 @@ setMethod(
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### CAI, Sharp & Lee 1987
 ###
-#' @export
-setGeneric(
-    name = "CAI",
-    def = function(cTobject, subsets = list(), ribosomal = FALSE,
-                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
-                   filtering = "none", len.threshold = 80) {
-        standardGeneric("CAI")
-    }
-)
 #' Calculate Codon Adaptation Index (CAI).
 #'
 #' Calculate CAI values for every sequence in the given \code{codonTable} object.
@@ -121,7 +116,18 @@ setGeneric(
 #'    For definition of Codon Adaptation Index (CAI), see
 #'    \href{https://www.ncbi.nlm.nih.gov/pubmed/3547335}{Sharp and Li (1987)}.
 #'
-#' @name CAI
+#' @rdname CAI
+#' @export
+setGeneric(
+    name = "CAI",
+    def = function(cTobject, subsets = list(), ribosomal = FALSE,
+                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
+                   filtering = "none", len.threshold = 80) {
+        standardGeneric("CAI")
+    }
+)
+
+#' @rdname CAI
 #' @export
 setMethod(
     f = "CAI",
@@ -167,15 +173,6 @@ setMethod(
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### Fop, Ikemura 1981
 ###
-#' @export
-setGeneric(
-    name = "Fop",
-    def = function(cTobject, subsets = list(), ribosomal = FALSE,
-                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
-                   filtering = "none", len.threshold = 80) {
-        standardGeneric("Fop")
-    }
-)
 #' Calculate frequency of optimal codons (Fop).
 #'
 #' Calculate Fop values for every sequence in the given \code{codonTable} object.
@@ -188,7 +185,18 @@ setGeneric(
 #'    For definition of frequency of optimal codons (Fop), see
 #'    \href{https://www.ncbi.nlm.nih.gov/pubmed/6175758}{Ikemura (1981)}.
 #'
-#' @name Fop
+#' @rdname Fop
+#' @export
+setGeneric(
+    name = "Fop",
+    def = function(cTobject, subsets = list(), ribosomal = FALSE,
+                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
+                   filtering = "none", len.threshold = 80) {
+        standardGeneric("Fop")
+    }
+)
+
+#' @rdname Fop
 #' @export
 setMethod(
     f = "Fop",
@@ -236,15 +244,6 @@ setMethod(
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### GCB, Merkl 2003
 ###
-#' @export
-setGeneric(
-    name = "GCB",
-    def = function(cTobject, seed, ribosomal = FALSE, perc = 0.05,
-                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
-                   filtering = "none", len.threshold = 80) {
-        standardGeneric("GCB")
-    }
-)
 #' Calculate gene codon bias (GCB).
 #'
 #' Calculate GCB values for every sequence in the given \code{codonTable} object.
@@ -263,7 +262,18 @@ setGeneric(
 #'    For definition of gene codon bias (GCB), see
 #'    \href{https://www.ncbi.nlm.nih.gov/pubmed/6175758}{Ikemura (1981)}.
 #'
-#' @name GCB
+#' @rdname GCB
+#' @export
+setGeneric(
+    name = "GCB",
+    def = function(cTobject, seed, ribosomal = FALSE, perc = 0.05,
+                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
+                   filtering = "none", len.threshold = 80) {
+        standardGeneric("GCB")
+    }
+)
+
+#' @rdname GCB
 #' @export
 setMethod(
     f = "GCB",

@@ -3,21 +3,25 @@
 \docType{methods}
 \name{enrichment}
 \alias{enrichment}
+\alias{enrichment,crossTab-method}
 \title{Enrichment analysis for codon usage (CU) data.}
 \usage{
+enrichment(x, pvalueCutoff = numeric(), pAdjustMethod = "BH",
+  padjCutoff = numeric())
+
 \S4method{enrichment}{crossTab}(x, pvalueCutoff = numeric(),
   pAdjustMethod = "BH", padjCutoff = numeric())
 }
 \arguments{
 \item{x}{A \code{crossTab} object}
 
+\item{pvalueCutoff}{Numeric, discard categories with p value below this
+threshold. By default, no threshold is set (\code{numeric()}).}
+
 \item{pAdjustMethod}{Character, one of the \code{p.adjust.methods}.}
 
 \item{padjCutoff}{Numeric, discard categories with adjusted p value below
 this threshold. By default, no threshold is set (\code{numeric()}).}
-
-\item{pvaluCutoff}{Numeric, discard categories with p value below this
-threshold. By default, no threshold is set (\code{numeric()}).}
 }
 \value{
 An \code{enrich.data.frame} object, or a list of those.
