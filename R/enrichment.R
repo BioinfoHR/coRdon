@@ -1,5 +1,6 @@
 #' @import data.table
 #' @importClassesFrom Biobase AnnotatedDataFrame
+#' @importFrom Biobase AnnotatedDataFrame
 #' @importFrom Biobase pData
 NULL
 
