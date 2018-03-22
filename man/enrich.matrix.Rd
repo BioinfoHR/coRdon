@@ -25,9 +25,9 @@ NAs will be replaced by that given value.}
   for different samples as columns.
 }
 \description{
-Extract enrichment values from multiple samples, i.e. \code{enrich.data.frame}
+Extract enrichment values from multiple samples, i.e. \code{AnnotatedDataFrame}
 objects. Note that the samples should contain annotations of the same type
-(i.e. the same ontology). The data in matrix format can be efortlessly used in
-different types downstream analyses, such as GAGE, and visualised, e.g. using
-a heatmap.
+(i.e. the same ontology). The data in matrix format can be easily used in
+different types of downstream analyses, such as GAGE, and visualised,
+e.g. using a heatmap.
 }

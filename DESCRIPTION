@@ -27,7 +27,6 @@ Collate:
     'codonUsage-visualization.R'
     'constants.R'
     'crossTab-class.R'
-    'enrich.data.frame-class.R'
     'enrichment-visualization.R'
     'enrichment.R'
     'readSet.R'

@@ -1,4 +1,4 @@
-#' @include enrich.data.frame-class.R
+#' @importFrom Biobase pData
 #' @import data.table
 #' @import ggplot2
 NULL
@@ -24,9 +24,7 @@ NULL
 #' Make an MA-like plot of enriched annotations, similar to the commonly used
 #' plots in differential expression analysis.
 #'
-#' @param x \code{enrich.data.frame} object, or a list of those.
-#' @param variable Character, indicating the statistic values to be used for
-#'    plotting, must be one of \code{c("enrich","M","A")}.
+#' @param x \code{AnnotatedDataFrame} object, or a list of those.
 #' @param pvalue Character, one of \code{c("pvals", "padj")}.
 #' @param alpha Numeric, significance level to be used for plotting.
 #'
@@ -36,7 +34,7 @@ NULL
 #' @export
 setGeneric(
     name = "enrichMAplot",
-    def = function(x, variable, pvalue = "pvals", alpha = 0.05) {
+    def = function(x, pvalue = "pvals", alpha = 0.05) {
         standardGeneric("enrichMAplot")
     }
 )
@@ -48,9 +46,10 @@ setMethod(
     signature = c(x = "list"),
     definition = function(x, pvalue, alpha) {
 
-        if (!all(sapply(x, class) == "list"))
-            stop("x should be a list of enrich.data.frame objects!")
+        if (!all(sapply(x, class) == "AnnotatedDataFrame"))
+            stop("x should be a list of AnnotatedDataFrame objects!")
 
+        x <- lapply(x, function(x) as.data.table(pData(x)))
         dt <- data.table::rbindlist(x, fill = TRUE, idcol = "subset")
 
         .maplot(dt, pvalue, alpha)
@@ -61,10 +60,10 @@ setMethod(
 #' @export
 setMethod(
     f = "enrichMAplot",
-    signature = c(x = "enrich.data.frame"),
+    signature = c(x = "AnnotatedDataFrame"),
     definition = function(x, pvalue, alpha) {
 
-        .maplot(x, pvalue, alpha)
+        .maplot(pData(x), pvalue, alpha)
     }
 )
 
@@ -100,6 +99,8 @@ setMethod(
 #' represent the p values (\code{c("pvals", "padj")}).
 #'
 #' @inheritParams enrichMAplot
+#' @param variable Character, indicating the statistic values to be used for
+#'    plotting, must be one of \code{c("enrich","M","A")}.
 #'
 #' @return A \code{ggplot} object.
 #'
@@ -119,10 +120,11 @@ setMethod(
     signature = c(x = "list"),
     definition = function(x, variable, pvalue, alpha) {
 
-        if (!all(sapply(x, class) == "list"))
-            stop("x should be a list of enrich.data.frame objects!")
+        if (!all(sapply(x, class) == "AnnotatedDataFrame"))
+            stop("x should be a list of AnnotatedDataFrame objects!")
 
         out <- sapply(x, function(y){
+            y <- as.data.table(pData(y))
             y[, c("category", variable, pvalue), with = FALSE]
         }, simplify = FALSE, USE.NAMES = TRUE)
 
@@ -137,10 +139,10 @@ setMethod(
 #' @export
 setMethod(
     f = "enrichBarplot",
-    signature = c(x = "enrich.data.frame"),
+    signature = c(x = "AnnotatedDataFrame"),
     definition = function(x, variable, pvalue, alpha) {
 
-        dt <- x[, c("category", variable, pvalue)]
+        dt <- pData(x)[, c("category", variable, pvalue)]
         setkeyv(dt, variable)
 
         .barplot(dt, variable, pvalue, alpha)

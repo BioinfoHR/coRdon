@@ -4,20 +4,18 @@
 \name{enrichMAplot}
 \alias{enrichMAplot}
 \alias{enrichMAplot,list-method}
-\alias{enrichMAplot,enrich.data.frame-method}
+\alias{enrichMAplot,AnnotatedDataFrame-method}
 \title{MA plot of enriched annotations.}
 \usage{
-enrichMAplot(x, variable, pvalue = "pvals", alpha = 0.05)
+enrichMAplot(x, pvalue = "pvals", alpha = 0.05)
 
-\S4method{enrichMAplot}{list}(x, pvalue, alpha)
+\S4method{enrichMAplot}{list}(x, pvalue = "pvals", alpha = 0.05)
 
-\S4method{enrichMAplot}{enrich.data.frame}(x, pvalue, alpha)
+\S4method{enrichMAplot}{AnnotatedDataFrame}(x, pvalue = "pvals",
+  alpha = 0.05)
 }
 \arguments{
-\item{x}{\code{enrich.data.frame} object, or a list of those.}
-
-\item{variable}{Character, indicating the statistic values to be used for
-plotting, must be one of \code{c("enrich","M","A")}.}
+\item{x}{\code{AnnotatedDataFrame} object, or a list of those.}
 
 \item{pvalue}{Character, one of \code{c("pvals", "padj")}.}
 

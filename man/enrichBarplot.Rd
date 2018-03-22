@@ -4,7 +4,7 @@
 \name{enrichBarplot}
 \alias{enrichBarplot}
 \alias{enrichBarplot,list-method}
-\alias{enrichBarplot,enrich.data.frame-method}
+\alias{enrichBarplot,AnnotatedDataFrame-method}
 \title{Barplot of enriched and depleted annotations.}
 \usage{
 enrichBarplot(x, variable, pvalue = "pvals", alpha = numeric())
@@ -12,11 +12,11 @@ enrichBarplot(x, variable, pvalue = "pvals", alpha = numeric())
 \S4method{enrichBarplot}{list}(x, variable, pvalue = "pvals",
   alpha = numeric())
 
-\S4method{enrichBarplot}{enrich.data.frame}(x, variable, pvalue = "pvals",
+\S4method{enrichBarplot}{AnnotatedDataFrame}(x, variable, pvalue = "pvals",
   alpha = numeric())
 }
 \arguments{
-\item{x}{\code{enrich.data.frame} object, or a list of those.}
+\item{x}{\code{AnnotatedDataFrame} object, or a list of those.}
 
 \item{variable}{Character, indicating the statistic values to be used for
 plotting, must be one of \code{c("enrich","M","A")}.}

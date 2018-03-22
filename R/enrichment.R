@@ -1,5 +1,6 @@
-#' @include enrich.data.frame-class.R
 #' @import data.table
+#' @importClassesFrom Biobase AnnotatedDataFrame
+#' @importFrom Biobase pData
 NULL
 
 .enrichment <- function(contable, pvalueCutoff, pAdjustMethod, padjCutoff) {
@@ -38,7 +39,8 @@ NULL
         if(length(pvalueCutoff) != 0) ct <- ct[pvals <= pvalueCutoff,]
         if(length(padjCutoff) != 0) ct <- ct[padj <= padjCutoff,]
 
-        enrich.data.frame(ct)
+        df <- data.frame(labelDescription = names(ct))
+        AnnotatedDataFrame(data = ct, varMetadata = df)
 
     }, simplify = FALSE, USE.NAMES = TRUE)
 }
@@ -56,7 +58,26 @@ NULL
 #' @param padjCutoff Numeric, discard categories with adjusted p value below
 #'    this threshold. By default, no threshold is set (\code{numeric()}).
 #'
-#' @return An \code{enrich.data.frame} object, or a list of those.
+#' @return An \code{AnnotatedDataFrame} object, or a list of those, each with
+#' category values in rows, and with the following columns:
+#'    \itemize{
+#'      \item category, a character vector of annotation categories
+#'      \item all, a numeric vector of integers, coresponding to sequence counts
+#'          for each annotation category, in the background gene set (universe).
+#'      \item a numeric vector of integers, coresponding to sequence counts
+#'          for each annotation category, in the set of genes for which enrichment
+#'          is calculated, i.e. the predefined subset of (usually highly expressed)
+#'          genes in the universe (name for the corresponding `crossTab` column).
+#'      \item enrichment, calculated as the ratio:
+#'          (scaled sample counts - scaled backg. counts) / scaled backg. counts * 100,
+#'          where scaling means that sample counts are simply increased by 1,
+#'          and background counts are multiplied by ratio of summed sample counts
+#'          and summed backgroun counts, and also increased by 1
+#'      \item M, log ratios of scaled counts
+#'      \item A, mean average of scaled counts
+#'      \item pvals, p values for exact binomial test
+#'      \item padj, p values corrected by BH method.
+#'    }
 #'
 #' @rdname enrichment
 #' @export
@@ -82,7 +103,7 @@ setMethod(
 
 .makemat <- function(x, variable, replace.na) {
     out <- lapply(1:length(x), function(y){
-        DT <- x[[y]][, c("category", variable)]
+        DT <- as.data.table(pData(x[[y]][, c("category", variable)]))
         setnames(DT, variable, names(x)[y])
     })
     dt <- Reduce(function(...) merge(..., all = TRUE), out)
@@ -98,11 +119,11 @@ setMethod(
 
 #' Extract chosen enrichment values to a matrix.
 #'
-#' Extract enrichment values from multiple samples, i.e. \code{enrich.data.frame}
+#' Extract enrichment values from multiple samples, i.e. \code{AnnotatedDataFrame}
 #' objects. Note that the samples should contain annotations of the same type
-#' (i.e. the same ontology). The data in matrix format can be efortlessly used in
-#' different types downstream analyses, such as GAGE, and visualised, e.g. using
-#' a heatmap.
+#' (i.e. the same ontology). The data in matrix format can be easily used in
+#' different types of downstream analyses, such as GAGE, and visualised,
+#' e.g. using a heatmap.
 #'
 #' @param x list of \code{enrich.data.frame} objects
 #' @param variable Character, indicating the statistic values to extract from
@@ -137,9 +158,9 @@ setMethod(
             x <- c(x, x[!nl])
         }
 
-        # enrich.data.frame class
-        if (!(all(sapply(x, class) == "enrich.data.frame")))
-            stop("x should be a (nested) list of enrich.data.frame objects!")
+        # AnnotatedDataFrame class
+        if (!(all(sapply(x, class) == "AnnotatedDataFrame")))
+            stop("x should be a (nested) list of AnnotatedDataFrame objects!")
 
         .makemat(x, variable, replace.na)
     }
