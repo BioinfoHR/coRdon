@@ -155,9 +155,13 @@ setMethod(
 
 #' Display the object of \code{codonTable} class.
 #'
+#' @docType methods
+#' @name show-codonTable
+#' @rdname show-codonTable
+#' @aliases show-codonTable show,codonTable-method
+#'
 #' @param object A \code{codonTable} object.
 #'
-#' @name codonTable-show
 #' @export
 setMethod(
     f = "show",
@@ -181,9 +185,13 @@ setMethod(
 #' Length of \code{codonTable} object, i.e. the number
 #' of sequences for which there are codon counts contained in the object.
 #'
+#' @docType methods
+#' @name length-codonTable
+#' @rdname length-codonTable
+#' @aliases length-codonTable length,codonTable-method
+#'
 #' @param x A \code{codonTable} object.
 #'
-#' @name codonTable-length
 #' @export
 setMethod(
     f = "length",

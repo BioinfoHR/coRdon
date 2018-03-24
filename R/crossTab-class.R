@@ -100,9 +100,13 @@ setMethod(
 
 #' Display the object of \code{crossTab} class.
 #'
+#' @docType methods
+#' @name show-crossTab
+#' @rdname show-crossTab
+#' @aliases show-crossTab show,crossTab-method
+#'
 #' @param object A \code{crossTab} object.
 #'
-#' @name crossTab-show
 #' @export
 setMethod(
     f = "show",
@@ -123,9 +127,13 @@ setMethod(
 #' Length of \code{crossTab} object, i.e. the number of
 #' sequences for which the contingency table is contained in the object.
 #'
+#' @docType methods
+#' @name length-crossTab
+#' @rdname length-crossTab
+#' @aliases length-crossTab length,crossTab-method
+#'
 #' @param x A \code{crossTab} object.
 #'
-#' @name crossTab-length
 #' @export
 setMethod(
     f = "length",
