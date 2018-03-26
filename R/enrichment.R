@@ -59,33 +59,58 @@ NULL
 #' @param padjCutoff Numeric, discard categories with adjusted p value below
 #'    this threshold. By default, no threshold is set (\code{numeric()}).
 #'
-#' @return An \code{AnnotatedDataFrame} object, or a list of those, each with
-#' category values in rows, and with the following columns:
+#' @return An \code{AnnotatedDataFrame} object, or a list of those; data in
+#' each object has category values in rows, and the following columns:
 #'    \itemize{
 #'      \item category, a character vector of annotation categories
-#'      \item all, a numeric vector of integers, coresponding to sequence counts
-#'          for each annotation category, in the background gene set (universe).
-#'      \item a numeric vector of integers, coresponding to sequence counts
-#'          for each annotation category, in the set of genes for which enrichment
-#'          is calculated, i.e. the predefined subset of (usually highly expressed)
-#'          genes in the universe (name for the corresponding `crossTab` column).
-#'      \item enrichment, calculated as the ratio:
-#'          (scaled sample counts - scaled backg. counts) / scaled backg. counts * 100,
+#'      \item all, a numeric vector of integers, coresponding to sequence
+#'          counts for each annotation category, in the background gene set
+#'          (universe).
+#'      \item a numeric vector(s) of integers, coresponding to sequence counts
+#'          for each annotation category, in the set of genes for which
+#'          enrichment is calculated, i.e. the predefined subset of (usually
+#'          highly expressed) genes in the universe (named for the
+#'          corresponding `crossTab` column).
+#'      \item enrichment, calculated as the ratio: (scaled sample counts -
+#'          scaled backg. counts) / scaled backg. counts * 100,
 #'          where scaling means that sample counts are simply increased by 1,
-#'          and background counts are multiplied by ratio of summed sample counts
-#'          and summed backgroun counts, and also increased by 1
+#'          and background counts are multiplied by ratio of summed sample
+#'          counts and summed backgroun counts, and also increased by 1
 #'      \item M, log ratios of scaled counts
 #'      \item A, mean average of scaled counts
 #'      \item pvals, p values for exact binomial test
 #'      \item padj, p values corrected by BH method.
 #'    }
 #'
+#' @examples
+#' require(Biobase)
+#'
+#' # create contingency table
+#' s <- getKO(HD59)
+#' v <- as.numeric(MELP(HD59, ribosomal = TRUE))
+#' ct <- crossTab(s, v)
+#'
+#' # enrichment analysis
+#' enr <- enrichment(ct)
+#' enr # for help, see `?Biobase::AnnotatedDataFrame`
+#' head(pData(enr))
+#'
+#' enr <- enrichment(ct, pAdjustMethod = "holm")
+#' head(pData(enr))
+#'
+#' enr <- enrichment(ct, pvalueCutoff = 0.05)
+#' head(pData(enr))
+#'
+#' enr <- enrichment(ct, padjCutoff = 0.05)
+#' head(pData(enr))
+#'
 #' @rdname enrichment
 #' @export
 #' @export
 setGeneric(
     name = "enrichment",
-    def = function(x, pvalueCutoff = numeric(), pAdjustMethod = "BH", padjCutoff = numeric()){
+    def = function(x, pvalueCutoff = numeric(),
+                   pAdjustMethod = "BH", padjCutoff = numeric()){
         standardGeneric("enrichment")
     }
 )
@@ -120,21 +145,38 @@ setMethod(
 
 #' Extract chosen enrichment values to a matrix.
 #'
-#' Extract enrichment values from multiple samples, i.e. \code{AnnotatedDataFrame}
-#' objects. Note that the samples should contain annotations of the same type
-#' (i.e. the same ontology). The data in matrix format can be easily used in
-#' different types of downstream analyses, such as GAGE, and visualised,
-#' e.g. using a heatmap.
+#' Extract enrichment values from multiple samples, i.e.
+#' \code{AnnotatedDataFrame} objects. Note that the samples should contain
+#' annotations of the same type (i.e. the same ontology). The data in matrix
+#' format can be easily used in different types of downstream analyses,
+#' such as GAGE, and visualised, e.g. using a heatmap.
 #'
-#' @param x list of \code{enrich.data.frame} objects
+#' @param x list of \code{AnnotatedDataFrame} objects
 #' @param variable Character, indicating the statistic values to extract from
-#'    \code{enrich.data.frame} objects in x, must be one of \code{c("enrich","M","A")}.
+#'    \code{enrich.data.frame} objects in x, must be one of
+#'    \code{c("enrich","M","A")}.
 #' @param replace.na logical, whether to replace NA values in the output.
-#'    If `TRUE` (default), NAs will be replaced by 0. Alternatively, if numueric,
-#'    NAs will be replaced by that given value.
+#'    If `TRUE` (default), NAs will be replaced by 0. Alternatively,
+#'    if numueric, NAs will be replaced by that given value.
 #'
-#' @return \code{matrix} with sequences' annotations as rows, and variable values
-#'   for different samples as columns.
+#' @return \code{matrix} with sequences' annotations as rows, and variable
+#'   values for different samples as columns.
+#'
+#' @examples
+#' require(Biobase)
+#'
+#' # create contingency table
+#' s <- getKO(HD59)
+#' v <- as.numeric(MELP(HD59, ribosomal = TRUE))
+#' ct <- crossTab(s, v, percentiles = 0.05)
+#'
+#' # enrichment analysis
+#' enr <- enrichment(ct)
+#' enr # for help, see `?Biobase::AnnotatedDataFrame`
+#' head(pData(enr$top_0.05))
+#' head(pData(enr$gt_1))
+#' enrm <- enrich.matrix(enr, "M")
+#' head(enrm)
 #'
 #' @rdname enrich.matrix
 #' @export
@@ -155,7 +197,7 @@ setMethod(
         # if nested list, unlist elements which are lists
         nl <- lapply(x, class) == "list"
         if (any(nl)) {
-            x <- unlist(x[nl], recursive = F)
+            x <- unlist(x[nl], recursive = FALSE)
             x <- c(x, x[!nl])
         }
 

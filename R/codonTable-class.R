@@ -15,9 +15,25 @@ NULL
 #' @slot KO A character vector of KEGG annotations for sequences, length equal
 #'    to \code{nrow(counts)}. If no annotation is available, this will be
 #'    an empty vector.
-#' @slot COG  A character vector of COG annotations for sequences, length equal
-#'    to \code{nrow(counts)}. If no annotation is available, this will be
-#'    an empty vector.
+#' @slot COG  A character vector of COG annotations for sequences, length
+#'    equal to \code{nrow(counts)}. If no annotation is available, this
+#'    will be an empty vector.
+#'
+#' @examples
+#' # create codonTable with codon counts for sequences in DNAStringSet
+#' require(Biostrings)
+#' dna <- DNAStringSet(c("ACGAAGTGTACTGTAATTTGCACAGTACTTAAATGT",
+#'                       "ACGTCCGTACTGATCGATTCCGTGATT"))
+#' cT <- codonTable(dna)
+#' codonCounts(cT)
+#' getlen(cT)
+#' getKO(cT)
+#' cT <- setKO(cT, c("K00001", "K00002"))
+#' getKO(cT)
+#'
+#' # convert matrix containing codon counts to codonTable
+#' mat <- matrix(sample(1:10, 122, replace = TRUE), nrow = 2)
+#' codonTable(mat) # produces informative warning
 #'
 setClass(
     "codonTable",
@@ -42,7 +58,8 @@ setValidity(
             errors <- c(errors, msg)
         }
         if (all(rowSums(object@counts) != object@len)) {
-            msg <- "(Some of) summed codon counts differ from sequence length. \n"
+            msg <-
+                "(Some of) summed codon counts differ from sequence length.\n"
             errors <- c(errors, msg)
         }
         if (KOlen != 0 & KOlen != ns) {
@@ -78,7 +95,10 @@ setGeneric(
 
 #' @describeIn codonTable Create new objects of class \code{codonTable}.
 #'
-#' @param x An object of \code{DNAStringSet}, \code{matrix} or \code{data.frame} class.
+#' @param x An object of \code{DNAStringSet}, \code{matrix} or
+#'   \code{data.frame} class.
+#'
+#' @return A \code{codonTable}.
 #'
 #' @export
 setMethod(
@@ -87,8 +107,11 @@ setMethod(
     definition = function(x) {
         bad <- which(width(x) %% 3 != 0)
         if (length(bad) != 0)
-            warning(paste0("\nLength of sequence(s) at the following postion(s) is not divisible by 3: \n",
-                           bad, "\nDiscarding surplus nucleotides.\n"))
+            warning(paste0(
+                "\nLength of sequence(s) at the following postion(s) ",
+                "is not divisible by 3: \n",
+                bad,
+                ".\nDiscarding surplus nucleotides.\n"))
         ctb <- .codonTable(x)
         ctb <- ctb[,order(colnames(ctb))] # sort codons alphabetically
         if (class(ctb) == "integer") # in case there is only one sequence
@@ -98,8 +121,10 @@ setMethod(
             ID = if (!is.null(names(x))) names(x) else character(),
             counts = ctb,
             len = unname(rowSums(ctb)),
-            KO = regmatches(names(x), regexpr("K\\d{5}", names(x))),
-            COG = regmatches(names(x), regexpr("([KCN]|TW)OG\\d{5}", names(x)))
+            KO = regmatches(names(x),
+                            regexpr("K\\d{5}", names(x))),
+            COG = regmatches(names(x),
+                             regexpr("([KCN]|TW)OG\\d{5}", names(x)))
         )
     }
 )
@@ -111,24 +136,36 @@ setMethod(
     signature = "matrix",
     definition = function(x) {
         if (ncol(x) == 64) {
-            if (is.null(colnames(x))) {
+            if (is.null(colnames(x)) |
+                !all(sort(colnames(x))==genCode()@codons)) {
                 colnames(x) <- genCode()@codons
-                message("Assigned alphabetically sorted codons as column names.")
+                message(
+                    "Assigned alphabetically sorted codons as column names."
+                    )
             }
         } else if (ncol(x) == 61) {
             if (is.null(colnames(x))) {
                 colnames(x) <- genCode()@nostops
-                message("Assigned alphabetically sorted codons as column names.")
+                message(
+                    "Assigned alphabetically sorted codons as column names."
+                    )
+            } else if (!all.equal(sort(colnames(x)), genCode()@nostops)) {
+                colnames(x) <- genCode()@nostops
+                message(
+                    "Assigned alphabetically sorted codons as column names."
+                    )
             }
         } else stop("Matrix should have 64 or 61 columns!")
 
         new(
             "codonTable",
             ID = if (!is.null(rownames(x))) rownames(x) else character(),
-            counts = rbind(x[,sort(colnames(x))]), # sort codons alphabetically
+            counts = rbind(x[,sort(colnames(x))]), # sort codons alphabet.
             len = rowSums(as.matrix(x), na.rm = TRUE),
-            KO = regmatches(rownames(x), regexpr("K\\d{5}", rownames(x))),
-            COG = regmatches(rownames(x), regexpr("([KCN]|TW)OG\\d{5}", rownames(x)))
+            KO = regmatches(rownames(x),
+                            regexpr("K\\d{5}", rownames(x))),
+            COG = regmatches(rownames(x),
+                             regexpr("([KCN]|TW)OG\\d{5}", rownames(x)))
         )
     }
 )
@@ -138,15 +175,10 @@ setMethod(
 setMethod(
     f = "codonTable",
     signature = "data.frame",
-    definition = function(x)
-        new(
-            "codonTable",
-            ID = if (!is.null(rownames(x))) rownames(x) else character(),
-            counts = as.matrix(x)[,sort(colnames(x))], # sort codons alphabetically
-            len = rowSums(x, na.rm = TRUE),
-            KO = regmatches(rownames(x), regexpr("K\\d{5}", rownames(x))),
-            COG = regmatches(rownames(x), regexpr("([KCN]|TW)OG\\d{5}", rownames(x)))
-        )
+    definition = function(x){
+        x <- as.matrix(x)
+        codonTable(x)
+    }
 )
 
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -162,6 +194,8 @@ setMethod(
 #'
 #' @param object A \code{codonTable} object.
 #'
+#' @return \code{show} returns an invisible \code{NULL}.
+#'
 #' @export
 setMethod(
     f = "show",
@@ -173,7 +207,8 @@ setMethod(
         KOs <- capture.output(str(object@KO))
         COGs <- capture.output(str(object@COG))
         cat("codonTable instance with codon counts from", ns, "sequences.\n")
-        cat("sequence IDs:\n", IDs, "\n")
+        if (length(object@ID) != 0 & any(!is.na(object@ID)))
+            cat("sequence IDs:\n", IDs, "\n")
         cat("sequence lengths:\n", lens, "\n")
         if (length(object@KO) != 0 & any(!is.na(object@KO)))
             cat("KO annotations:\n", KOs, "\n")
@@ -182,8 +217,10 @@ setMethod(
     }
 )
 
-#' Length of \code{codonTable} object, i.e. the number
-#' of sequences for which there are codon counts contained in the object.
+#' Length of \code{codonTable} object.
+#'
+#' Length of \code{codonTable} object is the number of sequences
+#' for which there are codon counts contained in the object.
 #'
 #' @docType methods
 #' @name length-codonTable
@@ -192,34 +229,14 @@ setMethod(
 #'
 #' @param x A \code{codonTable} object.
 #'
+#' @return Numeric, the length of \code{x}.
+#'
 #' @export
 setMethod(
     f = "length",
     signature = "codonTable",
     definition = function(x){
         nrow(codonCounts(x))
-    }
-)
-
-#' @rdname codonTable-class
-#' @export
-setGeneric(
-    name = "getID",
-    def = function(object){
-        standardGeneric("getID")
-    }
-)
-
-#' @describeIn codonTable Get IDs for \code{codonTable} class.
-#'
-#' @param object A \code{codonTable} object.
-#'
-#' @export
-setMethod(
-    f = "getID",
-    signature = "codonTable",
-    definition = function(object){
-        return(object@ID)
     }
 )
 
@@ -234,7 +251,7 @@ setGeneric(
 
 #' @describeIn codonTable Get codon counts from \code{codonTable} object.
 #'
-#' @inheritParams getID
+#' @param object A \code{codonTable} object.
 #'
 #' @export
 setMethod(
@@ -248,14 +265,37 @@ setMethod(
 #' @rdname codonTable-class
 #' @export
 setGeneric(
+    name = "getID",
+    def = function(object){
+        standardGeneric("getID")
+    }
+)
+
+#' @describeIn codonTable Get IDs for \code{codonTable} class.
+#'
+#' @inheritParams codonCounts
+#'
+#' @export
+setMethod(
+    f = "getID",
+    signature = "codonTable",
+    definition = function(object){
+        return(object@ID)
+    }
+)
+
+#' @rdname codonTable-class
+#' @export
+setGeneric(
     name = "getlen",
     def = function(object){
         standardGeneric("getlen")
     }
 )
-#' @describeIn codonTable Get lengths of sequences in \code{codonTable} object.
+#' @describeIn codonTable
+#' Get lengths of sequences in \code{codonTable} object.
 #'
-#' @inheritParams getID
+#' @inheritParams codonCounts
 #'
 #' @export
 setMethod(
@@ -274,9 +314,10 @@ setGeneric(
         standardGeneric("getKO")
     }
 )
-#' @describeIn codonTable Get KO annotations of sequences in \code{codonTable} object.
+#' @describeIn codonTable
+#' Get KO annotations of sequences in \code{codonTable} object.
 #'
-#' @inheritParams getID
+#' @inheritParams codonCounts
 #'
 #' @export
 setMethod(
@@ -297,7 +338,7 @@ setGeneric(
 )
 #' @describeIn codonTable Set KO annotations for \code{codonTable} object.
 #'
-#' @inheritParams getID
+#' @inheritParams codonCounts
 #' @param ann A character vector of sequence annotations, must be of length
 #'    equal to \code{length(object)}.
 #'
@@ -321,9 +362,10 @@ setGeneric(
     }
 )
 
-#' @describeIn codonTable Get COG annotations of sequences in \code{codonTable} object.
+#' @describeIn codonTable
+#' Get COG annotations of sequences in \code{codonTable} object.
 #'
-#' @inheritParams getID
+#' @inheritParams codonCounts
 #'
 #' @export
 setMethod(
@@ -417,14 +459,27 @@ setMethod(
 #'
 #' @param x A \code{codonTable} object to be subset.
 #' @param subset A logical or character vector indicating which elements of
-#'    \code{object} to keep. If logical, \code{subset} should be of length
-#'    \code{nrow(counts(object))}. If character, \code{subset} should contain
-#'     at least some of the elements of either \code{getKO(codonTable)} or
-#'     \code{getCOG(codonTable)}.
+#'    \code{x} to keep. If logical, \code{subset} should be of length
+#'    \code{length(x)}. If character, \code{subset} should contain
+#'     at least some of the elements of either \code{getKO(x)} or
+#'     \code{getCOG(x)}.
 #' @inheritParams base::subset
 #'
-#' @return subsets of \code{codonTable} object, keeping in each slot only those
-#' elements that meet the criteria in \code{subset}.
+#' @return subsets of \code{codonTable} object, keeping in each slot only
+#' those elements that meet the criteria in \code{subset}.
+#'
+#' @examples
+#' # create codonTable
+#' mat <- matrix(sample(1:10, 610, replace = TRUE), nrow = 10)
+#' cT <- codonTable(mat) # produces informative warning
+#' cT
+#' subset(cT, c(rep(c(TRUE,FALSE), 5))) # subset odd sequences
+#'
+#' cT <- setKO(cT, rep(c("K00001", "K00002"), 5))
+#' subset(cT, "K00001")
+#'
+#' cT <- setCOG(cT, rep(c("COG0001", "COG0002"), 5))
+#' subset(cT, "COG0001")
 #'
 #' @rdname subset
 #' @export

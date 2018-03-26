@@ -40,3 +40,19 @@ setcolorder(COGs, c("CATEGORY","ANN","description"))
 setkey(COGs, ANN)
 
 # devtools::use_data(KO_PATHWAYS, KO_MODULES, COGs, internal = TRUE, overwrite = TRUE)
+
+s <- getKO(HD59)
+v <- as.numeric(MELP(HD59, ribosomal = TRUE))
+ct <- crossTab(s, v)
+HD59_KO <- enrichment(ct)
+ctp <- reduceCrossTab(ct, "pathway")
+HD59_PATHWAYS <- enrichment(ctp)
+
+s <- getKO(LD94)
+v <- as.numeric(MELP(LD94, ribosomal = TRUE))
+ct <- crossTab(s, v)
+LD94_KO <- enrichment(ct)
+ctp <- reduceCrossTab(ct, "pathway")
+LD94_PATHWAYS <- enrichment(ctp)
+
+# devtools::use_data(HD59_KO, HD59_PATHWAYS, LD94_KO, LD94_PATHWAYS, overwrite = TRUE)

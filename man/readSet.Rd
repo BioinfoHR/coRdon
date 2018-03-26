@@ -2,21 +2,29 @@
 % Please edit documentation in R/readSet.R
 \name{readSet}
 \alias{readSet}
-\title{Read Set}
+\title{Read set of sequences.}
 \usage{
 readSet(folder = ".", KOs = c(), zipped = FALSE)
 }
 \arguments{
 \item{folder}{Path to directory containing .fasta files.}
 
-\item{KOs}{An optional character vector of sequence annotations (e.g. KO) contained
-in the names of fasta files to be selectively read.}
+\item{KOs}{An optional character vector of sequence annotations (e.g. KO)
+contained in the names of fasta files to be selectively read.}
 
-\item{zipped}{Logical, whether \code{folder} is zipped. Default is \code{FALSE}.}
+\item{zipped}{Logical, whether \code{folder} is zipped. Default is
+\code{FALSE}.}
 }
 \value{
 Returns a \code{DNAStringSet} object.
 }
 \description{
 Reads set of fasta files stored in \code{folder}.
+}
+\examples{
+exampledir <- system.file("extdata", package = "coRdon")
+list.files(exampledir)
+readSet(exampledir)
+readSet(exampledir, KOs = "K02438")
+
 }

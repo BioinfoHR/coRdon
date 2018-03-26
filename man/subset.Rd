@@ -10,17 +10,31 @@
 \item{x}{A \code{codonTable} object to be subset.}
 
 \item{subset}{A logical or character vector indicating which elements of
-\code{object} to keep. If logical, \code{subset} should be of length
-\code{nrow(counts(object))}. If character, \code{subset} should contain
- at least some of the elements of either \code{getKO(codonTable)} or
- \code{getCOG(codonTable)}.}
+\code{x} to keep. If logical, \code{subset} should be of length
+\code{length(x)}. If character, \code{subset} should contain
+ at least some of the elements of either \code{getKO(x)} or
+ \code{getCOG(x)}.}
 
 \item{...}{further arguments to be passed to or from other methods.}
 }
 \value{
-subsets of \code{codonTable} object, keeping in each slot only those
-elements that meet the criteria in \code{subset}.
+subsets of \code{codonTable} object, keeping in each slot only
+those elements that meet the criteria in \code{subset}.
 }
 \description{
 Subset \code{codonTable} object.
+}
+\examples{
+# create codonTable
+mat <- matrix(sample(1:10, 610, replace = TRUE), nrow = 10)
+cT <- codonTable(mat) # produces informative warning
+cT
+subset(cT, c(rep(c(TRUE,FALSE), 5))) # subset odd sequences
+
+cT <- setKO(cT, rep(c("K00001", "K00002"), 5))
+subset(cT, "K00001")
+
+cT <- setCOG(cT, rep(c("COG0001", "COG0002"), 5))
+subset(cT, "COG0001")
+
 }

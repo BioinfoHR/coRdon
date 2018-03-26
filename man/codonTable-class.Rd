@@ -7,10 +7,10 @@
 \alias{codonTable,DNAStringSet-method}
 \alias{codonTable,matrix-method}
 \alias{codonTable,data.frame-method}
-\alias{getID}
-\alias{getID,codonTable-method}
 \alias{codonCounts}
 \alias{codonCounts,codonTable-method}
+\alias{getID}
+\alias{getID,codonTable-method}
 \alias{getlen}
 \alias{getlen,codonTable-method}
 \alias{getKO}
@@ -31,13 +31,13 @@ codonTable(x)
 
 \S4method{codonTable}{data.frame}(x)
 
-getID(object)
-
-\S4method{getID}{codonTable}(object)
-
 codonCounts(object)
 
 \S4method{codonCounts}{codonTable}(object)
+
+getID(object)
+
+\S4method{getID}{codonTable}(object)
 
 getlen(object)
 
@@ -60,12 +60,16 @@ setCOG(object, ann)
 \S4method{setCOG}{codonTable}(object, ann)
 }
 \arguments{
-\item{x}{An object of \code{DNAStringSet}, \code{matrix} or \code{data.frame} class.}
+\item{x}{An object of \code{DNAStringSet}, \code{matrix} or
+\code{data.frame} class.}
 
 \item{object}{A \code{codonTable} object.}
 
 \item{ann}{A character vector of sequence annotations, must be of length
 equal to \code{length(object)}.}
+}
+\value{
+A \code{codonTable}.
 }
 \description{
 Contains codon counts and optional annotation for a set DNA sequences.
@@ -74,9 +78,9 @@ Contains codon counts and optional annotation for a set DNA sequences.
 \itemize{
 \item \code{codonTable}: Create new objects of class \code{codonTable}.
 
-\item \code{getID}: Get IDs for \code{codonTable} class.
-
 \item \code{codonCounts}: Get codon counts from \code{codonTable} object.
+
+\item \code{getID}: Get IDs for \code{codonTable} class.
 
 \item \code{getlen}: Get lengths of sequences in \code{codonTable} object.
 
@@ -104,8 +108,25 @@ lengths of sequnces.}
 to \code{nrow(counts)}. If no annotation is available, this will be
 an empty vector.}
 
-\item{\code{COG}}{A character vector of COG annotations for sequences, length equal
-to \code{nrow(counts)}. If no annotation is available, this will be
-an empty vector.}
+\item{\code{COG}}{A character vector of COG annotations for sequences, length
+equal to \code{nrow(counts)}. If no annotation is available, this
+will be an empty vector.}
 }}
 
+\examples{
+# create codonTable with codon counts for sequences in DNAStringSet
+require(Biostrings)
+dna <- DNAStringSet(c("ACGAAGTGTACTGTAATTTGCACAGTACTTAAATGT",
+                      "ACGTCCGTACTGATCGATTCCGTGATT"))
+cT <- codonTable(dna)
+codonCounts(cT)
+getlen(cT)
+getKO(cT)
+cT <- setKO(cT, c("K00001", "K00002"))
+getKO(cT)
+
+# convert matrix containing codon counts to codonTable
+mat <- matrix(sample(1:10, 122, replace = TRUE), nrow = 2)
+codonTable(mat) # produces informative warning
+
+}

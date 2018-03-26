@@ -14,13 +14,26 @@ reduceCrossTab(x, target)
 \item{x}{A \code{crossTab} object to be reduced.}
 
 \item{target}{Character vector indicating which onthology to use, either
-\code{"pathway"} or \code{"module"}.}
+\code{"pathway"} or \code{"module"}, or \code{"cogfunction"}.}
 }
 \value{
-Returns input \code{crossTab} object, with updated contingency table,
-   displaying new category values in rows, and updated counts in columns.
+Returns input \code{crossTab} object, with updated contingency
+   table, displaying new category values in rows, and updated counts
+   in columns.
 }
 \description{
-Reduce the input contingency table by associating sequences with KEGG Pathway
-or KEGG Module identifiers.
+Reduce the input contingency table by associating sequences with
+KEGG Pathway, KEGG Module or COG functional category identifiers.
+}
+\examples{
+# create contingency table
+s <- getKO(HD59)
+v <- as.numeric(MELP(HD59, ribosomal = TRUE))
+ct <- crossTab(s, v)
+ct
+
+# reduce contingency table
+reduceCrossTab(ct, "pathway")
+reduceCrossTab(ct, "module")
+
 }

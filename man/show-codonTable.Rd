@@ -11,6 +11,9 @@
 \arguments{
 \item{object}{A \code{codonTable} object.}
 }
+\value{
+\code{show} returns an invisible \code{NULL}.
+}
 \description{
 Display the object of \code{codonTable} class.
 }

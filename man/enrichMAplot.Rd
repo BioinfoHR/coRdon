@@ -7,19 +7,19 @@
 \alias{enrichMAplot,AnnotatedDataFrame-method}
 \title{MA plot of enriched annotations.}
 \usage{
-enrichMAplot(x, pvalue = "pvals", alpha = 0.05)
+enrichMAplot(x, pvalue = "pvals", siglev = 0.05)
 
-\S4method{enrichMAplot}{list}(x, pvalue = "pvals", alpha = 0.05)
+\S4method{enrichMAplot}{list}(x, pvalue = "pvals", siglev = 0.05)
 
 \S4method{enrichMAplot}{AnnotatedDataFrame}(x, pvalue = "pvals",
-  alpha = 0.05)
+  siglev = 0.05)
 }
 \arguments{
 \item{x}{\code{AnnotatedDataFrame} object, or a list of those.}
 
 \item{pvalue}{Character, one of \code{c("pvals", "padj")}.}
 
-\item{alpha}{Numeric, significance level to be used for plotting.}
+\item{siglev}{Numeric, significance level to be used for plotting.}
 }
 \value{
 A \code{ggplot} object.
@@ -27,4 +27,17 @@ A \code{ggplot} object.
 \description{
 Make an MA-like plot of enriched annotations, similar to the commonly used
 plots in differential expression analysis.
+}
+\examples{
+require(ggplot2)
+
+HD59_KO
+enrichMAplot(HD59_KO)
+enrichMAplot(HD59_KO, pvalue = "padj")
+enrichMAplot(HD59_KO, siglev = 0.01)
+enrichMAplot(HD59_KO, pvalue = "padj", siglev = 0.01)
+
+x <- list(disease = LD94_KO, healthy = HD59_KO)
+enrichMAplot(x)
+
 }

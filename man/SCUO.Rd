@@ -24,17 +24,19 @@ SCUO(cTobject, id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
 \item{alt.init}{logical, whether to use alternative initiation codons.
 Default is \code{TRUE}.}
 
-\item{stop.rm}{Logical, whether to remove stop codons. Default is \code{FALSE}.}
+\item{stop.rm}{Logical, whether to remove stop codons. Default is
+\code{FALSE}.}
 
 \item{filtering}{Character vector, one of \code{c("none", "soft", "hard")}.
-Specifies whether sequences shorther than some threshold value of length
-(in codons), \code{len.threshold}, should be excluded from calculations. If
-\code{"none"} (default), length of sequences is not checked, if \code{"soft"},
-a warrning is printed if there are shorter sequences, and if \code{"hard"},
-these sequences are excluded.}
+Specifies whether sequences shorther than some threshold value of
+length (in codons), \code{len.threshold}, should be excluded from
+calculations. If \code{"none"} (default), length of sequences is not
+checked, if \code{"soft"}, a warrning is printed if there are shorter
+sequences, and if \code{"hard"}, these sequences are excluded from
+calculation.}
 
-\item{len.threshold}{Optional numeric, specifying sequence length, in codons,
-used for filtering.}
+\item{len.threshold}{Optional numeric, specifying sequence length,
+in codons, used for filtering.}
 }
 \value{
 A numeric vector with SCUO values.
@@ -43,5 +45,29 @@ A numeric vector with SCUO values.
    \href{https://www.ncbi.nlm.nih.gov/pubmed/15222899}{Wan et al. (2004)}.
 }
 \description{
-Calculate SCUO values for every sequence in the given \code{codonTable} object.
+Calculate SCUO values for every sequence in the given \code{codonTable}
+object.
+}
+\examples{
+# load example DNA sequences
+exampledir <- system.file("extdata", package = "coRdon")
+cT <- codonTable(readSet(exampledir))
+
+# calculate SCUO
+scuo <- SCUO(cT)
+head(scuo)
+
+# filtering
+SCUO(cT, filtering = "hard", len.threshold = 80) # SCUO for 9 sequences
+sum(getlen(cT) > 80) # 9 sequences are longer than 80 codons
+scuo1 <- SCUO(cT, filtering = "none") # no filtering
+scuo2 <- SCUO(cT, filtering = "soft") # warning
+all.equal(scuo1, scuo2) # TRUE
+
+# options for genetic code
+scuo <- SCUO(cT, stop.rm = TRUE) # don't use stop codons in calculation
+scuo <- SCUO(cT, alt.init = FALSE) # don't use alternative start codons
+scuo <- SCUO(cT, id_or_name2 = "2") # use different genetic code, for help
+                                    # see `?Biostrings::GENETIC_CODE`
+
 }

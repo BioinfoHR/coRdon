@@ -4,15 +4,17 @@
 \name{length-codonTable}
 \alias{length-codonTable}
 \alias{length,codonTable-method}
-\title{Length of \code{codonTable} object, i.e. the number
-of sequences for which there are codon counts contained in the object.}
+\title{Length of \code{codonTable} object.}
 \usage{
 \S4method{length}{codonTable}(x)
 }
 \arguments{
 \item{x}{A \code{codonTable} object.}
 }
+\value{
+Numeric, the length of \code{x}.
+}
 \description{
-Length of \code{codonTable} object, i.e. the number
-of sequences for which there are codon counts contained in the object.
+Length of \code{codonTable} object is the number of sequences
+for which there are codon counts contained in the object.
 }

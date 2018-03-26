@@ -1,6 +1,11 @@
-#' coRdon: A package
+#' coRdon: codone usage analysis in R
 #'
-#' Here be description...
+#' R package for analysis of codone usage in unannotated or
+#' KEGG/COG annotated DNA sequences. Calculates various
+#' measures of CU bias and CU-based predictors of gene
+#' expression, and performs gene set enrichment analysis for
+#' annotated sequences. Implements several methods for
+#' visualization of CU and enrichment analysis results.
 #'
 #' @docType package
 #' @name coRdon

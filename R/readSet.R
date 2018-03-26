@@ -1,21 +1,28 @@
-#' Read Set
+#' Read set of sequences.
 #'
 #' Reads set of fasta files stored in \code{folder}.
 #'
 #' @param folder Path to directory containing .fasta files.
-#' @param KOs An optional character vector of sequence annotations (e.g. KO) contained
-#'    in the names of fasta files to be selectively read.
-#' @param zipped Logical, whether \code{folder} is zipped. Default is \code{FALSE}.
+#' @param KOs An optional character vector of sequence annotations (e.g. KO)
+#'    contained in the names of fasta files to be selectively read.
+#' @param zipped Logical, whether \code{folder} is zipped. Default is
+#'    \code{FALSE}.
 #'
 #' @return Returns a \code{DNAStringSet} object.
+#'
+#' @examples
+#' exampledir <- system.file("extdata", package = "coRdon")
+#' list.files(exampledir)
+#' readSet(exampledir)
+#' readSet(exampledir, KOs = "K02438")
 #'
 #' @import data.table
 #' @importFrom Biostrings DNAStringSet
 #' @importFrom Biostrings readDNAStringSet
 #' @importFrom Biostrings oligonucleotideFrequency
 #' @importFrom purrr map
-#' @export
 #'
+#' @export
 readSet <- function(folder = ".",
                     KOs = c(),
                     zipped = FALSE) {

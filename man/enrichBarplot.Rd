@@ -7,13 +7,13 @@
 \alias{enrichBarplot,AnnotatedDataFrame-method}
 \title{Barplot of enriched and depleted annotations.}
 \usage{
-enrichBarplot(x, variable, pvalue = "pvals", alpha = numeric())
+enrichBarplot(x, variable, pvalue = "pvals", siglev = numeric())
 
 \S4method{enrichBarplot}{list}(x, variable, pvalue = "pvals",
-  alpha = numeric())
+  siglev = numeric())
 
 \S4method{enrichBarplot}{AnnotatedDataFrame}(x, variable, pvalue = "pvals",
-  alpha = numeric())
+  siglev = numeric())
 }
 \arguments{
 \item{x}{\code{AnnotatedDataFrame} object, or a list of those.}
@@ -23,13 +23,26 @@ plotting, must be one of \code{c("enrich","M","A")}.}
 
 \item{pvalue}{Character, one of \code{c("pvals", "padj")}.}
 
-\item{alpha}{Numeric, significance level to be used for plotting.}
+\item{siglev}{Numeric, significance level to be used for plotting.}
 }
 \value{
 A \code{ggplot} object.
 }
 \description{
 Make a barplot of enriched annotations. Bars' heights represent values of
-the chosen enrichment statistic (\code{c("enrich","M","A")}), and the colours
-represent the p values (\code{c("pvals", "padj")}).
+the chosen enrichment statistic (\code{c("enrich","M","A")}), and the
+colours represent the p values (\code{c("pvals", "padj")}).
+}
+\examples{
+require(ggplot2)
+
+HD59_PATHWAYS
+enrichBarplot(HD59_PATHWAYS, variable = "M",
+              pvalue = "padj", siglev = 0.01) +
+   labs(y = "pathway count\\nlog ratios", x = "KEGG Pathway")
+
+x <- list(disease = LD94_PATHWAYS, healthy = HD59_PATHWAYS)
+enrichBarplot(x, variable = "enrich", pvalue = "padj", siglev = 0.01) +
+    labs(y = "relative enrichment", x = "KEGG Pathway")
+
 }

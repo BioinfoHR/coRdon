@@ -34,25 +34,67 @@ against the average CU of the ribosomal genes in the sequence set.}
 \item{alt.init}{logical, whether to use alternative initiation codons.
 Default is \code{TRUE}.}
 
-\item{stop.rm}{Logical, whether to remove stop codons. Default is \code{FALSE}.}
+\item{stop.rm}{Logical, whether to remove stop codons. Default is
+\code{FALSE}.}
 
 \item{filtering}{Character vector, one of \code{c("none", "soft", "hard")}.
-Specifies whether sequences shorther than some threshold value of length
-(in codons), \code{len.threshold}, should be excluded from calculations. If
-\code{"none"} (default), length of sequences is not checked, if \code{"soft"},
-a warrning is printed if there are shorter sequences, and if \code{"hard"},
-these sequences are excluded.}
+Specifies whether sequences shorther than some threshold value of
+length (in codons), \code{len.threshold}, should be excluded from
+calculations. If \code{"none"} (default), length of sequences is not
+checked, if \code{"soft"}, a warrning is printed if there are shorter
+sequences, and if \code{"hard"}, these sequences are excluded from
+calculation.}
 
-\item{len.threshold}{Optional numeric, specifying sequence length, in codons,
-used for filtering.}
+\item{len.threshold}{Optional numeric, specifying sequence length,
+in codons, used for filtering.}
 }
 \value{
-A matrix with CAI values for every specified subset (\code{subsets},
-   \code{self}, \code{ribosomal}) in columns.
+A matrix with CAI values for every specified subset
+   (\code{subsets}, \code{self}, \code{ribosomal}) in columns.
 
    For definition of Codon Adaptation Index (CAI), see
-   \href{https://www.ncbi.nlm.nih.gov/pubmed/3547335}{Sharp and Li (1987)}.
+   \href{https://bit.ly/2HZuk8n}{Sharp and Li (1987)}.
 }
 \description{
-Calculate CAI values for every sequence in the given \code{codonTable} object.
+Calculate CAI values for every sequence in the given
+\code{codonTable} object.
+}
+\examples{
+# load example DNA sequences
+exampledir <- system.file("extdata", package = "coRdon")
+cT <- codonTable(readSet(exampledir))
+
+# calculate CAI with respect to the CU
+# of ribosomal genes among the example DNA sequences
+cai <- CAI(cT, ribosomal = TRUE)
+head(cai)
+
+# calculate CAI distance with respect to the average CU
+# of the first 20 example DNA sequences
+# (i.e. the first half of the example DNA set)
+cai <- CAI(cT, subsets = list(half = c(rep(TRUE, 20), rep(FALSE, 20))))
+
+# alternatively, you can specify codonTable as a subset
+halfcT <- codonTable(codonCounts(cT)[1:20,])
+cai2 <- CAI(cT, subsets = list(half = halfcT))
+all.equal(cai, cai2) # TRUE
+
+# filtering
+CAI(cT, ribosomal = TRUE,
+  filtering = "hard", len.threshold = 80) # CAI for 9 sequences (note that,
+                                          # accidentally, all are ribosomal)
+sum(getlen(cT) > 80) # 9 sequences are longer than 80 codons
+cai1 <- CAI(cT, ribosomal = TRUE, filtering = "none") # no filtering
+cai2 <- CAI(cT, ribosomal = TRUE, filtering = "soft") # warning
+all.equal(cai1, cai2) # TRUE
+
+# options for genetic code
+cai <- CAI(cT, ribosomal = TRUE,
+        stop.rm = TRUE) # don't use stop codons in calculation
+cai <- CAI(cT, ribosomal = TRUE,
+        alt.init = FALSE) # don't use alternative start codons
+cai <- CAI(cT, ribosomal = TRUE,
+        id_or_name2 = "2") # use different genetic code, for help
+                           # see `?Biostrings::GENETIC_CODE`
+
 }

@@ -22,7 +22,11 @@ genCode(id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE)
 \item{alt.init}{logical, whether to use alternative initiation codons.
 Default is \code{TRUE}.}
 
-\item{stop.rm}{logical, whether to remove stop codons. Default is \code{FALSE}.}
+\item{stop.rm}{logical, whether to remove stop codons. Default is
+\code{FALSE}.}
+}
+\value{
+A \code{genCode} object.
 }
 \description{
 Object of \code{genCode} class describes the variant of genetic code
@@ -41,8 +45,8 @@ amino acid.}
 
 \item{\code{codons}}{A character vector of codons.}
 
-\item{\code{stops}}{A character vector of stop codons. Note that, if \code{stop.rm} is
-\code{TRUE}, this will be an empty vector.}
+\item{\code{stops}}{A character vector of stop codons. Note that, if \code{stop.rm}
+is \code{TRUE}, this will be an empty vector.}
 
 \item{\code{nostops}}{A character vector of no-stop codons. If \code{stop.rm} is
 \code{TRUE}, this will be equal to the \code{codons} slot.}

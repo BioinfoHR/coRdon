@@ -8,37 +8,59 @@
 \title{Karlin B plot}
 \usage{
 bplot(x, y, data, annotations = character(), ribosomal = FALSE,
-  reference = list())
+  reference = list(), alpha = TRUE)
 
 \S4method{bplot}{character,character,matrix}(x, y, data,
-  annotations = character(), ribosomal = FALSE, reference = list())
+  annotations = character(), ribosomal = FALSE, reference = list(),
+  alpha = TRUE)
 
 \S4method{bplot}{numeric,numeric,missing}(x, y, data,
-  annotations = character(), ribosomal = FALSE, reference = list())
+  annotations = character(), ribosomal = FALSE, reference = list(),
+  alpha = TRUE)
 }
 \arguments{
-\item{x, y}{Character, both must be in \code{colnames(data)}, or numeric vectors
-of CU statistic values for two subsets of genes. If numeric, the vectors
-must be of the same length.}
+\item{x, y}{Character, both must be in \code{colnames(data)}, or numeric
+vectors of CU statistic values for two subsets of genes. If numeric,
+the vectors must be of the same length.}
 
-\item{data}{A matrix with CU statistic values for subsets of genes in columns.}
+\item{data}{A matrix with CU statistic values for subsets of genes
+in columns.}
 
 \item{annotations}{A character vector giving KO annotations for sequences
-for which the CU values were calculated, must be of length \code{nrow(data)}.}
+for which the CU values were calculated, must be of length
+\code{nrow(data)}.}
 
 \item{ribosomal}{Logical, whether to indicate ribosomal genes in the plot.
-Default is \code{FALSE}, if set to \code{TRUE}, then \code{annotation} must
-be given.}
+Default is \code{FALSE}, if set to \code{TRUE}, then \code{annotation}
+must be given.}
 
 \item{reference}{A named list of logical vector(s) (each of length
-\code{nrow(data)}) of reference genes to be indicated on the plot, or a named
-list of character vector(s) (of any length) of the reference genes' anotations.
-If latter is the case, then \code{annotation} must be given.}
+\code{nrow(data)}) of reference genes to be indicated on the plot, or
+a named list of character vector(s) (of any length) of the reference
+genes' anotations. If latter is the case, then \code{annotation}
+must be given.}
+
+\item{alpha}{Logical, whether to adjust transparency for plotting
+reference genes (default is \code{TRUE}). If numeric, it indicates
+the transparency value to be used for plotting all genes.}
 }
 \value{
 A \code{ggplot} object.
 }
 \description{
-Plot distances of each gene's CU frequency to specified gene (sub)sets (given by
-\code{x} and \code{y}).
+Plot distances of each gene's CU frequency to specified gene (sub)sets
+(given by \code{x} and \code{y}).
+}
+\examples{
+require(ggplot2)
+
+# calculate MILC distance to the average CU of the example DNA sequences,
+# and to the average CU of ribosomal genes among the example DNA sequences
+milc <- MILC(LD94, self = TRUE, ribosomal = TRUE)
+
+bplot(x = "ribosomal", y = "self", data = milc,
+      ribosomal = TRUE, annotations = getKO(LD94)) +
+    labs(x = "MILC distance to ribosomal genes",
+         y = "MILC distance to genes' average CU")
+
 }

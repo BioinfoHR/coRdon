@@ -22,8 +22,8 @@ to \code{getlen(cTobject)}, i.e. the number of sequences in the set, or
 character vectors (of any length) containing KEGG/eggNOG annotations,
 or codonTable objects (of any length).}
 
-\item{self}{Logical, if \code{TRUE} (default), CU statistic is also calculated
-against the average CU of the entire set of sequences.}
+\item{self}{Logical, if \code{TRUE} (default), CU statistic is also
+calculated against the average CU of the entire set of sequences.}
 
 \item{ribosomal}{Logical, if \code{TRUE}, CU statistic is also calculated
 against the average CU of the ribosomal genes in the sequence set.}
@@ -37,25 +37,67 @@ against the average CU of the ribosomal genes in the sequence set.}
 \item{alt.init}{logical, whether to use alternative initiation codons.
 Default is \code{TRUE}.}
 
-\item{stop.rm}{Logical, whether to remove stop codons. Default is \code{FALSE}.}
+\item{stop.rm}{Logical, whether to remove stop codons. Default is
+\code{FALSE}.}
 
 \item{filtering}{Character vector, one of \code{c("none", "soft", "hard")}.
-Specifies whether sequences shorther than some threshold value of length
-(in codons), \code{len.threshold}, should be excluded from calculations. If
-\code{"none"} (default), length of sequences is not checked, if \code{"soft"},
-a warrning is printed if there are shorter sequences, and if \code{"hard"},
-these sequences are excluded.}
+Specifies whether sequences shorther than some threshold value of
+length (in codons), \code{len.threshold}, should be excluded from
+calculations. If \code{"none"} (default), length of sequences is not
+checked, if \code{"soft"}, a warrning is printed if there are shorter
+sequences, and if \code{"hard"}, these sequences are excluded from
+calculation.}
 
-\item{len.threshold}{Optional numeric, specifying sequence length, in codons,
-used for filtering.}
+\item{len.threshold}{Optional numeric, specifying sequence length,
+in codons, used for filtering.}
 }
 \value{
 A matrix with B values for every specified subset (\code{subsets},
    \code{self}, \code{ribosomal}) in columns.
 
    For definition of codon usage bias (B), see
-   \href{https://www.ncbi.nlm.nih.gov/pubmed/11489855}{Karlin et al. (2001)}.
+   \href{https://bit.ly/2DRGdeb}{Karlin et al. (2001)}.
 }
 \description{
-Calculate B values for every sequence in the given \code{codonTable} object.
+Calculate B values for every sequence in the given
+\code{codonTable} object.
+}
+\examples{
+# load example DNA sequences
+exampledir <- system.file("extdata", package = "coRdon")
+cT <- codonTable(readSet(exampledir))
+
+# calculate B distance to the average CU of the example DNA sequences
+b <- B(cT)
+head(b)
+
+# also calculate B distance to the average CU
+# of ribosomal genes among the example DNA sequences
+b <- B(cT, ribosomal = TRUE)
+head(b)
+
+# calculate B distance to the average CU
+# of the first 20 example DNA sequences
+# (i.e. the first half of the example DNA set)
+b <- B(cT, self = FALSE,
+       subsets = list(half = c(rep(TRUE, 20), rep(FALSE, 20))))
+
+# alternatively, you can specify codonTable as a subset
+halfcT <- codonTable(codonCounts(cT)[1:20,])
+b2 <- B(cT, self = FALSE, subsets = list(half = halfcT))
+all.equal(b, b2) # TRUE
+
+# filtering
+B(cT, filtering = "hard", len.threshold = 80) # B values for 9 sequences
+sum(getlen(cT) > 80) # 9 sequences are longer than 80 codons
+b1 <- B(cT, filtering = "none") # no filtering
+b2 <- B(cT, filtering = "soft") # warning
+all.equal(b1, b2) # TRUE
+
+# options for genetic code
+b <- B(cT, stop.rm = TRUE) # don't use stop codons in calculation
+b <- B(cT, alt.init = FALSE) # don't use alternative start codons
+b <- B(cT, id_or_name2 = "2") # use different genetic code, for help
+                              # see `?Biostrings::GENETIC_CODE`
+
 }

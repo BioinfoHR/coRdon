@@ -1,6 +1,7 @@
 #' @include codonTable-class.R
 #' @include genCode-class.R
 #' @import data.table
+NULL
 
 .countsbyaa <- function(cTobject, gCobject)
 {
@@ -35,8 +36,8 @@
     red <- unique(deg)[unique(deg) != 1]
     favg <- sapply(red, function(x){
         cols <- which(deg == x)
-        avg <- rowSums(fa[,.SD, .SDcols=cols], na.rm = T) /
-            rowSums(fa[, .SD, .SDcols=cols] != 0, na.rm = T)
+        avg <- rowSums(fa[,.SD, .SDcols=cols], na.rm = TRUE) /
+            rowSums(fa[, .SD, .SDcols=cols] != 0, na.rm = TRUE)
         # if any redundancy class but F3 is absent
         if (x != 3)
             avg <- replace(avg, which(is.na(avg)), 1/x)

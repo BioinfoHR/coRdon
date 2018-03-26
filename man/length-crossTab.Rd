@@ -4,15 +4,17 @@
 \name{length-crossTab}
 \alias{length-crossTab}
 \alias{length,crossTab-method}
-\title{Length of \code{crossTab} object, i.e. the number of
-sequences for which the contingency table is contained in the object.}
+\title{Length of \code{crossTab} object.}
 \usage{
 \S4method{length}{crossTab}(x)
 }
 \arguments{
 \item{x}{A \code{crossTab} object.}
 }
+\value{
+Numeric, the length of \code{x}.
+}
 \description{
-Length of \code{crossTab} object, i.e. the number of
-sequences for which the contingency table is contained in the object.
+The length of \code{crossTab} is number of sequences for which
+the contingency table is contained in the object.
 }

@@ -1,21 +1,24 @@
 Package: coRdon
 Type: Package
-Title: Codon usage analysis and prediction of expression
-Version: 0.1.0
+Title: Codon Usage Analysis and Prediction of Expression
+Version: 0.99.1
 Date: 2015-07-21
-Author: Fabijanic M., Vlahovicek K.
-Maintainer: Maja Fabijanic <mfabijanic@bioinfo.hr>
+Author: Elek A., Kuzman M., Vlahovicek K.
+Maintainer: Elek Anamaria <anamariaelek@gmail.com>
 Description: Tool for analysis of codone usage in various 
-  unannotated or KEGG/eggNOG annotated DNA sequences. Calculates
-  various measures of CU and CU-based predictors of gene expression,
-  and performs gene set enrichment analysis for annotated sequences.
-  Implements several methods for visualization of CU and enrichment
-  analysis results.
+    unannotated or KEGG/COG annotated DNA sequences. 
+	Calculates different measures of CU bias and CU-based
+	predictors of gene expression, and performs gene set 
+	enrichment analysis for annotated sequences.
+	Implements several methods for visualization of CU
+	and enrichment analysis results.
 License: Artistic-2.0
 LazyData: TRUE
-Depends: R (>= 2.10), methods
+biocViews: Software, Metagenomics, GeneExpression, GeneSetEnrichment,
+    Visualization, KEGG, Pathways
+Depends: R (>= 3.4), methods
 Imports: Biostrings, Biobase, data.table, purrr, ggplot2
-Suggests: testthat
+Suggests: testthat, knitr, rmarkdown
 RoxygenNote: 6.0.1
 Collate: 
     'coRdon.R'
@@ -25,8 +28,9 @@ Collate:
     'codonUsage.R'
     'codonUsage-expressivity.R'
     'codonUsage-visualization.R'
-    'constants.R'
     'crossTab-class.R'
+    'data.R'
     'enrichment-visualization.R'
     'enrichment.R'
     'readSet.R'
+VignetteBuilder: knitr

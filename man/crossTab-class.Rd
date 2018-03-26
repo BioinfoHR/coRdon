@@ -53,7 +53,8 @@ Returns a \code{crossTab} object with category values in rows, and
    for diferrent thresholds/percentiles provided.
 }
 \description{
-Contingency table of sequences' annotations and the corresponding numeric values.
+Contingency table of sequences' annotations and the corresponding numeric
+values.
 }
 \section{Methods (by generic)}{
 \itemize{
@@ -71,10 +72,23 @@ table in \code{crossTab} object.
 \section{Slots}{
 
 \describe{
-\item{\code{sequences}}{Character vector of sequences annotations (KO, COG).}
+\item{\code{sequences}}{Character vector of sequences annotations.}
 
 \item{\code{variable}}{Numeric vector of the coresponding CU values.}
 
 \item{\code{table}}{Contingecy table.}
 }}
 
+\examples{
+set.seed(5491)
+s <- sample(LETTERS[1:3], 10, replace = TRUE)
+v <- sample(1:5, 10, replace = TRUE)
+crossTab(s, v)
+crossTab(s, v, threshold = c(3,5))
+crossTab(s, v, threshold = NULL, percentiles = c(0.5, 0.3))
+ct <- crossTab(s, v)
+contable(ct)
+getSeqAnnot(ct)
+getVariable(ct)
+
+}

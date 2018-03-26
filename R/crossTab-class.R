@@ -5,11 +5,24 @@ NULL
 
 #' An S4 class \code{crossTab}
 #'
-#' Contingency table of sequences' annotations and the corresponding numeric values.
+#' Contingency table of sequences' annotations and the corresponding numeric
+#' values.
 #'
-#' @slot sequences Character vector of sequences annotations (KO, COG).
+#' @slot sequences Character vector of sequences annotations.
 #' @slot variable Numeric vector of the coresponding CU values.
 #' @slot table Contingecy table.
+#'
+#' @examples
+#' set.seed(5491)
+#' s <- sample(LETTERS[1:3], 10, replace = TRUE)
+#' v <- sample(1:5, 10, replace = TRUE)
+#' crossTab(s, v)
+#' crossTab(s, v, threshold = c(3,5))
+#' crossTab(s, v, threshold = NULL, percentiles = c(0.5, 0.3))
+#' ct <- crossTab(s, v)
+#' contable(ct)
+#' getSeqAnnot(ct)
+#' getVariable(ct)
 #'
 setClass(
     "crossTab",
@@ -107,6 +120,8 @@ setMethod(
 #'
 #' @param object A \code{crossTab} object.
 #'
+#' @return \code{show} returns an invisible \code{NULL}.
+#'
 #' @export
 setMethod(
     f = "show",
@@ -124,8 +139,10 @@ setMethod(
     }
 )
 
-#' Length of \code{crossTab} object, i.e. the number of
-#' sequences for which the contingency table is contained in the object.
+#' Length of \code{crossTab} object.
+#'
+#' The length of \code{crossTab} is number of sequences for which
+#' the contingency table is contained in the object.
 #'
 #' @docType methods
 #' @name length-crossTab
@@ -133,6 +150,8 @@ setMethod(
 #' @aliases length-crossTab length,crossTab-method
 #'
 #' @param x A \code{crossTab} object.
+#'
+#' @return Numeric, the length of \code{x}.
 #'
 #' @export
 setMethod(
@@ -226,7 +245,8 @@ reduce.contable <- function(contable, target) {
     tt <- sapply(values, function(x){
         anns <- DT[CATEGORY == x, ANN]
         if (any(anns %in% contable[,category]))
-            contable[category %in% anns, lapply(.SD, sum), .SDcols = names(contable)[-1]]
+            contable[category %in% anns,
+                     lapply(.SD, sum), .SDcols = names(contable)[-1]]
         else NULL
     }, simplify = FALSE, USE.NAMES = TRUE)
     out <- Filter(Negate(is.null), tt)
@@ -235,15 +255,27 @@ reduce.contable <- function(contable, target) {
 
 #' Reduce \code{crossTab}.
 #'
-#' Reduce the input contingency table by associating sequences with KEGG Pathway
-#' or KEGG Module identifiers.
+#' Reduce the input contingency table by associating sequences with
+#' KEGG Pathway, KEGG Module or COG functional category identifiers.
 #'
 #' @param x A \code{crossTab} object to be reduced.
 #' @param target Character vector indicating which onthology to use, either
-#'    \code{"pathway"} or \code{"module"}.
+#'    \code{"pathway"} or \code{"module"}, or \code{"cogfunction"}.
 #'
-#' @return Returns input \code{crossTab} object, with updated contingency table,
-#'    displaying new category values in rows, and updated counts in columns.
+#' @return Returns input \code{crossTab} object, with updated contingency
+#'    table, displaying new category values in rows, and updated counts
+#'    in columns.
+#'
+#' @examples
+#' # create contingency table
+#' s <- getKO(HD59)
+#' v <- as.numeric(MELP(HD59, ribosomal = TRUE))
+#' ct <- crossTab(s, v)
+#' ct
+#'
+#' # reduce contingency table
+#' reduceCrossTab(ct, "pathway")
+#' reduceCrossTab(ct, "module")
 #'
 #' @rdname reduceCrossTab
 #' @export

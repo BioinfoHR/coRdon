@@ -11,23 +11,41 @@ enrich.matrix(x, variable, replace.na = TRUE)
 \S4method{enrich.matrix}{list}(x, variable, replace.na = TRUE)
 }
 \arguments{
-\item{x}{list of \code{enrich.data.frame} objects}
+\item{x}{list of \code{AnnotatedDataFrame} objects}
 
 \item{variable}{Character, indicating the statistic values to extract from
-\code{enrich.data.frame} objects in x, must be one of \code{c("enrich","M","A")}.}
+\code{enrich.data.frame} objects in x, must be one of
+\code{c("enrich","M","A")}.}
 
 \item{replace.na}{logical, whether to replace NA values in the output.
-If `TRUE` (default), NAs will be replaced by 0. Alternatively, if numueric,
-NAs will be replaced by that given value.}
+If `TRUE` (default), NAs will be replaced by 0. Alternatively,
+if numueric, NAs will be replaced by that given value.}
 }
 \value{
-\code{matrix} with sequences' annotations as rows, and variable values
-  for different samples as columns.
+\code{matrix} with sequences' annotations as rows, and variable
+  values for different samples as columns.
 }
 \description{
-Extract enrichment values from multiple samples, i.e. \code{AnnotatedDataFrame}
-objects. Note that the samples should contain annotations of the same type
-(i.e. the same ontology). The data in matrix format can be easily used in
-different types of downstream analyses, such as GAGE, and visualised,
-e.g. using a heatmap.
+Extract enrichment values from multiple samples, i.e.
+\code{AnnotatedDataFrame} objects. Note that the samples should contain
+annotations of the same type (i.e. the same ontology). The data in matrix
+format can be easily used in different types of downstream analyses,
+such as GAGE, and visualised, e.g. using a heatmap.
+}
+\examples{
+require(Biobase)
+
+# create contingency table
+s <- getKO(HD59)
+v <- as.numeric(MELP(HD59, ribosomal = TRUE))
+ct <- crossTab(s, v, percentiles = 0.05)
+
+# enrichment analysis
+enr <- enrichment(ct)
+enr # for help, see `?Biobase::AnnotatedDataFrame`
+head(pData(enr$top_0.05))
+head(pData(enr$gt_1))
+enrm <- enrich.matrix(enr, "M")
+head(enrm)
+
 }
