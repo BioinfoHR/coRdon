@@ -1,8 +1,18 @@
 ---
 title: "coRdon"
 author: "Anamaria Elek"
+package: coRdon
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+abstract: >
+  `coRdon` provides tools for analysis of codone usage (CU)
+  in various unannotated or KEGG/COG annotated DNA sequences.
+  Funcionalities include: calculation of different CU bias statistics
+  and CU-based predictors of gene expression, gene set enrichment analysis
+  for annotated sequences, and several methods for visualization 
+  of CU and enrichment analysis results. 
+output: 
+  BiocStyle::html_document:
+    toc_float: TRUE
 vignette: >
   %\VignetteIndexEntry{coRdon}
   %\VignetteEngine{knitr::rmarkdown}
@@ -10,27 +20,38 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-#library(coRdon)
-library(ggplot2)
-#library(Biostrings)
-#library(Biobase)
+```{r style, echo = FALSE, results = 'asis'}
+BiocStyle::markdown()
 ```
 
-Not all synonymous codons are used equally often in prokaryotic genomes - this selective preference is termed *codon usage (CU) bias*, and is an independent determinant of gene expression regulation at the translational level. Those synonymous codons corresponding to the most abundant tRNA species are considered “optimal” for translation. Codon usage bias can therfore be used to predict the relative expression levels of genes, by comparing CU bias of a gene to the CU bias of a set of genes known to be highly expressed.  
+```{r setup, echo = FALSE, message = FALSE, warning = FALSE}
+library(knitr)
+opts_chunk$set(comment = NA,
+               fig.align = "center",
+               warning = FALSE,
+               cache = FALSE)
+#library(coRdon)
+dir <- getwd()
+setwd("/Users/Maja/Documents/Anamaria/coRdon/")
+devtools::load_all(".")
+setwd(dir)
+library(ggplot2)
+library(Biostrings)
+library(Biobase)
+```
+
+# Introduction
+
+Not all synonymous codons are used equally often in prokaryotic genomes - this selective preference is termed **codon usage (CU) bias**, and is an independent determinant of gene expression regulation at the translational level. Those synonymous codons corresponding to the most abundant tRNA species are considered optimal for translation. Codon usage bias can therfore be used to predict the relative expression levels of genes, by comparing CU bias of a gene to the CU bias of a set of genes known to be highly expressed.  
 
 This approach can be efficiently used at to predict highly expressed genes in a single genome, but is especially useful at the higher level of an entire metagenome. It has been shown that, as well as being present within the genome, CU bias is shared among the microbial spieces in the same environment. By analysing CU bias of a metagenome, one can identify genes with high predicted expression across the entire microbial community, and determine which are the enriched functions within the community, i.e. its 'functional fingerprint'.  
 
 A typical workflow for analysing CU bias includes:  
-* calculating one of the CU statistics  
-* comparing CU of every sequence (ORF, gene) to average CU of a set of highly expressed genes  
-* functional enrichment analysis for the subset of genes that have CU similar to a reference set of highly expressed genes, and are therfore predicted to be highly expressed themselves.  
+  * calculating one of the CU statistics  
+  * comparing CU of every sequence (ORF, gene) to average CU of a set of highly expressed genes  
+  * functional enrichment analysis for the subset of genes that have CU similar to a reference set of highly expressed genes, and are therfore predicted to be highly expressed themselves.  
 
-### Loading sequences
+# Loading sequences
 
 Sequences from human gut microbiome samples of healthy individuals and liver chirosis patients ([Quin et al. 2014](https://go.nature.com/2G7QdpC)) were processed, assembeled and used to predict ORFs, which were then annotated with a KO (KEGG orthology) function ([Fabijanic and Vlahovicek 2016](https://bit.ly/2DRfiz6)).  
 
@@ -47,7 +68,8 @@ LD94
 
 ```{r}
 head(codonCounts(HD59), 3)
-getlen(HD59)
+l <- getlen(HD59)
+head(l)
 length(HD59)
 ```
 
@@ -57,7 +79,7 @@ We can get get IDs, KO or COG annotations in a similar way, if these are present
 head(getKO(HD59))
 ```
 
-### Calculate CU bias
+# Calculate CU bias
 
 Now we can calculate CU bias for every sequence. There are many stasitics that measure codon usage, and several widely used ones are implemented in coRdon. For example, Measure Independent of Length and Composition (MILC) can be calculated for sequences in the `codonTable` like so:
 
@@ -85,10 +107,19 @@ milc <- MILC(HD59, filtering = "soft")
 
 We can visually inspect distribution of sequence lengths, extracted from `codonTable` object using `getlen()`:
 
-```{r fig.keep='all'}
+```{r}
 lengths <- getlen(HD59)
 hist(lengths, breaks = 60)
 abline(v = 80, col="red")
+```
+```{r include=FALSE}
+library(ggplot2)
+lengths <- as.data.frame(getlen(HD59))
+colnames(lengths) <- "length"
+ggplot(lengths, aes(length)) + 
+    geom_histogram(binwidth = 20) +
+    geom_vline(xintercept = 80) +
+    theme_light()
 ```
 
 Now we calculate MILC values with respect to overall sample CU and ribosomal genes CU, removing beforehand sequences shorter than 80 codons (default value, use `len.threshold` to change this):
@@ -101,30 +132,52 @@ Other CU statistics can be calculated in the same way as `MILC()`, using one of 
 
 Some additional arguments that can be set when calculating CU statistics are `id_or_name2`, for choosing a genetic code variant (see help for `getGeneticCode()` function in Biostrings package), `alt.init` for alternative initiation codons, `stop.rm` for removal of STOP codons.
 
+## Visualisation of CU bias
+
 Now we can visualize CU bias for every gene on the B plot.  
+
 Here, every gene is represented by a single point on the plot, its coordinates determined by distance of genes' CU bias to overall CU bias ("self", on y axis) and to CU bias of reference genes ("ribosomal", on x axis).  
 `x` and `y` are names of columns in a matrix given as `data` argument, they can alternatevly be numeric vectors (of the same length), containing values of the CU statistic we wish to plot one against the other.
 
+
 ```{r}
 library(ggplot2)
-bplot(x = "ribosomal", y = "self", data = milc) +
-    labs(x = "MILC distance from ribosomal genes",
-         y = "MILC distance from sample centroid")
+
+xlab <- "MILC distance from sample centroid"
+ylab <- "MILC distance from ribosomal genes"
+
+milc_HD59 <- MILC(HD59, ribosomal = TRUE)
+
+Bplot(x = "ribosomal", y = "self", data = milc_HD59) +
+    labs(x = xlab, y = ylab)
+milc_LD94 <- MILC(LD94, ribosomal = TRUE)
+
+Bplot(x = "ribosomal", y = "self", data = milc_LD94) +
+    labs(x = xlab, y = ylab)
 ```
 
-The argument `annotations` need to be specified when we wish to indicate certain genes on the plot. For example, to indicate ribosomal genes, provide character vector of annotations corresponding to values in `x`, `y` and `data`, and set `ribosomal = TRUE`. Note that, since we filtered sequences when calculating MILC, we now need to provide the annotations for those sequences only.
+We can already see that the genes in the healthy and diseased sample have different CU patterns.  
+
+The argument `annotations` need to be specified when we wish to indicate certain genes on the plot. For example, to indicate ribosomal genes, provide character vector of annotations corresponding to values in `x`, `y` and `data`, and set `ribosomal = TRUE`. Note that, if we filtered sequences when calculating MILC, we need to provide the annotations for those sequences only.
 
 ```{r}
 genes <- getKO(HD59)[getlen(HD59) > 80]
-bplot(x = "ribosomal", y = "self", data = milc,
+Bplot(x = "ribosomal", y = "self", data = milc,
       annotations = genes, ribosomal = TRUE) +
-    labs(x = "MILC distance from ribosomal genes",
-         y = "MILC distance from sample centroid")
+    labs(x = xlab, y = ylab)
 ```
 
-To indicate any other gene(s), use `reference` argument. `reference` takes logical vector in which `TRUE` corresponds (by position) to genes that are to be indicated on the plot, and `FALSE` to all the othe genes, or character vector of annotations for the genes to be indicated on the plot.
+To indicate any other gene(s), use `reference` argument. `reference` takes a list of length 1, containing either a logical vector in which `TRUE` corresponds (by position) to genes that are to be indicated on the plot, and `FALSE` to all the other genes, or a character vector of annotations for the genes to be indicated on the plot.
 
-### Predict genes' expressivity
+Another interesting way to visualise codon usage is to plot the CU distances between the two samples on the B plot. This can be done using `intraBplot()` function which takes as arguments two `codonTable` objects and a character indicating which CU statistic to plot. We can also choose to indicate ribosomal genes on the plot by setting `ribosomal = TRUE`, these genes will now be shown as stronger points on the plot.
+
+```{r}
+intraBplot(HD59, LD94, names = c("HD59", "LD94"), 
+           variable = "MILC", 
+           ribosomal = TRUE)
+```
+
+# Predict genes' expressivity
 
 Next, we predict expression levels of genes in each sample, with ribosomal genes once again used as a reference. There are several measures of CU-based gene expressivity implemented in coRdon. Here we calculate values of MILC-based Expression Level Predictor (MELP), with respect to ribosomal genes, and excluding sequencs shorter than 80 codons (this is the default value of `len.threshold`):
 
@@ -137,7 +190,7 @@ Other statistics that measure gene expresivity can be calculated analogously, us
 
 Genes from a single sample with high expressivity values (e.g. MILC greater than 1) are considered to be optimized for translation in that sample. If annotation for genes is available, we can perform enrichment analysis in order to determine which functions are significantly enriched in any given sample.  
 
-### Enrichment of functions within highly expressed genes in metagenomes.
+# Functional annotation
 
 We can identify most significantly enriched or depleted functions in the set of annotated genes predicted to have high expression level.  
 For a single sample, we first create a contingency table summarising counts of genes annotated to each KO category among all the genes in sample, and among those predicted to be highly expressed. We do this using `crossTab()` function, giving it a character vector of genes' annotations, and a numeric vector of their respective MELP values, and specifying that a subset of highly expressed reference genes should contain those genes that have MELP value grater than 1 (this is default value of threshold). 
@@ -176,8 +229,11 @@ The output is an object of `AnnotatedDataFrame` class from Biobase package.  The
 
 ```{r}
 require(Biobase)
-pData(enr)
+enr_data <- pData(enr)
+head(enr_data)
 ```
+
+## Visualisation of enrichment
 
 We can plot enriched and depleted KO categories on a MA plot, with significant enrichment or depletion defined as those having the p value, `pvals`, below the level of significance `siglev` 0.05 (these are also default parameters).  
 
@@ -196,24 +252,42 @@ We can then perform enrichment analysis using the reduced contingency table.
 
 ```{r}
 enrpath <- enrichment(ctpath)
-pData(enrpath)
+enrpath_data <- pData(enrpath)
+head(enrpath_data)
 ```
 
 Another way to visualize the enrichment would be by plotting the results on a barplot. Here bars are coloured by level of significance, `padj`, whereas their height is the relative enrichment `"enrich"` (can also be mean average of scaled counts, `"A"`, or scaled counts ratio, `"M"`). If we specify `siglev`, only those categories for which associated `pvalue` ("pvals" or "padj") is below the given value will be ploted.  
 
 ```{r}
 enrichBarplot(enrpath, variable = "enrich", 
-              pvalue = "padj", siglev = 0.05)
+              pvalue = "padj", siglev = 0.05) +
+        theme(axis.text.x = element_text(size = 7))
 ```
+
+# Integration
 
 In order to pipe the results from CU analysis in various downstream applications, it is useful to have the data from different samples in a single matrix, with sequences (genes) in rows and values for different samples in columns. This can be achieved with `enrich.matrix()` function.  
 
-For example, if we performed CU-based enrichment analysis on the two metagenomic samples described at the beginning of this vignette, and wanted to see how the results compare by plotting them on a heatmap (e.g. using the amazing ComplexHeatmap package), we could do the following:
+For example, if we performed CU-based enrichment analysis on the two metagenomic samples described at the beginning of this vignette, and wanted to see how the results compare by plotting them on a heatmap (e.g. using the ComplexHeatmap package), we could do the following:
 
 ```{r}
+melpHD59 <- MELP(HD59, ribosomal = TRUE, 
+                 filtering = "hard", len.threshold = 100)
+genesHD59 <- getKO(HD59)[getlen(HD59) > 100]
 
+melpLD94 <- MELP(LD94, ribosomal = TRUE, 
+                 filtering = "hard", len.threshold = 100)
+genesLD94 <- getKO(LD94)[getlen(LD94) > 100]
+
+ctHD59 <- crossTab(genesHD59, as.numeric(melpHD59))
+ctLD94 <- crossTab(genesLD94, as.numeric(melpLD94))
+
+enrHD59 <- enrichment(ctHD59)
+enrLD94 <- enrichment(ctLD94)
+
+mat <- enrich.matrix(list(HD59 = enrHD59, LD94 = enrLD94), 
+                     variable = "enrich")
+head(mat)
 ```
 
-```{r}
-
-```
+Thus created matrix, with genes in rows and samples in columns, can be directly used as an argument to `Heatmap()` function for plotting.
