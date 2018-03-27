@@ -40,9 +40,8 @@ on the plot, or a character vector (of any length) of the reference
 genes' anotations. If latter is the case, then \code{annotation}
 must be given.}
 
-\item{alpha}{Logical, whether to adjust transparency for plotting
-reference genes (default is \code{TRUE}). If numeric, it indicates
-the transparency value to be used for plotting all genes.}
+\item{alpha}{Numeric, between 0 and 1, indicating transparency value
+for plotting (default is 0.1).}
 }
 \value{
 A \code{ggplot} object.

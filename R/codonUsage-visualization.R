@@ -157,6 +157,12 @@ setMethod(
 #'
 #' @examples
 #' require(ggplot2)
+#' # calculate MILC distance to the average CU of the example DNA sequences,
+#' # and to the average CU of ribosomal genes among the example DNA sequences
+#' milc <- MILC(LD94, self = TRUE, ribosomal = TRUE)
+#'
+#' intraBplot(x = HD59, y = LD94, names = c("HD59", "LD94"),
+#'            variable = "MILC")
 #'
 #' @rdname intraBplot
 #' @export

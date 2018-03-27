@@ -6,10 +6,11 @@
 \alias{intraBplot,codonTable,codonTable-method}
 \title{Intra-samples Karlin B plot}
 \usage{
-intraBplot(x, y, names = c("x", "y"), variable, ribosomal = FALSE)
+intraBplot(x, y, names = c("x", "y"), variable, ribosomal = FALSE,
+  alpha = 0.1)
 
 \S4method{intraBplot}{codonTable,codonTable}(x, y, names = c("x", "y"),
-  variable, ribosomal = FALSE)
+  variable, ribosomal = FALSE, alpha = 0.1)
 }
 \arguments{
 \item{x, y}{Objects of \code{codonTable} class.}
@@ -22,6 +23,9 @@ the following: \code{c("MILC", "B", "MCB", "ENCprime")}.}
 
 \item{ribosomal}{Logical, whether to indicate ribosomal genes in the plot.
 Default is \code{FALSE}.}
+
+\item{alpha}{Numeric, between 0 and 1, indicating transparency value
+for plotting (default is 0.1).}
 }
 \value{
 A \code{ggplot} object.
@@ -32,5 +36,11 @@ Plot CU frequency distances between two samples
 }
 \examples{
 require(ggplot2)
+# calculate MILC distance to the average CU of the example DNA sequences,
+# and to the average CU of ribosomal genes among the example DNA sequences
+milc <- MILC(LD94, self = TRUE, ribosomal = TRUE)
+
+intraBplot(x = HD59, y = LD94, names = c("HD59", "LD94"),
+           variable = "MILC")
 
 }
