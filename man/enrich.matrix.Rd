@@ -11,7 +11,7 @@ enrich.matrix(x, variable, replace.na = TRUE)
 \S4method{enrich.matrix}{list}(x, variable, replace.na = TRUE)
 }
 \arguments{
-\item{x}{list of \code{AnnotatedDataFrame} objects}
+\item{x}{A named list of \code{AnnotatedDataFrame} objects.}
 
 \item{variable}{Character, indicating the statistic values to extract from
 \code{enrich.data.frame} objects in x, must be one of

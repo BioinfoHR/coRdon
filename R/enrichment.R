@@ -151,7 +151,7 @@ setMethod(
 #' format can be easily used in different types of downstream analyses,
 #' such as GAGE, and visualised, e.g. using a heatmap.
 #'
-#' @param x list of \code{AnnotatedDataFrame} objects
+#' @param x A named list of \code{AnnotatedDataFrame} objects.
 #' @param variable Character, indicating the statistic values to extract from
 #'    \code{enrich.data.frame} objects in x, must be one of
 #'    \code{c("enrich","M","A")}.

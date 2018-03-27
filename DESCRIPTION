@@ -18,7 +18,7 @@ biocViews: Software, Metagenomics, GeneExpression, GeneSetEnrichment,
     Visualization, KEGG, Pathways
 Depends: R (>= 3.4), methods
 Imports: Biostrings, Biobase, data.table, purrr, ggplot2
-Suggests: testthat, knitr, rmarkdown
+Suggests: BiocStyle, testthat, knitr, rmarkdown
 RoxygenNote: 6.0.1
 Collate: 
     'coRdon.R'
