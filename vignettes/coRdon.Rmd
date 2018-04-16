@@ -30,11 +30,7 @@ opts_chunk$set(comment = NA,
                fig.align = "center",
                warning = FALSE,
                cache = FALSE)
-#library(coRdon)
-dir <- getwd()
-setwd("/Users/Maja/Documents/Anamaria/coRdon/")
-devtools::load_all(".")
-setwd(dir)
+library(coRdon)
 library(ggplot2)
 library(Biostrings)
 library(Biobase)
@@ -44,12 +40,13 @@ library(Biobase)
 
 Not all synonymous codons are used equally often in prokaryotic genomes - this selective preference is termed **codon usage (CU) bias**, and is an independent determinant of gene expression regulation at the translational level. Those synonymous codons corresponding to the most abundant tRNA species are considered optimal for translation. Codon usage bias can therfore be used to predict the relative expression levels of genes, by comparing CU bias of a gene to the CU bias of a set of genes known to be highly expressed.  
 
-This approach can be efficiently used at to predict highly expressed genes in a single genome, but is especially useful at the higher level of an entire metagenome. It has been shown that, as well as being present within the genome, CU bias is shared among the microbial spieces in the same environment. By analysing CU bias of a metagenome, one can identify genes with high predicted expression across the entire microbial community, and determine which are the enriched functions within the community, i.e. its 'functional fingerprint'.  
+This approach can be efficiently used to predict highly expressed genes in a single genome, but is especially useful at the higher level of an entire metagenome. It has been shown that, as well as being present within the genome, CU bias is shared among the microbial spieces in the same environment. By analysing CU bias of a metagenome, one can identify genes with high predicted expression across the entire microbial community, and determine which are the enriched functions within the community, i.e. its 'functional fingerprint'.  
 
-A typical workflow for analysing CU bias includes:  
-  * calculating one of the CU statistics  
-  * comparing CU of every sequence (ORF, gene) to average CU of a set of highly expressed genes  
-  * functional enrichment analysis for the subset of genes that have CU similar to a reference set of highly expressed genes, and are therfore predicted to be highly expressed themselves.  
+A typical workflow for analysing CU bias includes:
+
+* calculating one of the CU statistics
+* comparing CU of every sequence (ORF, gene) to average CU of a set of highly expressed genes
+* functional enrichment analysis for the subset of genes that have CU similar to a reference set of highly expressed genes, and are therfore predicted to be highly expressed themselves.  
 
 # Loading sequences
 
@@ -67,16 +64,18 @@ LD94
 `codonTable` object stores codon counts for each sequence, as well as some additional metadata, namely sequence ID infered from a .fasta file or DNAStringSet object, sequence length in codons and KO / COG annotation. Note that not all of these need be present in every `codonTable` object - only the codon counts, and inferred lengths are mandatory. They can be accesed using `codonCounts()` and `getlen()` (not to be confused with `length()` which returns number of sequences in a `codonTable` object):
 
 ```{r}
-head(codonCounts(HD59), 3)
+cc <- codonCounts(HD59)
+head(cc)
 l <- getlen(HD59)
 head(l)
 length(HD59)
 ```
 
-We can get get IDs, KO or COG annotations in a similar way, if these are present:
+We can get IDs, KO or COG annotations in a similar way, if these are present:
 
 ```{r}
-head(getKO(HD59))
+ko <- getKO(HD59)
+head(ko)
 ```
 
 # Calculate CU bias
@@ -99,7 +98,7 @@ Alternatively, instead of using ribosomal genes, we could use a `subsets` argume
 
 Also of note, `self`,`ribosomal` and `subsets` arguments can be combined, and MILC calculated for all sequences, with respect to each of thus specified reference sets of genes.  
 
-Another important consideration is that MILC, like most of the other CU bias statistics (and contrary to its name), is dependent on the length of sequence for which it is calculated. In order to obtain meaningful values, it is recommended that sequences should be least 80 codons long. To that end, either soft or hard filtering step can be included in calculation of CU statistics. Hard filtering will remove all of the sequences from `codonTable` that are shorter than some specified threshold (length in codons), whereas soft filtering will produce a message if there are such sequences in the set, but will not remove them.
+Another important consideration is that MILC, like most of the other CU bias statistics (and contrary to its name), is still somewhat dependent on the length of sequence for which it is calculated, and in order to obtain meaningful values, it is recommended that sequences should be at least 80 codons long. To that end, either soft or hard filtering step can be included in calculation of CU statistics. Hard filtering will remove all of the sequences from `codonTable` that are shorter than some specified threshold (length in codons, default is 80), whereas soft filtering will produce a message if there are such sequences in the set, but will not remove them.
 
 ```{r warning=TRUE}
 milc <- MILC(HD59, filtering = "soft")
@@ -122,13 +121,13 @@ ggplot(lengths, aes(length)) +
     theme_light()
 ```
 
-Now we calculate MILC values with respect to overall sample CU and ribosomal genes CU, removing beforehand sequences shorter than 80 codons (default value, use `len.threshold` to change this):
+Now we calculate MILC values with respect to overall sample CU and ribosomal genes CU, removing beforehand sequences shorter than 80 codons (use `len.threshold` argument to specify differnt value of threshold):
 
 ```{r}
 milc <- MILC(HD59, ribosomal = TRUE, filtering = "hard")
 ```
 
-Other CU statistics can be calculated in the same way as `MILC()`, using one of the functions: `B()`, `MCB()`, `ENCprime()`, `ENC()` or `SCUO()`. Note however, that when calculating ENC and SCUO, one need not provide a subset of reference genes, because these statistics measure distance in codon usage to uniform usage of synonymous codons.  
+Other CU statistics can be calculated in the same way as `MILC()`, using one of the functions: `B()`, `MCB()`, `ENCprime()`, `ENC()` or `SCUO()`. Note however, that when calculating ENC and SCUO, one doesn't need to provide a subset of reference genes, because these statistics measure distance in codon usage to uniform usage of synonymous codons.  
 
 Some additional arguments that can be set when calculating CU statistics are `id_or_name2`, for choosing a genetic code variant (see help for `getGeneticCode()` function in Biostrings package), `alt.init` for alternative initiation codons, `stop.rm` for removal of STOP codons.
 
@@ -193,6 +192,7 @@ Genes from a single sample with high expressivity values (e.g. MILC greater than
 # Functional annotation
 
 We can identify most significantly enriched or depleted functions in the set of annotated genes predicted to have high expression level.  
+
 For a single sample, we first create a contingency table summarising counts of genes annotated to each KO category among all the genes in sample, and among those predicted to be highly expressed. We do this using `crossTab()` function, giving it a character vector of genes' annotations, and a numeric vector of their respective MELP values, and specifying that a subset of highly expressed reference genes should contain those genes that have MELP value grater than 1 (this is default value of threshold). 
 
 ```{r}
@@ -235,13 +235,13 @@ head(enr_data)
 
 ## Visualisation of enrichment
 
-We can plot enriched and depleted KO categories on a MA plot, with significant enrichment or depletion defined as those having the p value, `pvals`, below the level of significance `siglev` 0.05 (these are also default parameters).  
+We can plot enriched and depleted KO categories on an MA plot, with significant enrichment or depletion defined as those having the p-value below the level of significance `siglev` 0.05 (these are default parameters, one can also use adjusted p-value, by setting `pvalue` = "padj", and different values of `siglev`).  
 
 ```{r}
 enrichMAplot(enr, pvalue = "pvals", siglev = 0.05)
 ```
 
-In order to determine functions that are enriched among highly expressed genes, we need to map KO annotations to a broader onthology. This can be done using `reduceCrossTab()` method which can take a `crossTab` object as its first argument, and map KO categories to either KEGG Pathway, KEGG Module, or COG functional categories, depending on the value of `target` argument.  
+In order to determine functions that are enriched among highly expressed genes, we need to map KO annotations to a broader onthology. This can be done using `reduceCrossTab()` method which takes a `crossTab` object as its first argument, and maps KO categories to either KEGG Pathway, KEGG Module, or COG functional categories, depending on the value of `target` argument.  
 
 ```{r}
 ctpath <- reduceCrossTab(ct, target = "pathway")
@@ -271,6 +271,7 @@ In order to pipe the results from CU analysis in various downstream applications
 For example, if we performed CU-based enrichment analysis on the two metagenomic samples described at the beginning of this vignette, and wanted to see how the results compare by plotting them on a heatmap (e.g. using the ComplexHeatmap package), we could do the following:
 
 ```{r}
+# calculate MELP
 melpHD59 <- MELP(HD59, ribosomal = TRUE, 
                  filtering = "hard", len.threshold = 100)
 genesHD59 <- getKO(HD59)[getlen(HD59) > 100]
@@ -279,9 +280,14 @@ melpLD94 <- MELP(LD94, ribosomal = TRUE,
                  filtering = "hard", len.threshold = 100)
 genesLD94 <- getKO(LD94)[getlen(LD94) > 100]
 
+# make cntingency table
 ctHD59 <- crossTab(genesHD59, as.numeric(melpHD59))
 ctLD94 <- crossTab(genesLD94, as.numeric(melpLD94))
 
+ctHD59 <- reduceCrossTab(ctHD59, "pathway")
+ctLD94 <- reduceCrossTab(ctLD94, "pathway")
+
+# calculate enrichment
 enrHD59 <- enrichment(ctHD59)
 enrLD94 <- enrichment(ctLD94)
 
