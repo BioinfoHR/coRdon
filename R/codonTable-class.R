@@ -214,7 +214,8 @@ setMethod(
         if (ns < 15) {
             print(df)
         } else {
-            rbind(head(df), "..." = " ", tail(df))
+            out <- rbind(head(df), "..." = " ", tail(df))
+            print(out)
         }
     }
 )
