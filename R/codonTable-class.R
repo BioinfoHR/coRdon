@@ -202,18 +202,20 @@ setMethod(
     signature = "codonTable",
     definition = function(object){
         ns <- nrow(object@counts)
-        IDs <- capture.output(str(object@ID))
-        lens <- capture.output(str(object@len))
-        KOs <- capture.output(str(object@KO))
-        COGs <- capture.output(str(object@COG))
         cat("codonTable instance with codon counts from", ns, "sequences.\n")
-        if (length(object@ID) != 0 & any(!is.na(object@ID)))
-            cat("sequence IDs:\n", IDs, "\n")
-        cat("sequence lengths:\n", lens, "\n")
+        df <- as.data.frame(object@counts)
         if (length(object@KO) != 0 & any(!is.na(object@KO)))
-            cat("KO annotations:\n", KOs, "\n")
+            df <- cbind(KO = object@KO, df, stringsAsFactors = FALSE)
         if (length(object@COG) != 0 & any(!is.na(object@COG)))
-            cat("COG annotations:\n", COGs, "\n")
+            df <- cbind(COG = object@COG, df, stringsAsFactors = FALSE)
+        df <- cbind(length = object@len, df)
+        if (length(object@ID) != 0 & any(!is.na(object@ID)))
+            df <- cbind(ID = object@ID, df, stringsAsFactors = FALSE)
+        if (ns < 15) {
+            print(df)
+        } else {
+            rbind(head(df), "..." = " ", tail(df))
+        }
     }
 )
 
