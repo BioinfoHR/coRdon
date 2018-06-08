@@ -57,7 +57,7 @@ in codons, used for filtering.}
 A numeric vector with GCB values.
 
    For definition of gene codon bias (GCB), see
-   \href{https://www.ncbi.nlm.nih.gov/pubmed/6175758}{Ikemura (1981)}.
+   \href{http://www.ncbi.nlm.nih.gov/pubmed/14708578}{Merkl (2003)}.
 }
 \description{
 Calculate GCB values for every sequence in the given

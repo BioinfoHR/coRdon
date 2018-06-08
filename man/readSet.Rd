@@ -4,27 +4,34 @@
 \alias{readSet}
 \title{Read set of sequences.}
 \usage{
-readSet(folder = ".", KOs = c(), zipped = FALSE)
+readSet(folder = character(), file = character(), KOs = c(),
+  zipped = FALSE)
 }
 \arguments{
 \item{folder}{Path to directory containing .fasta files.}
 
+\item{file}{Path to a single .fasta file, or zipped file
+(if latter, specify \code{ZIPPED = TRUE}).}
+
 \item{KOs}{An optional character vector of sequence annotations (e.g. KO)
 contained in the names of fasta files to be selectively read.}
 
-\item{zipped}{Logical, whether \code{folder} is zipped. Default is
-\code{FALSE}.}
+\item{zipped}{Logical, whether \code{folder} or \code{file} is zipped.
+Default is \code{FALSE}.}
 }
 \value{
 Returns a \code{DNAStringSet} object.
 }
 \description{
-Reads set of fasta files stored in \code{folder}.
+Reads a set of fasta files stored in \code{folder},
+or a single fasta \code{file}.
 }
 \examples{
 exampledir <- system.file("extdata", package = "coRdon")
-list.files(exampledir)
-readSet(exampledir)
-readSet(exampledir, KOs = "K02438")
+files <- list.files(exampledir)
+readSet(folder = exampledir)
+readSet(folder = exampledir, KOs = "K02931")
+pathtofile <- paste(exampledir, files[1], sep = "/")
+readSet(file = pathtofile)
 
 }

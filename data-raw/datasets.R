@@ -32,7 +32,7 @@ COGs <- read.table("ftp://ftp.ncbi.nih.gov/pub/COG/COG2014/data/cognames2003-201
                    stringsAsFactors = FALSE)
 COGs <- as.data.table(COGs)
 setnames(COGs, c("V1","V2","V3"), c("ANN","CAT","description"))
-mnchar <- max(sapply(unique(COGs$CAT), function(x) nchar(x), USE.NAMES = F))
+mnchar <- max(sapply(unique(COGs$CAT), function(x) nchar(x), USE.NAMES = FALSE))
 COGs[, paste0("V", 1:mnchar) := tstrsplit(CAT, "")]
 COGs <- melt.data.table(COGs, measure.vars = paste0("V", 1:mnchar), value.name = "CATEGORY", na.rm = T)
 COGs[, `:=`(CAT=NULL, variable=NULL)]

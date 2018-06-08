@@ -28,6 +28,6 @@ ct <- setKO(ct, c("K00001", "K00002", "K00001"))
 ct <- setCOG(ct, c("COG00001", "COG00002", "COG00001"))
 
 test_that("subsetting works", {
-    expect_equal(subset(ct, c(T,F,T)), subset(ct, "K00001"))
-    expect_equal(subset(ct, c(T,F,T)), subset(ct, "COG00001"))
+    expect_equal(subset(ct, c(TRUE,FALSE,TRUE)), subset(ct, "K00001"))
+    expect_equal(subset(ct, c(TRUE,FALSE,TRUE)), subset(ct, "COG00001"))
 })

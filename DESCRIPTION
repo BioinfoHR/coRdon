@@ -1,22 +1,22 @@
 Package: coRdon
 Type: Package
-Title: Codon Usage Analysis and Prediction of Expression
-Version: 0.99.1
+Title: Codon Usage Analysis and Prediction of Gene Expressivity.
+Version: 0.99.0
 Date: 2015-07-21
 Author: Elek A., Kuzman M., Vlahovicek K.
 Maintainer: Elek Anamaria <anamariaelek@gmail.com>
-Description: Tool for analysis of codone usage in various 
+Description: Tool for analysis of codon usage in various 
     unannotated or KEGG/COG annotated DNA sequences. 
 	Calculates different measures of CU bias and CU-based
-	predictors of gene expression, and performs gene set 
+	predictors of gene expressivity, and performs gene set 
 	enrichment analysis for annotated sequences.
 	Implements several methods for visualization of CU
 	and enrichment analysis results.
 License: Artistic-2.0
 LazyData: TRUE
 biocViews: Software, Metagenomics, GeneExpression, GeneSetEnrichment,
-    Visualization, KEGG, Pathways
-Depends: R (>= 3.4), methods
+    GenePrediction, Visualization, KEGG, Pathways
+Depends: R (>= 3.5), methods
 Imports: Biostrings, Biobase, data.table, purrr, ggplot2
 Suggests: BiocStyle, testthat, knitr, rmarkdown
 RoxygenNote: 6.0.1
