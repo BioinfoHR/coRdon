@@ -14,7 +14,7 @@ NULL
             stop(paste0("Length of annotations vector, ", la,
                         ", differs from the number of sequences, ", nrow(dt),
                         "."))
-        else dt[, annotation := annotations]
+        else dt[, annot := annotations]
     }
 
     dt[, genes := "other"]
@@ -22,20 +22,20 @@ NULL
     if (ribosomal){
         if (la == 0)
             stop("Ribosomal is TRUE, but no annotations were given!")
-        else dt[annotation %in% RPKOs, genes := "ribosomal"]
+        else dt[annot %in% RPKOs, genes := "ribosomal"]
     }
 
     if (length(reference) != 0){
         if (is.null(names(reference)))
             stop("Reference must be a named list of length 1!")
-        if (all(class(unlist(reference)) == "logical")){
+        if (all(is.logical(unlist(reference)))) {
             r <- unlist(reference)
             n <- names(reference)
             dt[r, genes := n]
-        } else if (all(class(unlist(reference)) == "character")){
+        } else if (all(is.character(unlist(reference)))){
             r <- unlist(reference)
             n <- names(reference)
-            dt[annotation %in% r, genes := n]
+            dt[annot %in% r, genes := n]
         }
     }
     dt
@@ -49,7 +49,6 @@ NULL
                                   alpha = .8, shape = 20, size = 1.5)
         gp
 }
-
 #' Karlin B plot
 #'
 #' Plot distances of each gene's CU frequency to specified gene (sub)sets
@@ -168,7 +167,8 @@ setMethod(
 #' @export
 setGeneric(
     name = "intraBplot",
-    def = function(x, y, names = c("x", "y"), variable, ribosomal = FALSE, alpha = 0.1){
+    def = function(x, y, names = c("x", "y"),
+                   variable, ribosomal = FALSE, alpha = 0.1){
         standardGeneric("intraBplot")
     }
 )
@@ -207,7 +207,10 @@ setMethod(
             alpha2 <- alpha + 0.3
             if (alpha2 > 1) alpha2 <- 1
             rows <- c(getKO(x) %in% RPKOs, getKO(y) %in% RPKOs)
-            gp <- gp + geom_point(data = dt[rows, ], aes(get(names[1]), get(names[2]), colour = sample),
+            gp <- gp + geom_point(data = dt[rows, ],
+                                  aes(get(names[1]),
+                                      get(names[2]),
+                                      colour = sample),
                                   alpha = alpha2, shape = 20, size = 1.5)
         }
         gp

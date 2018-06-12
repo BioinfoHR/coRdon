@@ -318,9 +318,9 @@ Thus created matrix, with genes in rows and samples in columns, can be directly 
 
 ```{r fig.height=15, fig.width=7}
 require(KEGGREST)
-paths <- names(keggList("pathway"))
+paths <- names(KEGGREST::keggList("pathway"))
 paths <- regmatches(paths, regexpr("[[:alpha:]]{2,4}\\d{5}", paths))
-pnames <- unname(keggList("pathway"))
+pnames <- unname(KEGGREST::keggList("pathway"))
 ids <- match(rownames(mat), paths)
 descriptions <- pnames[ids]
 rownames(mat) <- descriptions
@@ -328,13 +328,15 @@ head(mat)
 rows <- apply(mat, 1, function(x) abs(diff(x)) < 10)
 mat <- mat[!rows,]
 require(ComplexHeatmap)
+require(circlize)
 mat <- mat[apply(mat, 1, function(x) all(x!=0)), ]
-Heatmap(mat, 
-        name = "relative \nenrichment",
-        col = circlize::colorRamp2(c(-100, 0, 100), 
-                                   c("red", "white", "blue")),
-        row_names_side = "left",
-        row_names_gp = gpar(fontsize = 8),
-        show_column_dend = FALSE, 
-        show_row_dend = FALSE)
+ComplexHeatmap::Heatmap(
+    mat, 
+    name = "relative \nenrichment",
+    col = circlize::colorRamp2(c(-100, 0, 100), 
+                               c("red", "white", "blue")),
+    row_names_side = "left",
+    row_names_gp = gpar(fontsize = 8),
+    show_column_dend = FALSE, 
+    show_row_dend = FALSE)
 ```

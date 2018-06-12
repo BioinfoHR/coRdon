@@ -36,9 +36,9 @@ setMethod(
             nam <- names(subsets)
             nsubs <- length(subsets)
             if (is.null(nam)) {
-                nam <- paste("subset", 1:nsubs, sep = ".")
+                nam <- paste("subset", seq_len(nsubs), sep = ".")
             } else {
-                nam[nam == ""] <- paste("subset", (1:nsubs)[nam == ""],
+                nam[nam == ""] <- paste("subset", seq_len(nsubs)[nam == ""],
                                         sep = ".")
             }
             names(subsets) <- make.names(nam, unique = TRUE)
@@ -55,7 +55,7 @@ setMethod(
         sapply(subsets, function(s) {
             if (all(class(s) %in% c("logical", "character")))
                 .normSetFrequencies(subset(cTobject, s), gCobject)
-            else if (all(class(s) == "codonTable"))
+            else if (all(is(s, "codonTable")))
                 .normSetFrequencies(s, gCobject)
         })
     }

@@ -114,7 +114,7 @@ setMethod(
                 ".\nDiscarding surplus nucleotides.\n"))
         ctb <- .codonTable(x)
         ctb <- ctb[,order(colnames(ctb))] # sort codons alphabetically
-        if (class(ctb) == "integer") # in case there is only one sequence
+        if (is.integer(ctb)) # in case there is only one sequence
             ctb <- rbind(ctb)
         new(
             "codonTable",

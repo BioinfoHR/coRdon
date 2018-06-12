@@ -128,7 +128,7 @@ setMethod(
 )
 
 .makemat <- function(x, variable, replace.na) {
-    out <- lapply(1:length(x), function(y){
+    out <- lapply(seq_along(x), function(y){
         DT <- as.data.table(pData(x[[y]][, c("category", variable)]))
         setnames(DT, variable, names(x)[y])
     })
