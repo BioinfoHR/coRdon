@@ -34,8 +34,6 @@ library(coRdon)
 library(ggplot2)
 library(Biostrings)
 library(Biobase)
-library(KEGGREST)
-library(ComplexHeatmap)
 ```
 
 # Introduction
@@ -147,16 +145,14 @@ xlab <- "MILC distance from sample centroid"
 ylab <- "MILC distance from ribosomal genes"
 
 milc_HD59 <- MILC(HD59, ribosomal = TRUE)
-
 Bplot(x = "ribosomal", y = "self", data = milc_HD59) +
     labs(x = xlab, y = ylab)
+```
+```{r eval=FALSE}
 milc_LD94 <- MILC(LD94, ribosomal = TRUE)
-
 Bplot(x = "ribosomal", y = "self", data = milc_LD94) +
     labs(x = xlab, y = ylab)
 ```
-
-We can already see that the genes in the healthy and diseased sample have different CU patterns.  
 
 The argument `annotations` needs to be specified when we wish to indicate certain genes on the plot. For example, to indicate ribosomal genes, provide character vector of annotations corresponding to values in `x`, `y` and `data`, and set `ribosomal = TRUE`. Note that, if we filtered sequences when calculating MILC, we need to provide the annotations for those sequences only.
 
@@ -236,10 +232,10 @@ head(enr_data)
 
 ## Visualisation of enrichment
 
-We can plot enriched and depleted KO categories on an MA plot, with significant enrichment or depletion defined as those having the p-value below the level of significance `siglev` 0.05 (these are default parameters, one can also use adjusted p-value, by setting `pvalue` = "padj", and different values of `siglev`).  
+We can plot enriched and depleted KO categories on an MA plot, with significant enrichment or depletion defined as those having the p-value below the level of significance `siglev` 0.01 (one can also use adjusted p-value, by setting `pvalue` = "padj", and different values of `siglev`).  
 
 ```{r}
-enrichMAplot(enr, pvalue = "pvals", siglev = 0.05) +
+enrichMAplot(enr, pvalue = "pvals", siglev = 0.01) +
     theme_light()
 ```
 
@@ -258,9 +254,19 @@ enrpath_data <- pData(enrpath)
 head(enrpath_data)
 ```
 
-KEGGREST package can be used to match pathway identifiers to pathway descriptions.
+Functional enrichment results can also be plotted on a bar plot, using enrichBarplot() method. Here, bars are coloured by the level of significance, `padj`, whereas their height is the relative enrichment `"enrich"` (can also be mean average of scaled counts, `"A"`, or scaled counts ratio, `"M"`). If we specify `siglev`, only those categories for which associated `pvalue` ("pvals" or "padj") is below the given value will be ploted.
 
-```{r}
+```{r fig.height=15}
+enrichBarplot(enrpath, variable = "enrich", 
+              pvalue = "padj", siglev = 0.01) +
+    theme_light() +
+    coord_flip() +
+    labs(x = "category", y = "relative enrichment")
+```
+
+Prior to plotting, KEGGREST package can be used to match pathway identifiers to pathway descriptions, in order to produce a more informative plot.
+
+```{r eval=FALSE}
 require(KEGGREST)
 paths <- names(keggList("pathway"))
 paths <- regmatches(paths, regexpr("[[:alpha:]]{2,4}\\d{5}", paths))
@@ -269,17 +275,6 @@ ids <- match(pData(enrpath)$category, paths)
 descriptions <- pnames[ids]
 pData(enrpath)$category <- descriptions
 enrpath_data <- pData(enrpath)
-head(enrpath_data)
-```
-
-Functional enrichment results can now be plotted on a bar plot, using enrichBarplot() method. Here, bars are coloured by the level of significance, `padj`, whereas their height is the relative enrichment `"enrich"` (can also be mean average of scaled counts, `"A"`, or scaled counts ratio, `"M"`). If we specify `siglev`, only those categories for which associated `pvalue` ("pvals" or "padj") is below the given value will be ploted.
-
-```{r fig.height=15}
-enrichBarplot(enrpath, variable = "enrich", 
-              pvalue = "padj", siglev = 0.05) +
-    theme_light() +
-    coord_flip() +
-    labs(x = "category", y = "relative enrichment")
 ```
 
 # Integration
@@ -314,21 +309,16 @@ mat <- enrich.matrix(list(HD59 = enrHD59, LD94 = enrLD94),
 head(mat)
 ```
 
-Thus created matrix, with genes in rows and samples in columns, can be directly used as an argument to `Heatmap()` function for plotting. However, for the purpose of neat visualization, we can again make use of the KEGGREST package to match pathway identifiers to pathway descriptions, and we can also remove non-informative categories from the matrix.
+Thus created matrix, with genes in rows and samples in columns, can be directly used as an argument to `Heatmap()` function for plotting. Also, for the purpose of neat visualization, we can again make use of the KEGGREST package to match pathway identifiers to pathway descriptions.
 
-```{r fig.height=15, fig.width=7}
-require(KEGGREST)
+```{r fig.height=15, fig.width=7, eval=FALSE}
 paths <- names(KEGGREST::keggList("pathway"))
 paths <- regmatches(paths, regexpr("[[:alpha:]]{2,4}\\d{5}", paths))
 pnames <- unname(KEGGREST::keggList("pathway"))
 ids <- match(rownames(mat), paths)
 descriptions <- pnames[ids]
 rownames(mat) <- descriptions
-head(mat)
-rows <- apply(mat, 1, function(x) abs(diff(x)) < 10)
-mat <- mat[!rows,]
-require(ComplexHeatmap)
-require(circlize)
+
 mat <- mat[apply(mat, 1, function(x) all(x!=0)), ]
 ComplexHeatmap::Heatmap(
     mat, 

@@ -37,7 +37,7 @@ Temporary Items
 .apdisk
 
 # R files
-.Rproj
+*.Rproj
 .Rproj.user
 .Rhistory
 .RData

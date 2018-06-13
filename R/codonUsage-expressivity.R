@@ -507,7 +507,7 @@ setMethod(
             else {
                 iter <- iter + 1
                 gcb_prev <- gcb
-                top <- order(gcb, decreasing = TRUE)[1:(perc * length(gcb))]
+                top <- order(gcb, decreasing = TRUE)[seq_len(perc * length(gcb))]
                 gc <- expectedCU(cTobject, gCobject,
                                  list(s = codonTable(counts[top,])),
                                  self = FALSE, ribosomal)

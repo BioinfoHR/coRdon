@@ -34,12 +34,20 @@ COGs <- as.data.table(COGs)
 setnames(COGs, c("V1","V2","V3"), c("ANN","CAT","description"))
 mnchar <- max(sapply(unique(COGs$CAT), function(x) nchar(x), USE.NAMES = FALSE))
 COGs[, paste0("V", 1:mnchar) := tstrsplit(CAT, "")]
-COGs <- melt.data.table(COGs, measure.vars = paste0("V", 1:mnchar), value.name = "CATEGORY", na.rm = T)
+COGs <- melt.data.table(COGs, measure.vars = paste0("V", 1:mnchar),
+                        value.name = "CATEGORY", na.rm = TRUE)
 COGs[, `:=`(CAT=NULL, variable=NULL)]
 setcolorder(COGs, c("CATEGORY","ANN","description"))
 setkey(COGs, ANN)
 
 # devtools::use_data(KO_PATHWAYS, KO_MODULES, COGs, internal = TRUE, overwrite = TRUE)
+
+dnaLD94 <- readSet(file = "/Users/Maja/Desktop/LD94.fasta")
+LD94 <- codonTable(dnaLD94[1001:2000])
+dnaHD59 <- readSet(file = "/Users/Maja/Desktop/HD59.fasta")
+HD59 <- codonTable(dnaHD59[1001:2000])
+
+# devtools::use_data(HD59, LD94, overwrite = TRUE)
 
 s <- getKO(HD59)
 v <- as.numeric(MELP(HD59, ribosomal = TRUE))
@@ -55,4 +63,4 @@ LD94_KO <- enrichment(ct)
 ctp <- reduceCrossTab(ct, "pathway")
 LD94_PATHWAYS <- enrichment(ctp)
 
-# devtools::use_data(HD59_KO, HD59_PATHWAYS, LD94_KO, LD94_PATHWAYS, overwrite = TRUE)
+#devtools::use_data(HD59_KO, HD59_PATHWAYS, LD94_KO, LD94_PATHWAYS, overwrite = TRUE)

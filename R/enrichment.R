@@ -166,15 +166,15 @@ setMethod(
 #' require(Biobase)
 #'
 #' # create contingency table
-#' s <- getKO(HD59)
-#' v <- as.numeric(MELP(HD59, ribosomal = TRUE))
-#' ct <- crossTab(s, v, percentiles = 0.05)
+#' s <- getKO(LD94)
+#' v <- as.numeric(MELP(LD94, ribosomal = TRUE))
+#' ct <- crossTab(s, v, percentiles = 0.2)
 #'
 #' # enrichment analysis
 #' enr <- enrichment(ct)
 #' enr # for help, see `?Biobase::AnnotatedDataFrame`
-#' head(pData(enr$top_0.05))
-#' head(pData(enr$gt_1))
+#' head(pData(enr$top_0.2), 10)
+#' head(pData(enr$gt_1), 10)
 #' enrm <- enrich.matrix(enr, "M")
 #' head(enrm)
 #'

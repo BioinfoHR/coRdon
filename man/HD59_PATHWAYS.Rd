@@ -4,7 +4,8 @@
 \name{HD59_PATHWAYS}
 \alias{HD59_PATHWAYS}
 \title{Codon usage based KEGG Pathway enrichment analysis results
-from a healthy human gut microbiome.}
+from a healthy human gut microbiome.
+For more information, see `?HD59`.}
 \format{An \code{AnnotatedDataFrame} object.
 See `?enrichment` for description.}
 \source{
@@ -17,5 +18,6 @@ HD59_PATHWAYS
 \description{
 Codon usage based KEGG Pathway enrichment analysis results
 from a healthy human gut microbiome.
+For more information, see `?HD59`.
 }
 \keyword{datasets}

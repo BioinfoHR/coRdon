@@ -4,7 +4,8 @@
 \name{HD59_KO}
 \alias{HD59_KO}
 \title{Codon usage based KO enrichment analysis results
-from a healthy human gut microbiome.}
+from the healthy human gut microbiome.
+For more information, see `?HD59`.}
 \format{An \code{AnnotatedDataFrame} object.
 See `?enrichment` for description.}
 \source{
@@ -16,6 +17,7 @@ HD59_KO
 }
 \description{
 Codon usage based KO enrichment analysis results
-from a healthy human gut microbiome.
+from the healthy human gut microbiome.
+For more information, see `?HD59`.
 }
 \keyword{datasets}

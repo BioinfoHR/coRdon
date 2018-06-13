@@ -30,6 +30,8 @@ RPKOs <- c(
 #' \href{https://go.nature.com/2G7QdpC}{Quin et al. 2014},
 #' processed, assembled and annotated (KEGG Orthology) as descrbed in
 #' \href{https://bit.ly/2DRfiz6}{Fabijanic and Vlahovicek 2016}.
+#' Due to size limitations, a sample of 1000 sequences from the original
+#' data is used.
 #'
 #' @format A \code{codonTable} object.
 #'
@@ -45,6 +47,8 @@ RPKOs <- c(
 #' \href{https://go.nature.com/2G7QdpC}{Quin et al. 2014},
 #' processed, assembled and annotated (KEGG Orthology) as descrbed in
 #' \href{https://bit.ly/2DRfiz6}{Fabijanic and Vlahovicek 2016}.
+#' Due to size limitations, only a sample of 1000 sequences from the original
+#' data is used.
 #'
 #' @format A \code{codonTable} object.
 #'
@@ -54,7 +58,8 @@ RPKOs <- c(
 "LD94"
 
 #' Codon usage based KO enrichment analysis results
-#' from a healthy human gut microbiome.
+#' from the healthy human gut microbiome.
+#' For more information, see `?HD59`.
 #'
 #' @format An \code{AnnotatedDataFrame} object.
 #' See `?enrichment` for description.
@@ -67,6 +72,7 @@ RPKOs <- c(
 
 #' Codon usage based KO enrichment analysis results
 #' from an gut microbiome of an individual with liver cirrhosis.
+#' For more information, see `?LD94`.
 #'
 #' @format An \code{AnnotatedDataFrame} object.
 #' See `?enrichment` for description.
@@ -78,6 +84,7 @@ RPKOs <- c(
 
 #' Codon usage based KEGG Pathway enrichment analysis results
 #' from a healthy human gut microbiome.
+#' For more information, see `?HD59`.
 #'
 #' @format An \code{AnnotatedDataFrame} object.
 #' See `?enrichment` for description.
@@ -90,6 +97,7 @@ RPKOs <- c(
 
 #' Codon usage based  KEGG Pathway enrichment analysis results
 #' from an gut microbiome of an individual with liver cirrhosis.
+#' For more information, see `?LD94`.
 #'
 #' @format An \code{AnnotatedDataFrame} object.
 #' See `?enrichment` for description.

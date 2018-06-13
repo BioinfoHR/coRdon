@@ -18,5 +18,7 @@ metagenome, from a healthy individual. Raw sequences are from
 \href{https://go.nature.com/2G7QdpC}{Quin et al. 2014},
 processed, assembled and annotated (KEGG Orthology) as descrbed in
 \href{https://bit.ly/2DRfiz6}{Fabijanic and Vlahovicek 2016}.
+Due to size limitations, a sample of 1000 sequences from the original
+data is used.
 }
 \keyword{datasets}

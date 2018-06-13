@@ -4,7 +4,8 @@
 \name{LD94_KO}
 \alias{LD94_KO}
 \title{Codon usage based KO enrichment analysis results
-from an gut microbiome of an individual with liver cirrhosis.}
+from an gut microbiome of an individual with liver cirrhosis.
+For more information, see `?LD94`.}
 \format{An \code{AnnotatedDataFrame} object.
 See `?enrichment` for description.}
 \source{
@@ -17,5 +18,6 @@ LD94_KO
 \description{
 Codon usage based KO enrichment analysis results
 from an gut microbiome of an individual with liver cirrhosis.
+For more information, see `?LD94`.
 }
 \keyword{datasets}
