@@ -42,9 +42,9 @@ setkey(COGs, ANN)
 
 # devtools::use_data(KO_PATHWAYS, KO_MODULES, COGs, internal = TRUE, overwrite = TRUE)
 
-dnaLD94 <- readSet(file = "/Users/Maja/Desktop/LD94.fasta")
+dnaLD94 <- readSet(file = "http://hex.bioinfo.hr/~mfabijanic/LD94.fasta")
 LD94 <- codonTable(dnaLD94[1001:2000])
-dnaHD59 <- readSet(file = "/Users/Maja/Desktop/HD59.fasta")
+dnaHD59 <- readSet(file = "http://hex.bioinfo.hr/~mfabijanic/HD59.fasta")
 HD59 <- codonTable(dnaHD59[1001:2000])
 
 # devtools::use_data(HD59, LD94, overwrite = TRUE)

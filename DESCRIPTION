@@ -1,7 +1,7 @@
 Package: coRdon
 Type: Package
 Title: Codon Usage Analysis and Prediction of Gene Expressivity
-Version: 0.99.2
+Version: 0.99.3
 Author: Elek A., Kuzman M., Vlahovicek K.
 Maintainer: Elek Anamaria <anamariaelek@gmail.com>
 Description: Tool for analysis of codon usage in various 
