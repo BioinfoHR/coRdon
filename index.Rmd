@@ -1,16 +1,27 @@
-<i> class="fa fa-ellipsis-v" aria-hidden="true"></i> coRdon
-### Codon Usage Analysis and Prediction of Gene Expressivity
+---
+output: github_document
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  message = FALSE
+)
+```
+
+## coRdon
+#### Codon Usage Analysis & Prediction of Gene Expressivity
+
+### <i class="fa fa-list-ul" aria-hidden="true"></i> About
 <br>
+__coRdon__ is an R package for analysis and visualization of codon usage in DNA sequences.
 
-R package for analysis and visualization of codon usage in DNA sequences.
+Main functionalities:  
 
-Main functionalities:
-* calculates different measures of CU bias and CU-based predictors 
-of gene expressivity
-* performs gene set enrichment analysis for unannotated or KEGG/COG 
-annotated DNA sequences
-* implements several methods for visualization of codon usage 
-and enrichment analysis results.
+* calculates different measures of CU bias and CU-based predictors of gene expressivity  
+* performs gene set enrichment analysis for unannotated or KEGG/COG annotated DNA sequences  
+* implements several methods for visualization of codon usage and enrichment analysis results.  
 
 Although specifically aimed at the analysis of metagenomic samples, 
 coRdon allows for the inspection and quantification of codon usage 
@@ -56,15 +67,19 @@ including MA-like plot and bar plot.
 
 ***
 
-<i> class="fa fa-cog" aria-hidden="true"></i> Geting started
-
+### <i class="fa fa-cog" aria-hidden="true"></i> Geting started
+<br>
 To install coRdon, run the following in R:
 ```{r}
 devtools::install_github("BioinfoHR/coRdon")
 ```
 For worked example on how to do analysis of codon usage with coRdon, 
-please see [the packaage vignette](articles/coRdon.html).
+please see [the package vignette](articles/coRdon.html).
 
 ***
+
+### <i class="fa fa-file" aria-hidden="true"></i> Citation
+<br>
+TBA
 
 <i><img src="http://bioinfo.hr/wp-content/themes/theme1414/images/logo.png" alt="bioinfo.hr" title=""></i>

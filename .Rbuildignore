@@ -2,3 +2,6 @@
 ^\.Rproj\.user$
 ^data-raw$
 ^.*\.Rprofile$
+^_pkgdown\.yml$
+^docs$
+^logo.png

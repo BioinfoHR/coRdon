@@ -1,0 +1,91 @@
+template:
+  params:
+    bootswatch: paper
+authors:
+  Anamaria Elek:
+    href: http://bioinfo.hr/members/
+  Maja Kuzman:
+    href: http://bioinfo.hr/maja-kuzman/
+  Kristian Vlahovicek:
+    href: http://bioinfo.hr/kristian-vlahovicek/
+development:
+  mode: unreleased
+navbar:
+  type: inverse
+  left:
+  - icon: fa-home fa-lg
+    href: index.html
+  - text: How to
+    href: articles/coRdon.html
+  - text: Documentation
+    href: reference/index.html
+  - text: News
+    href: news/index.html
+  right:
+  - icon: fa-github fa-lg
+    href: https://github.com/BioinfoHR/coRdon
+  - icon: fa-globe fa-lg
+    href: http://bioinfo.hr
+reference:
+- title: Input
+  desc: ~
+  contents:
+  - readSet
+- title: Codon usage statistics
+  desc: >
+    Methods that calculate various codon usage statistics.
+  contents:
+  - ENC
+  - ENCprime
+  - B
+  - MCB
+  - MILC
+  - SCUO
+- title: Gene expressivity predictors
+  desc: >
+    Methods that calculate various predictors of gene expressivity.
+  contents:
+  - CAI
+  - E
+  - MELP
+  - GCB
+  - Fop
+- title: Functional enrichment
+  desc: >
+    Methods for the functional analysis of annotated DNA sequences.
+  contents:
+  - enrichment
+  - enrich.matrix
+- title: Visualization methods
+  desc: >
+    Plotting metods.
+  contents:
+  - Bplot
+  - intraBplot
+  - enrichMAplot
+  - enrichBarplot
+- title: Classes
+  desc: ~
+  contents:
+  - codonTable-class
+  - show-codonTable
+  - length-codonTable
+  - subset.codonTable
+  - genCode-class
+  - crossTab-class
+  - show-crossTab
+  - length-crossTab
+  - length-codonTable
+  - reduceCrossTab
+- title: Data
+  desc: >
+    Datasets used in calculations or in examples.
+  contents:
+  - coRdon
+  - HD59
+  - HD59_KO
+  - HD59_PATHWAYS
+  - LD94
+  - LD94_KO
+  - LD94_PATHWAYS
+  - RPKOs

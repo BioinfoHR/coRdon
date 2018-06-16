@@ -1,9 +1,20 @@
 Package: coRdon
 Type: Package
 Title: Codon Usage Analysis and Prediction of Gene Expressivity
-Version: 0.99.3
-Author: Elek A., Kuzman M., Vlahovicek K.
-Maintainer: Elek Anamaria <anamariaelek@gmail.com>
+Version: 0.99.4
+Authors@R: 
+    c(person(given = "Anamaria",
+             family = "Elek",
+             role = c("cre", "aut"),
+             email = "anamariaelek@gmail.com"),
+      person(given = "Maja",
+             family = "Kuzman",
+             role = "aut",
+             email = "mkuzman@mail.bioinfo.hr"),
+      person(given = "Kristian",
+             family = "Vlahovicek",
+             role = "aut",
+             email = "kristian@bioinfo.hr"))
 Description: Tool for analysis of codon usage in various 
     unannotated or KEGG/COG annotated DNA sequences. 
 	Calculates different measures of CU bias and CU-based
@@ -33,3 +44,5 @@ Collate:
     'enrichment.R'
     'readSet.R'
 VignetteBuilder: knitr
+URL: https://github.com/BioinfoHR/coRdon, http://bioinfo.hr/software-tools/
+BugReports: https://github.com/BioinfoHR/coRdon/issues

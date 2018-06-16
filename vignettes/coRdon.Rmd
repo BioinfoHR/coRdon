@@ -52,13 +52,15 @@ A typical workflow for analysing CU bias includes:
 
 Sequences from human gut microbiome samples of healthy individuals and liver cirrhosis patients ([Quin et al. 2014](https://go.nature.com/2G7QdpC)) were processed, assembled and used to predict ORFs, which were then annotated with a KO (KEGG orthology) function ([Fabijanic and Vlahovicek 2016](https://bit.ly/2DRfiz6)).  
 
-For each sequence, in each sample, we can calculate codon usage (CU) bias. In order to do this, we need to count occurrences of each codon in each sequence. This can be done by storing sequences in each sample as a `codonTable` object. If we had the sequences in .fasta format, we could use `readSet()` to read .fasta files and store sequences as a `DNAStringSet` object, which could then be converted to `codonTable` using the constructor method `codonTable()`.  
+For each sequence, in each sample, we can calculate codon usage (CU) bias. In order to do this, we need to count occurrences of each codon in each sequence. This can be done by storing sequences in each sample as a `codonTable` object. We can use `readSet()` to read (a directory containing) .fasta files and store sequences as a `DNAStringSet` object, which could then be converted to `codonTable` using the constructor method `codonTable()`.  
 
-For the purpose of this vignette, however, we will load two `codonTable` objects from `coRdon` package, HD59 and LD94, containing codon counts for metagenomic gut sample from healthy individual, and from liver chirosis patient, respectively.
+For the purpose of this vignette we will create two `codonTable` objects, HD59 and LD94, containing codon counts for metagenomic gut sample from healthy individual, and from liver chirosis patient, respectively.
 
 ```{r}
-HD59
-LD94
+dnaLD94 <- readSet(file = "http://hex.bioinfo.hr/~mfabijanic/LD94.fasta")
+LD94 <- codonTable(dnaLD94)
+dnaHD59 <- readSet(file = "http://hex.bioinfo.hr/~mfabijanic/HD59.fasta")
+HD59 <- codonTable(dnaHD59)
 ```
 
 `codonTable` object stores codon counts for each sequence, as well as some additional metadata, namely sequence ID infered from a .fasta file or DNAStringSet object, sequence length in codons and KO / COG annotation. Note that not all of these need be present in every `codonTable` object - only the codon counts, and inferred lengths are mandatory. They can be accessed using `codonCounts()` and `getlen()` (not to be confused with `length()` which returns number of sequences in a `codonTable` object):
@@ -232,10 +234,10 @@ head(enr_data)
 
 ## Visualisation of enrichment
 
-We can plot enriched and depleted KO categories on an MA plot, with significant enrichment or depletion defined as those having the p-value below the level of significance `siglev` 0.01 (one can also use adjusted p-value, by setting `pvalue` = "padj", and different values of `siglev`).  
+We can plot enriched and depleted KO categories on an MA plot, with significant enrichment or depletion defined as those having the p-value below the level of significance `siglev` 0.05 (one can also use adjusted p-value, by setting `pvalue` = "padj", and different values of `siglev`).  
 
 ```{r}
-enrichMAplot(enr, pvalue = "pvals", siglev = 0.01) +
+enrichMAplot(enr, pvalue = "pvals", siglev = 0.05) +
     theme_light()
 ```
 
@@ -254,11 +256,11 @@ enrpath_data <- pData(enrpath)
 head(enrpath_data)
 ```
 
-Functional enrichment results can also be plotted on a bar plot, using enrichBarplot() method. Here, bars are coloured by the level of significance, `padj`, whereas their height is the relative enrichment `"enrich"` (can also be mean average of scaled counts, `"A"`, or scaled counts ratio, `"M"`). If we specify `siglev`, only those categories for which associated `pvalue` ("pvals" or "padj") is below the given value will be ploted.
+Functional enrichment results can also be plotted on a bar plot, using enrichBarplot() method. Here, bars are coloured by the level of significance, `padj`, whereas their height is the relative enrichment `"enrich"` (can also be mean average of scaled counts, `"A"`, or scaled counts ratio, `"M"`). If we also specify `siglev`, only those categories for which associated `pvalue` ("pvals" or "padj") is below the given value will be ploted.
 
-```{r fig.height=15}
+```{r fig.height=12}
 enrichBarplot(enrpath, variable = "enrich", 
-              pvalue = "padj", siglev = 0.01) +
+              pvalue = "padj", siglev = 0.05) +
     theme_light() +
     coord_flip() +
     labs(x = "category", y = "relative enrichment")
