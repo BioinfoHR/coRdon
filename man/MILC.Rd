@@ -4,7 +4,8 @@
 \name{MILC}
 \alias{MILC}
 \alias{MILC,codonTable-method}
-\title{Calculate codon usage Measure Independent of Length and Composition (MILC)}
+\title{Calculate codon usage Measure Independent of
+Length and Composition (MILC)}
 \usage{
 MILC(cTobject, subsets = list(), self = TRUE, ribosomal = FALSE,
   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,

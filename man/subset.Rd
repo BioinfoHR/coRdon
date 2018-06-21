@@ -18,8 +18,8 @@
 \item{...}{further arguments to be passed to or from other methods.}
 }
 \value{
-subsets of \code{codonTable} object, keeping in each slot only
-those elements that meet the criteria in \code{subset}.
+subsets of \code{codonTable} object, keeping in each slot
+only those elements that meet the criteria in \code{subset}.
 }
 \description{
 Subset \code{codonTable} object.

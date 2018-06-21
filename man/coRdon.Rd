@@ -4,7 +4,7 @@
 \name{coRdon}
 \alias{coRdon}
 \alias{coRdon-package}
-\title{coRdon: codone usage analysis in R}
+\title{coRdon: codon usage analysis in R}
 \description{
 R package for analysis of codone usage in unannotated or
 KEGG/COG annotated DNA sequences. Calculates various

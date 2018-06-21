@@ -62,7 +62,7 @@ codonTable object." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coRdon</a>
-        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.99.4</span>
+        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.99.5</span>
       </span>
     </div>
 
@@ -111,7 +111,7 @@ codonTable object." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Calculate MILC-based Expression Level Predictor (MELP).</h1>
-    <small class="dont-index">Source: <a href='https://github.com/BioinfoHR/coRdon/blob/master/R/codonUsage-expressivity.R'><code>R/codonUsage-expressivity.R</code></a></small>
+    
     <div class="hidden name"><code>MELP.Rd</code></div>
     </div>
 
@@ -199,7 +199,7 @@ in codons, used for filtering.</p></td>
 <span class='co'># calculate MELP with respect to the CU</span>
 <span class='co'># of ribosomal genes among the example DNA sequences</span>
 <span class='no'>melp</span> <span class='kw'>&lt;-</span> <span class='fu'>MELP</span>(<span class='no'>cT</span>, <span class='kw'>ribosomal</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='fu'>head</span>(<span class='no'>melp</span>)</div><div class='output co'>#&gt;      ribosomal
+<span class='fu'>head</span>(<span class='no'>melp</span>)</div><div class='output co'>#&gt;           [,1]
 #&gt; [1,] 0.9923626
 #&gt; [2,] 1.0009680
 #&gt; [3,] 0.9851862
@@ -217,16 +217,16 @@ in codons, used for filtering.</p></td>
 <span class='fu'>all.equal</span>(<span class='no'>melp</span>, <span class='no'>melp2</span>) <span class='co'># TRUE</span></div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
 <span class='co'># filtering</span>
 <span class='fu'>MELP</span>(<span class='no'>cT</span>, <span class='kw'>ribosomal</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-     <span class='kw'>filtering</span> <span class='kw'>=</span> <span class='st'>"hard"</span>, <span class='kw'>len.threshold</span> <span class='kw'>=</span> <span class='fl'>80</span>) <span class='co'># MELP for 9 sequences</span></div><div class='output co'>#&gt;       ribosomal
-#&gt;  [1,]         1
-#&gt;  [2,]         1
-#&gt;  [3,]         1
-#&gt;  [4,]         1
-#&gt;  [5,]         1
-#&gt;  [6,]         1
-#&gt;  [7,]         1
-#&gt;  [8,]         1
-#&gt;  [9,]         1</div><div class='input'>                                             <span class='co'># (note that, accidentally,</span>
+     <span class='kw'>filtering</span> <span class='kw'>=</span> <span class='st'>"hard"</span>, <span class='kw'>len.threshold</span> <span class='kw'>=</span> <span class='fl'>80</span>) <span class='co'># MELP for 9 sequences</span></div><div class='output co'>#&gt;       [,1]
+#&gt;  [1,]    1
+#&gt;  [2,]    1
+#&gt;  [3,]    1
+#&gt;  [4,]    1
+#&gt;  [5,]    1
+#&gt;  [6,]    1
+#&gt;  [7,]    1
+#&gt;  [8,]    1
+#&gt;  [9,]    1</div><div class='input'>                                             <span class='co'># (note that, accidentally,</span>
                                              <span class='co'># all are ribosomal)</span>
 <span class='fu'>sum</span>(<span class='fu'><a href='codonTable-class.html'>getlen</a></span>(<span class='no'>cT</span>) <span class='kw'>&gt;</span> <span class='fl'>80</span>) <span class='co'># 9 sequences are longer than 80 codons</span></div><div class='output co'>#&gt; [1] 9</div><div class='input'><span class='no'>melp1</span> <span class='kw'>&lt;-</span> <span class='fu'>MELP</span>(<span class='no'>cT</span>, <span class='kw'>ribosomal</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>filtering</span> <span class='kw'>=</span> <span class='st'>"none"</span>) <span class='co'># no filtering</span>
 <span class='no'>melp2</span> <span class='kw'>&lt;-</span> <span class='fu'>MELP</span>(<span class='no'>cT</span>, <span class='kw'>ribosomal</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>filtering</span> <span class='kw'>=</span> <span class='st'>"soft"</span>) <span class='co'># warning</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Some sequences have below-threshold length!</span></div><div class='input'><span class='fu'>all.equal</span>(<span class='no'>melp1</span>, <span class='no'>melp2</span>) <span class='co'># TRUE</span></div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>

@@ -12,7 +12,7 @@ NULL
     all <- contable$all
     all.sum <- sum(all)
 
-    by.top <- sapply(top_rows, function(row) {
+    by.top <- lapply(top_rows, function(row) {
 
         top <- unname(unlist(contable[,..row]))
         top.sum <- sum(top)
@@ -43,7 +43,9 @@ NULL
         df <- data.frame(labelDescription = names(ct))
         AnnotatedDataFrame(data = ct, varMetadata = df)
 
-    }, simplify = FALSE, USE.NAMES = TRUE)
+    })
+    names(by.top) <- top_rows
+    by.top
 }
 
 #' Enrichment analysis for codon usage (CU) data.
@@ -202,7 +204,8 @@ setMethod(
         }
 
         # AnnotatedDataFrame class
-        if (!(all(sapply(x, class) == "AnnotatedDataFrame")))
+        if (!(all(vapply(x, class,
+                         character(length = 1)) == "AnnotatedDataFrame")))
             stop("x should be a (nested) list of AnnotatedDataFrame objects!")
 
         .makemat(x, variable, replace.na)

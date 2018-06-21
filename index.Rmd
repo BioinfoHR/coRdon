@@ -70,9 +70,15 @@ including MA-like plot and bar plot.
 ### <i class="fa fa-cog" aria-hidden="true"></i> Geting started
 <br>
 To install coRdon, run the following in R:
-```{r}
+```{r eval=FALSE}
+source("https://bioconductor.org/biocLite.R")
+biocLite("coRdon")
+```
+The developmental version can be installed directly from from GitHub: 
+```{r eval=FALSE}
 devtools::install_github("BioinfoHR/coRdon")
 ```
+
 For worked example on how to do analysis of codon usage with coRdon, 
 please see [the package vignette](articles/coRdon.html).
 

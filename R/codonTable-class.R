@@ -5,19 +5,20 @@ NULL
 
 #' An S4 class \code{codonTable}
 #'
-#' Contains codon counts and optional annotation for a set DNA sequences.
+#' Contains codon counts and optional annotation
+#' for a set DNA sequences.
 #'
 #' @slot ID A character vector of sequence identifiers.
-#' @slot counts A matrix containing codon counts. Columns are codons, rows are
-#'    sequences.
-#' @slot len A numeric vector,length equal to \code{nrow(counts)}, containing
-#'    lengths of sequnces.
-#' @slot KO A character vector of KEGG annotations for sequences, length equal
-#'    to \code{nrow(counts)}. If no annotation is available, this will be
-#'    an empty vector.
-#' @slot COG  A character vector of COG annotations for sequences, length
-#'    equal to \code{nrow(counts)}. If no annotation is available, this
-#'    will be an empty vector.
+#' @slot counts A matrix containing codon counts.
+#'    Columns are codons, rows are sequences.
+#' @slot len A numeric vector,length equal to \code{nrow(counts)},
+#'    containing lengths of sequnces.
+#' @slot KO A character vector of KEGG annotations for sequences,
+#'    length equal to \code{nrow(counts)}. If no annotation
+#'    is available, this will be an empty vector.
+#' @slot COG  A character vector of COG annotations for sequences,
+#'    length equal to \code{nrow(counts)}. If no annotation
+#'    is available, this will be an empty vector.
 #'
 #' @examples
 #' # create codonTable with codon counts for sequences in DNAStringSet
@@ -318,7 +319,8 @@ setGeneric(
     }
 )
 #' @describeIn codonTable
-#' Get KO annotations of sequences in \code{codonTable} object.
+#' Get KO annotations of sequences
+#' in \code{codonTable} object.
 #'
 #' @inheritParams codonCounts
 #'
@@ -339,11 +341,12 @@ setGeneric(
         standardGeneric("setKO")
     }
 )
-#' @describeIn codonTable Set KO annotations for \code{codonTable} object.
+#' @describeIn codonTable Set KO annotations
+#' for \code{codonTable} object.
 #'
 #' @inheritParams codonCounts
-#' @param ann A character vector of sequence annotations, must be of length
-#'    equal to \code{length(object)}.
+#' @param ann A character vector of sequence annotations,
+#'    must be of length equal to \code{length(object)}.
 #'
 #' @export
 setMethod(
@@ -366,7 +369,8 @@ setGeneric(
 )
 
 #' @describeIn codonTable
-#' Get COG annotations of sequences in \code{codonTable} object.
+#' Get COG annotations of sequences
+#' in \code{codonTable} object.
 #'
 #' @inheritParams codonCounts
 #'
@@ -389,7 +393,8 @@ setGeneric(
     }
 )
 
-#' @describeIn codonTable Set COG annotations for \code{codonTable} object.
+#' @describeIn codonTable Set COG annotations
+#' for \code{codonTable} object.
 #'
 #' @inheritParams setKO
 #'
@@ -468,8 +473,8 @@ setMethod(
 #'     \code{getCOG(x)}.
 #' @inheritParams base::subset
 #'
-#' @return subsets of \code{codonTable} object, keeping in each slot only
-#' those elements that meet the criteria in \code{subset}.
+#' @return subsets of \code{codonTable} object, keeping in each slot
+#' only those elements that meet the criteria in \code{subset}.
 #'
 #' @examples
 #' # create codonTable

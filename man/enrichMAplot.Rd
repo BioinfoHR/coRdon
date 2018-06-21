@@ -25,8 +25,8 @@ enrichMAplot(x, pvalue = "pvals", siglev = 0.05)
 A \code{ggplot} object.
 }
 \description{
-Make an MA-like plot of enriched annotations, similar to the commonly used
-plots in differential expression analysis.
+Make an MA-like plot of enriched annotations, similar to
+the commonly used plots in differential expression analysis.
 }
 \examples{
 require(ggplot2)

@@ -40,22 +40,24 @@ to be used in CU calculations.
 \section{Slots}{
 
 \describe{
-\item{\code{ctab}}{A \code{data.table} with two colums: \code{codon} and \code{AA},
-amino acid.}
+\item{\code{ctab}}{A \code{data.table} with two colums:
+\code{codon} and \code{AA}, amino acid.}
 
 \item{\code{codons}}{A character vector of codons.}
 
-\item{\code{stops}}{A character vector of stop codons. Note that, if \code{stop.rm}
-is \code{TRUE}, this will be an empty vector.}
+\item{\code{stops}}{A character vector of stop codons. Note that,
+if \code{stop.rm} is \code{TRUE}, this will be
+an empty vector.}
 
-\item{\code{nostops}}{A character vector of no-stop codons. If \code{stop.rm} is
-\code{TRUE}, this will be equal to the \code{codons} slot.}
+\item{\code{nostops}}{A character vector of no-stop codons.
+If \code{stop.rm} is \code{TRUE}, this will be
+equal to the \code{codons} slot.}
 
-\item{\code{cl}}{A list, each element of which is a vector of integers indicating
-the positions of synonymous codons for that amino acid, when codons are
-alphabetically ordered.}
+\item{\code{cl}}{A list, each element of which is a vector of integers
+indicating the positions of synonymous codons for that amino
+acid, when codons are ordered alphabetically.}
 
-\item{\code{deg}}{A numeric vector of degeneracies for alphabetically ordered amino
-acids.}
+\item{\code{deg}}{A numeric vector of degeneracies for
+alphabetically ordered amino acids.}
 }}
 

@@ -6,7 +6,11 @@ NULL
 
 setGeneric(
     name = "expectedCU",
-    def = function(cTobject, gCobject, subsets, self, ribosomal){
+    def = function(cTobject,
+                   gCobject,
+                   subsets,
+                   self,
+                   ribosomal) {
         standardGeneric("expectedCU")
     }
 )
@@ -14,7 +18,11 @@ setGeneric(
 setMethod(
     f = "expectedCU",
     signature = c(cTobject = "codonTable", subsets = "list"),
-    definition = function(cTobject, gCobject, subsets, self, ribosomal) {
+    definition = function(cTobject,
+                          gCobject,
+                          subsets,
+                          self,
+                          ribosomal) {
         ns <- length(cTobject@len)
         if (!is.list(subsets))
             stop(
@@ -27,11 +35,11 @@ setMethod(
                 )
             )
         if (length(subsets) != 0) {
-            ok <- sapply(subsets, function(x) {
+            ok <- vapply(subsets, function(x) {
                 all(is.vector(x, mode = "logical"), length(x) == ns) |
                     is.vector(x, mode = "character") |
                     all(inherits(x, "codonTable"), nrow(x) > 0)
-            })
+            }, logical(length = 1))
             stopifnot(ok)
             nam <- names(subsets)
             nsubs <- length(subsets)
@@ -52,19 +60,20 @@ setMethod(
             self_set <- rep.int(TRUE, ns)
             subsets <- c(list(self = c(self_set)), subsets)
         }
-        sapply(subsets, function(s) {
+        vapply(subsets, function(s) {
             if (all(class(s) %in% c("logical", "character")))
                 .normSetFrequencies(subset(cTobject, s), gCobject)
             else if (all(is(s, "codonTable")))
                 .normSetFrequencies(s, gCobject)
-        })
+        }, numeric(length = nrow(gCobject@ctab)))
     }
 )
 
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### MILC, Supek and Vlahovicek 2005.
 ###
-#' Calculate codon usage Measure Independent of Length and Composition (MILC)
+#' Calculate codon usage Measure Independent of
+#' Length and Composition (MILC)
 #'
 #' Calculate MILC values for every sequence in the given
 #' \code{codonTable} object.
@@ -154,32 +163,41 @@ setGeneric(
 setMethod(
     f = "MILC",
     signature = c(cTobject = "codonTable"),
-    definition = function(cTobject, subsets, self, ribosomal,
-                          id_or_name2, alt.init, stop.rm,
-                          filtering, len.threshold) {
-
+    definition = function(cTobject,
+                          subsets,
+                          self,
+                          ribosomal,
+                          id_or_name2,
+                          alt.init,
+                          stop.rm,
+                          filtering,
+                          len.threshold) {
         if (filtering == "hard") {
             cTobject <- subset(cTobject, cTobject@len > len.threshold)
         } else if (filtering == "soft") {
             if (any(cTobject@len < len.threshold))
                 warning("Some sequences have below-threshold length!")
-        } else if (filtering == "none") NULL
+        } else if (filtering == "none")
+            NULL
 
         gCobject <- genCode(id_or_name2, alt.init, stop.rm)
         if (stop.rm) {
-            cTobject@counts <- cTobject@counts[,gCobject@nostops]
-            cTobject@len <- rowSums(cTobject@counts[,gCobject@nostops])
+            cTobject@counts <- cTobject@counts[, gCobject@nostops]
+            cTobject@len <-
+                rowSums(cTobject@counts[, gCobject@nostops])
         }
 
         len <- cTobject@len
         csums <- .countsbyaa(cTobject, gCobject)
         fc <- .normFrequencies(cTobject, gCobject)
-        gc <- expectedCU(cTobject, gCobject, subsets, self, ribosomal)
-        cor <- as.numeric(((csums > 0) %*% (gCobject@deg - 1)) / len - 0.5)
-        sapply(colnames(gc), function(x) {
+        gc <-
+            expectedCU(cTobject, gCobject, subsets, self, ribosomal)
+        cor <-
+            as.numeric(((csums > 0) %*% (gCobject@deg - 1)) / len - 0.5)
+        vapply(colnames(gc), function(x) {
             rowSums(2 * cTobject@counts * log(t(t(fc) / gc[, x])),
                     na.rm = TRUE) / len - cor
-        })
+        }, numeric(length = nrow(cTobject@counts)))
 
     }
 )
@@ -242,9 +260,15 @@ setMethod(
 #' @export
 setGeneric(
     name = "B",
-    def = function(cTobject, subsets = list(), self = TRUE, ribosomal = FALSE,
-                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
-                   filtering = "none", len.threshold = 80) {
+    def = function(cTobject,
+                   subsets = list(),
+                   self = TRUE,
+                   ribosomal = FALSE,
+                   id_or_name2 = "1",
+                   alt.init = TRUE,
+                   stop.rm = FALSE,
+                   filtering = "none",
+                   len.threshold = 80) {
         standardGeneric("B")
     }
 )
@@ -254,32 +278,41 @@ setGeneric(
 setMethod(
     f = "B",
     signature = c(cTobject = "codonTable"),
-    definition = function(cTobject, subsets, self, ribosomal,
-                          id_or_name2, alt.init, stop.rm,
-                          filtering, len.threshold) {
-
+    definition = function(cTobject,
+                          subsets,
+                          self,
+                          ribosomal,
+                          id_or_name2,
+                          alt.init,
+                          stop.rm,
+                          filtering,
+                          len.threshold) {
         if (filtering == "hard") {
             cTobject <- subset(cTobject, cTobject@len > len.threshold)
         } else if (filtering == "soft") {
             if (any(cTobject@len < len.threshold))
                 warning("Some sequences have below-threshold length!")
-        } else if (filtering == "none") NULL
+        } else if (filtering == "none")
+            NULL
 
         gCobject <- genCode(id_or_name2, alt.init, stop.rm)
         if (stop.rm) {
-            cTobject@counts <- cTobject@counts[,gCobject@nostops]
-            cTobject@len <- rowSums(cTobject@counts[,gCobject@nostops])
+            cTobject@counts <- cTobject@counts[, gCobject@nostops]
+            cTobject@len <-
+                rowSums(cTobject@counts[, gCobject@nostops])
         }
 
         pa <- .countsbyaa(cTobject, gCobject) / cTobject@len
         fc <- .normFrequencies(cTobject, gCobject)
-        gc <- expectedCU(cTobject, gCobject, subsets, self, ribosomal)
-        sapply(colnames(gc), function(x) {
+        gc <-
+            expectedCU(cTobject, gCobject, subsets, self, ribosomal)
+        vapply(colnames(gc), function(x) {
             dt <- as.data.table(t(abs(t(fc) - gc[, x])))
-            ba <- sapply(gCobject@cl, function(x)
-                dt[, Reduce('+', .SD), .SDcols = x])
+            ba <- vapply(gCobject@cl, function(x)
+                dt[, Reduce('+', .SD), .SDcols = x],
+                numeric(length = nrow(dt)))
             rowSums(pa * ba, na.rm = TRUE)
-        })
+        }, numeric(length = nrow(cTobject@counts)))
     }
 )
 
@@ -341,9 +374,15 @@ setMethod(
 #' @export
 setGeneric(
     name = "MCB",
-    def = function(cTobject, subsets = list(), self = TRUE, ribosomal = FALSE,
-                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
-                   filtering = "none", len.threshold = 80) {
+    def = function(cTobject,
+                   subsets = list(),
+                   self = TRUE,
+                   ribosomal = FALSE,
+                   id_or_name2 = "1",
+                   alt.init = TRUE,
+                   stop.rm = FALSE,
+                   filtering = "none",
+                   len.threshold = 80) {
         standardGeneric("MCB")
     }
 )
@@ -353,37 +392,46 @@ setGeneric(
 setMethod(
     f = "MCB",
     signature = c(cTobject = "codonTable"),
-    definition = function(cTobject, subsets, self, ribosomal,
-                          id_or_name2, alt.init, stop.rm,
-                          filtering, len.threshold) {
-
+    definition = function(cTobject,
+                          subsets,
+                          self,
+                          ribosomal,
+                          id_or_name2,
+                          alt.init,
+                          stop.rm,
+                          filtering,
+                          len.threshold) {
         if (filtering == "hard") {
             cTobject <- subset(cTobject, cTobject@len > len.threshold)
         } else if (filtering == "soft") {
             if (any(cTobject@len < len.threshold))
                 warning("Some sequences have below-threshold length!")
-        } else if (filtering == "none") NULL
+        } else if (filtering == "none")
+            NULL
 
         gCobject <- genCode(id_or_name2, alt.init, stop.rm)
         if (stop.rm) {
-            cTobject@counts <- cTobject@counts[,gCobject@nostops]
-            cTobject@len <- rowSums(cTobject@counts[,gCobject@nostops])
+            cTobject@counts <- cTobject@counts[, gCobject@nostops]
+            cTobject@len <-
+                rowSums(cTobject@counts[, gCobject@nostops])
         }
 
         deg <- gCobject@deg
         csums <- .countsbyaa(cTobject, gCobject)
-        A <- csums[, deg>1] > 0
+        A <- csums[, deg > 1] > 0
         fc <- .normFrequencies(cTobject, gCobject)
-        gc <- expectedCU(cTobject, gCobject, subsets, self, ribosomal)
-        sapply(colnames(gc), function(x) {
-            dt <- as.data.table(t((t(fc) - gc[, x])^2 / gc[, x]))
+        gc <-
+            expectedCU(cTobject, gCobject, subsets, self, ribosomal)
+        vapply(colnames(gc), function(x) {
+            dt <- as.data.table(t((t(fc) - gc[, x]) ^ 2 / gc[, x]))
             dt[which(is.na(dt), arr.ind = TRUE)] <- 0 # gc > 0
-            dt[cTobject@counts<=0] <- 0 # counts > 0
-            ba <- sapply(gCobject@cl, function(y)
-                dt[, Reduce('+', .SD), .SDcols = y])
-            rowSums(ba[, deg>1] * log10(csums[, deg>1]),
+            dt[cTobject@counts <= 0] <- 0 # counts > 0
+            ba <- vapply(gCobject@cl, function(y)
+                dt[, Reduce('+', .SD), .SDcols = y],
+                numeric(length = nrow(dt)))
+            rowSums(ba[, deg > 1] * log10(csums[, deg > 1]),
                     na.rm = TRUE) / rowSums(A)
-        })
+        }, numeric(length = nrow(cTobject@counts)))
     }
 )
 
@@ -445,9 +493,15 @@ setMethod(
 #' @export
 setGeneric(
     name = "ENCprime",
-    def = function(cTobject, subsets = list(), self = TRUE, ribosomal = FALSE,
-                   id_or_name2 = "1", alt.init = TRUE, stop.rm = TRUE,
-                   filtering = "none", len.threshold = 80) {
+    def = function(cTobject,
+                   subsets = list(),
+                   self = TRUE,
+                   ribosomal = FALSE,
+                   id_or_name2 = "1",
+                   alt.init = TRUE,
+                   stop.rm = TRUE,
+                   filtering = "none",
+                   len.threshold = 80) {
         standardGeneric("ENCprime")
     }
 )
@@ -457,44 +511,51 @@ setGeneric(
 setMethod(
     f = "ENCprime",
     signature = c(cTobject = "codonTable"),
-    definition = function(cTobject, subsets, self, ribosomal,
-                          id_or_name2, alt.init, stop.rm,
-                          filtering, len.threshold) {
-
+    definition = function(cTobject,
+                          subsets,
+                          self,
+                          ribosomal,
+                          id_or_name2,
+                          alt.init,
+                          stop.rm,
+                          filtering,
+                          len.threshold) {
         if (filtering == "hard") {
             cTobject <- subset(cTobject, cTobject@len > len.threshold)
         } else if (filtering == "soft") {
             if (any(cTobject@len < len.threshold))
                 warning("Some sequences have below-threshold length!")
-        } else if (filtering == "none") NULL
+        } else if (filtering == "none")
+            NULL
 
         gCobject <- genCode(id_or_name2, alt.init, stop.rm)
         if (stop.rm) {
-            cTobject@counts <- cTobject@counts[,gCobject@nostops]
-            cTobject@len <- rowSums(cTobject@counts[,gCobject@nostops])
+            cTobject@counts <- cTobject@counts[, gCobject@nostops]
+            cTobject@len <-
+                rowSums(cTobject@counts[, gCobject@nostops])
         }
 
         deg <- gCobject@deg
         csums <- .countsbyaa(cTobject, gCobject)
         fc <- .normFrequencies(cTobject, gCobject)
-        gc <- expectedCU(cTobject, gCobject, subsets, self, ribosomal)
-        sapply(colnames(gc), function(x) {
+        gc <-
+            expectedCU(cTobject, gCobject, subsets, self, ribosomal)
+        vapply(colnames(gc), function(x) {
             # chi squared
-            dt <- as.data.table(t((t(fc) - gc[, x])^2 / gc[, x]))
-            # if (any(gc==0, na.rm = TRUE)) {
-            #     infs <- unique(which(dt == Inf, arr.ind = T)[,2])
-            #     dt[, (infs) := 0]
-            # }
+            dt <- as.data.table(t((t(fc) - gc[, x]) ^ 2 / gc[, x]))
             dt[which(is.na(dt), arr.ind = TRUE)] <- 0
-            chisum <- sapply(gCobject@cl, function(x)
-                dt[, Reduce('+', .SD), .SDcols = x])
+            chisum <- vapply(gCobject@cl, function(x)
+                dt[, Reduce('+', .SD), .SDcols = x],
+                numeric(length = nrow(dt)))
             chisq <- csums * chisum
             # homozygosity
-            fa <- as.data.table(t((t(chisq + csums) - deg) /
-                                      (deg * t(csums - 1))))
-            fa[csums<5] <- NA
+            fa <- as.data.table(t((t(
+                chisq + csums
+            ) - deg) /
+                (deg * t(csums - 1))))
+            fa[csums < 5] <- NA
             .effNc(fa, deg)
-        })
+        }, numeric(length = nrow(cTobject@counts)))
     }
 )
 
@@ -539,9 +600,12 @@ setMethod(
 #' @export
 setGeneric(
     name = "ENC",
-    def = function(cTobject, id_or_name2 = "1",
-                   alt.init = TRUE, stop.rm = TRUE,
-                   filtering = "none", len.threshold = 80) {
+    def = function(cTobject,
+                   id_or_name2 = "1",
+                   alt.init = TRUE,
+                   stop.rm = TRUE,
+                   filtering = "none",
+                   len.threshold = 80) {
         standardGeneric("ENC")
     }
 )
@@ -551,27 +615,34 @@ setGeneric(
 setMethod(
     f = "ENC",
     signature = c(cTobject = "codonTable"),
-    definition = function(cTobject, id_or_name2, alt.init, stop.rm,
-                          filtering, len.threshold) {
-
+    definition = function(cTobject,
+                          id_or_name2,
+                          alt.init,
+                          stop.rm,
+                          filtering,
+                          len.threshold) {
         if (filtering == "hard") {
             cTobject <- subset(cTobject, cTobject@len > len.threshold)
         } else if (filtering == "soft") {
             if (any(cTobject@len < len.threshold))
                 warning("Some sequences have below-threshold length!")
-        } else if (filtering == "none") NULL
+        } else if (filtering == "none")
+            NULL
 
         gCobject <- genCode(id_or_name2, alt.init, stop.rm)
         if (stop.rm) {
-            cTobject@counts <- cTobject@counts[,gCobject@nostops]
-            cTobject@len <- rowSums(cTobject@counts[,gCobject@nostops])
+            cTobject@counts <- cTobject@counts[, gCobject@nostops]
+            cTobject@len <-
+                rowSums(cTobject@counts[, gCobject@nostops])
         }
         cl <- gCobject@cl
         counts <- as.data.table(cTobject@counts)
         csums <- .countsbyaa(cTobject, gCobject)
-        freqs <- sapply(seq_along(cl), function(x)
-            counts[,.SD/csums[,x], .SDcols = cl[[x]]])
-        pi <- sapply(freqs, function(x) rowSums(x^2, na.rm = TRUE))
+        freqs <- lapply(seq_along(cl), function(x)
+            counts[, .SD / csums[, x], .SDcols = cl[[x]]])
+        pi <- vapply(freqs, function(x)
+            rowSums(x ^ 2, na.rm = TRUE),
+            numeric(length = nrow(counts)))
         # remove AA with count <= 1
         csums[which(csums <= 1, arr.ind = TRUE)] <- NA
         fa <- as.data.table((csums * pi - 1) / (csums - 1))
@@ -620,9 +691,12 @@ setMethod(
 #' @export
 setGeneric(
     name = "SCUO",
-    def = function(cTobject, id_or_name2 = "1",
-                   alt.init = TRUE, stop.rm = FALSE,
-                   filtering = "none", len.threshold = 80) {
+    def = function(cTobject,
+                   id_or_name2 = "1",
+                   alt.init = TRUE,
+                   stop.rm = FALSE,
+                   filtering = "none",
+                   len.threshold = 80) {
         standardGeneric("SCUO")
     }
 )
@@ -632,31 +706,39 @@ setGeneric(
 setMethod(
     f = "SCUO",
     signature = c(cTobject = "codonTable"),
-    definition = function(cTobject, id_or_name2, alt.init, stop.rm,
-                          filtering, len.threshold) {
-
+    definition = function(cTobject,
+                          id_or_name2,
+                          alt.init,
+                          stop.rm,
+                          filtering,
+                          len.threshold) {
         if (filtering == "hard") {
             cTobject <- subset(cTobject, cTobject@len > len.threshold)
         } else if (filtering == "soft") {
             if (any(cTobject@len < len.threshold))
                 warning("Some sequences have below-threshold length!")
-        } else if (filtering == "none") NULL
+        } else if (filtering == "none")
+            NULL
 
         gCobject <- genCode(id_or_name2, alt.init, stop.rm)
         if (stop.rm) {
-            cTobject@counts <- cTobject@counts[,gCobject@nostops]
-            cTobject@len <- rowSums(cTobject@counts[,gCobject@nostops])
+            cTobject@counts <- cTobject@counts[, gCobject@nostops]
+            cTobject@len <-
+                rowSums(cTobject@counts[, gCobject@nostops])
         }
 
         cl <- gCobject@cl
         counts <- as.data.table(cTobject@counts)
         csums <- .countsbyaa(cTobject, gCobject)
-        freqs <- sapply(seq_along(cl), function(x)
-            counts[,.SD/csums[,x], .SDcols = cl[[x]]])
-        Ha <- sapply(freqs, function(x) rowSums(-x*log10(x), na.rm = TRUE))
-        Hmax <- log10(sapply(cl, length))
+        freqs <- lapply(seq_along(cl), function(x)
+            counts[, .SD / csums[, x], .SDcols = cl[[x]]])
+        Ha <-
+            vapply(freqs, function(x)
+                rowSums(-x * log10(x), na.rm = TRUE),
+                numeric(length = nrow(counts)))
+        Hmax <- log10(vapply(cl, length, numeric(length = 1)))
         Oa <- t((Hmax - t(Ha)) / Hmax)
-        Fa <- csums / rowSums(csums[,gCobject@deg>1])
+        Fa <- csums / rowSums(csums[, gCobject@deg > 1])
         rowSums(Oa * Fa, na.rm = TRUE)
     }
 )

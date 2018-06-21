@@ -1,7 +1,7 @@
 Package: coRdon
 Type: Package
 Title: Codon Usage Analysis and Prediction of Gene Expressivity
-Version: 0.99.4
+Version: 0.99.5
 Authors@R: 
     c(person(given = "Anamaria",
              family = "Elek",
@@ -26,8 +26,8 @@ License: Artistic-2.0
 LazyData: TRUE
 biocViews: Software, Metagenomics, GeneExpression, GeneSetEnrichment,
     GenePrediction, Visualization, KEGG, Pathways
-Depends: R (>= 3.5), methods
-Imports: Biostrings, Biobase, data.table, purrr, ggplot2
+Depends: R (>= 3.5)
+Imports: methods, stats, utils, Biostrings, Biobase, data.table, purrr, ggplot2
 Suggests: BiocStyle, testthat, knitr, rmarkdown
 RoxygenNote: 6.0.1
 Collate: 
@@ -44,5 +44,5 @@ Collate:
     'enrichment.R'
     'readSet.R'
 VignetteBuilder: knitr
-URL: https://github.com/BioinfoHR/coRdon, http://bioinfo.hr/software-tools/
+URL: https://bioinfohr.github.io/coRdon/, http://bioinfo.hr/software-tools/
 BugReports: https://github.com/BioinfoHR/coRdon/issues

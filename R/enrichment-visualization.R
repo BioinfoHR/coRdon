@@ -23,8 +23,8 @@ NULL
 
 #' MA plot of enriched annotations.
 #'
-#' Make an MA-like plot of enriched annotations, similar to the commonly used
-#' plots in differential expression analysis.
+#' Make an MA-like plot of enriched annotations, similar to
+#' the commonly used plots in differential expression analysis.
 #'
 #' @param x \code{AnnotatedDataFrame} object, or a list of those.
 #' @param pvalue Character, one of \code{c("pvals", "padj")}.
@@ -60,7 +60,8 @@ setMethod(
     signature = c(x = "list"),
     definition = function(x, pvalue, siglev) {
 
-        if (!all(sapply(x, class) == "AnnotatedDataFrame"))
+        if (!all(vapply(x, class,
+                        character(length = 1)) == "AnnotatedDataFrame"))
             stop("x should be a list of AnnotatedDataFrame objects!")
 
         x <- lapply(x, function(x) as.data.table(pData(x)))
@@ -146,13 +147,14 @@ setMethod(
     signature = c(x = "list"),
     definition = function(x, variable, pvalue, siglev) {
 
-        if (!all(sapply(x, class) == "AnnotatedDataFrame"))
+        if (!all(vapply(x, class,
+                        character(length = 1)) == "AnnotatedDataFrame"))
             stop("x should be a list of AnnotatedDataFrame objects!")
 
-        out <- sapply(x, function(y){
+        out <- lapply(x, function(y){
             y <- as.data.table(pData(y))
             y[, c("category", variable, pvalue), with = FALSE]
-        }, simplify = FALSE, USE.NAMES = TRUE)
+        })
 
         dt <- data.table::rbindlist(out, fill = TRUE, idcol = "subset")
         keycols <- c("subset", variable)

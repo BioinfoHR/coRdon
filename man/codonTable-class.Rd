@@ -65,14 +65,15 @@ setCOG(object, ann)
 
 \item{object}{A \code{codonTable} object.}
 
-\item{ann}{A character vector of sequence annotations, must be of length
-equal to \code{length(object)}.}
+\item{ann}{A character vector of sequence annotations,
+must be of length equal to \code{length(object)}.}
 }
 \value{
 A \code{codonTable}.
 }
 \description{
-Contains codon counts and optional annotation for a set DNA sequences.
+Contains codon counts and optional annotation
+for a set DNA sequences.
 }
 \section{Methods (by generic)}{
 \itemize{
@@ -84,13 +85,17 @@ Contains codon counts and optional annotation for a set DNA sequences.
 
 \item \code{getlen}: Get lengths of sequences in \code{codonTable} object.
 
-\item \code{getKO}: Get KO annotations of sequences in \code{codonTable} object.
+\item \code{getKO}: Get KO annotations of sequences
+in \code{codonTable} object.
 
-\item \code{setKO}: Set KO annotations for \code{codonTable} object.
+\item \code{setKO}: Set KO annotations
+for \code{codonTable} object.
 
-\item \code{getCOG}: Get COG annotations of sequences in \code{codonTable} object.
+\item \code{getCOG}: Get COG annotations of sequences
+in \code{codonTable} object.
 
-\item \code{setCOG}: Set COG annotations for \code{codonTable} object.
+\item \code{setCOG}: Set COG annotations
+for \code{codonTable} object.
 }}
 
 \section{Slots}{
@@ -98,19 +103,19 @@ Contains codon counts and optional annotation for a set DNA sequences.
 \describe{
 \item{\code{ID}}{A character vector of sequence identifiers.}
 
-\item{\code{counts}}{A matrix containing codon counts. Columns are codons, rows are
-sequences.}
+\item{\code{counts}}{A matrix containing codon counts.
+Columns are codons, rows are sequences.}
 
-\item{\code{len}}{A numeric vector,length equal to \code{nrow(counts)}, containing
-lengths of sequnces.}
+\item{\code{len}}{A numeric vector,length equal to \code{nrow(counts)},
+containing lengths of sequnces.}
 
-\item{\code{KO}}{A character vector of KEGG annotations for sequences, length equal
-to \code{nrow(counts)}. If no annotation is available, this will be
-an empty vector.}
+\item{\code{KO}}{A character vector of KEGG annotations for sequences,
+length equal to \code{nrow(counts)}. If no annotation
+is available, this will be an empty vector.}
 
-\item{\code{COG}}{A character vector of COG annotations for sequences, length
-equal to \code{nrow(counts)}. If no annotation is available, this
-will be an empty vector.}
+\item{\code{COG}}{A character vector of COG annotations for sequences,
+length equal to \code{nrow(counts)}. If no annotation
+is available, this will be an empty vector.}
 }}
 
 \examples{

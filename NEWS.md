@@ -1,5 +1,9 @@
 ## coRdon 0.99.4
 
+* Addressed build notes.
+
+## coRdon 0.99.4
+
 * Added package website.
 
 ## coRdon 0.99.3

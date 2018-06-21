@@ -32,7 +32,8 @@
 
 <meta property="og:title" content="An S4 class <code>codonTable</code> — codonTable-class" />
 
-<meta property="og:description" content="Contains codon counts and optional annotation for a set DNA sequences." />
+<meta property="og:description" content="Contains codon counts and optional annotation
+for a set DNA sequences." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -61,7 +62,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coRdon</a>
-        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.99.4</span>
+        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.99.5</span>
       </span>
     </div>
 
@@ -110,13 +111,14 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>An S4 class <code>codonTable</code></h1>
-    <small class="dont-index">Source: <a href='https://github.com/BioinfoHR/coRdon/blob/master/R/codonTable-class.R'><code>R/codonTable-class.R</code></a></small>
+    
     <div class="hidden name"><code>codonTable-class.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Contains codon counts and optional annotation for a set DNA sequences.</p>
+    <p>Contains codon counts and optional annotation
+for a set DNA sequences.</p>
     
     </div>
 
@@ -180,8 +182,8 @@
     </tr>
     <tr>
       <th>ann</th>
-      <td><p>A character vector of sequence annotations, must be of length
-equal to <code>length(object)</code>.</p></td>
+      <td><p>A character vector of sequence annotations,
+must be of length equal to <code>length(object)</code>.</p></td>
     </tr>
     </table>
     
@@ -196,10 +198,13 @@ equal to <code>length(object)</code>.</p></td>
 <li><p><code>codonCounts</code>: Get codon counts from <code>codonTable</code> object.</p></li>
 <li><p><code>getID</code>: Get IDs for <code>codonTable</code> class.</p></li>
 <li><p><code>getlen</code>: Get lengths of sequences in <code>codonTable</code> object.</p></li>
-<li><p><code>getKO</code>: Get KO annotations of sequences in <code>codonTable</code> object.</p></li>
-<li><p><code>setKO</code>: Set KO annotations for <code>codonTable</code> object.</p></li>
+<li><p><code>getKO</code>: Get KO annotations of sequences
+in <code>codonTable</code> object.</p></li>
+<li><p><code>setKO</code>: Set KO annotations
+for <code>codonTable</code> object.</p></li>
 <li><p><code>getCOG</code>: Get COG annotations of sequences in <code>codonTable</code> object.</p></li>
-<li><p><code>setCOG</code>: Set COG annotations for <code>codonTable</code> object.</p></li>
+<li><p><code>setCOG</code>: Set COG annotations
+for <code>codonTable</code> object.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="slots"><a class="anchor" href="#slots"></a>Slots</h2>
@@ -207,16 +212,16 @@ equal to <code>length(object)</code>.</p></td>
     
     <dl class='dl-horizontal'>
 <dt><code>ID</code></dt><dd><p>A character vector of sequence identifiers.</p></dd>
-    <dt><code>counts</code></dt><dd><p>A matrix containing codon counts. Columns are codons, rows are
-sequences.</p></dd>
-    <dt><code>len</code></dt><dd><p>A numeric vector,length equal to <code>nrow(counts)</code>, containing
-lengths of sequnces.</p></dd>
-    <dt><code>KO</code></dt><dd><p>A character vector of KEGG annotations for sequences, length equal
-to <code>nrow(counts)</code>. If no annotation is available, this will be
-an empty vector.</p></dd>
-    <dt><code>COG</code></dt><dd><p>A character vector of COG annotations for sequences, length
-equal to <code>nrow(counts)</code>. If no annotation is available, this
-will be an empty vector.</p></dd>
+    <dt><code>counts</code></dt><dd><p>A matrix containing codon counts.
+Columns are codons, rows are sequences.</p></dd>
+    <dt><code>len</code></dt><dd><p>A numeric vector,length equal to <code>nrow(counts)</code>,
+containing lengths of sequnces.</p></dd>
+    <dt><code>KO</code></dt><dd><p>A character vector of KEGG annotations for sequences,
+length equal to <code>nrow(counts)</code>. If no annotation
+is available, this will be an empty vector.</p></dd>
+    <dt><code>COG</code></dt><dd><p>A character vector of COG annotations for sequences,
+length equal to <code>nrow(counts)</code>. If no annotation
+is available, this will be an empty vector.</p></dd>
 </dl>
     
 
