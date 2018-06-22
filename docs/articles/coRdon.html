@@ -5,11 +5,11 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Introduction to codon usage (CU) analysis in R • coRdon</title>
+<title>Codon usage (CU) analysis in R • coRdon</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/paper/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Introduction to codon usage (CU) analysis in R">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Codon usage (CU) analysis in R">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
@@ -29,7 +29,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coRdon</a>
-        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.99.5</span>
+        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.99.6</span>
       </span>
     </div>
 
@@ -76,10 +76,10 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Introduction to codon usage (CU) analysis in R</h1>
+      <h1>Codon usage (CU) analysis in R</h1>
                         <h4 class="author">Anamaria Elek</h4>
             
-            <h4 class="date">2018-06-21</h4>
+            <h4 class="date">2018-06-22</h4>
       
       
       <div class="hidden name"><code>coRdon.Rmd</code></div>
@@ -89,7 +89,7 @@
     
         <div class="abstract">
       <p class="abstract">Abstract</p>
-      <code>coRdon</code> provides tools for analysis of codone usage (CU) in various unannotated or KEGG/COG annotated DNA sequences. Funcionalities include: calculation of different CU bias statistics and CU-based predictors of gene expression, gene set enrichment analysis for annotated sequences, and several methods for visualization of CU and enrichment analysis results.
+      <p><code>coRdon</code> provides tools for analysis of codone usage (CU) in various unannotated or KEGG/COG annotated DNA sequences. Funcionalities include: calculation of different CU bias statistics and CU-based predictors of gene expression, gene set enrichment analysis for annotated sequences, and several methods for visualization of CU and enrichment analysis results.</p>
     </div>
     
 <script type="text/javascript">
@@ -111,32 +111,32 @@ document.addEventListener("DOMContentLoaded", function() {
 <p>A typical workflow for analysing CU bias includes:</p>
 <ul>
 <li>calculating one of the CU statistics</li>
-<li>comparing CU of every sequence (ORF, gene) to average CU of a set of highly expressed genes</li>
-<li>functional enrichment analysis for the subset of genes that have CU similar to a reference set of highly expressed genes, and are therefore predicted to be highly expressed themselves.</li>
+<li>comparing CU of every gene to average CU of highly expressed genes</li>
+<li>functional enrichment analysis for the predicted highly expressed genes (i.e. those that have CU similar to a reference set of highly expressed genes).</li>
 </ul>
 </div>
 <div id="installation" class="section level1">
 <h1 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h1>
 <p>Install coRdon from Bioconductor:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">source</span>(<span class="st">"https://bioconductor.org/biocLite.R"</span>)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">biocLite</span>(<span class="st">"coRdon"</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">source</span>(<span class="st">"https://bioconductor.org/biocLite.R"</span>)
+<span class="kw">biocLite</span>(<span class="st">"coRdon"</span>)</code></pre></div>
 <p>The developmental version can be installed directly from from GitHub:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"BioinfoHR/coRdon"</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"BioinfoHR/coRdon"</span>)</code></pre></div>
 </div>
 <div id="loading-sequences" class="section level1">
 <h1 class="hasAnchor">
 <a href="#loading-sequences" class="anchor"></a>Loading sequences</h1>
-<p>Sequences from human gut microbiome samples of healthy individuals and liver cirrhosis patients (<a href="https://go.nature.com/2G7QdpC">Quin et al. 2014</a>) were processed, assembled and used to predict ORFs, which were then annotated with a KO (KEGG orthology) function (<a href="https://bit.ly/2DRfiz6">Fabijanic and Vlahovicek 2016</a>).</p>
+<p>Sequences from human gut microbiome samples of healthy individuals and liver cirrhosis patients (<a href="https://go.nature.com/2G7QdpC">Quin et al. 2014</a>) were processed, assembled and used to predict ORFs, which were then annotated with a KO (KEGG orthology) function (<a href="https://bit.ly/2DRfiz6">Fabijanic and Vlahovicek 2016</a>).</p>
 <p>For each sequence, in each sample, we can calculate codon usage (CU) bias. In order to do this, we need to count occurrences of each codon in each sequence. This can be done by storing sequences in each sample as a <code>codonTable</code> object. We can use <code><a href="../reference/readSet.html">readSet()</a></code> to read (a directory containing) .fasta files and store sequences as a <code>DNAStringSet</code> object, which could then be converted to <code>codonTable</code> using the constructor method <code><a href="../reference/codonTable-class.html">codonTable()</a></code>.</p>
 <p>For the purpose of this vignette we will create two <code>codonTable</code> objects, HD59 and LD94, containing codon counts for metagenomic gut sample from healthy individual, and from liver chirosis patient, respectively.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">dnaLD94 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/readSet.html">readSet</a></span>(<span class="dt">file =</span> <span class="st">"http://hex.bioinfo.hr/~mfabijanic/LD94.fasta"</span>)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">LD94 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/codonTable-class.html">codonTable</a></span>(dnaLD94)</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">dnaHD59 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/readSet.html">readSet</a></span>(<span class="dt">file =</span> <span class="st">"http://hex.bioinfo.hr/~mfabijanic/HD59.fasta"</span>)</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">HD59 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/codonTable-class.html">codonTable</a></span>(dnaHD59)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dnaLD94 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/readSet.html">readSet</a></span>(<span class="dt">file =</span> <span class="st">"http://hex.bioinfo.hr/~mfabijanic/LD94.fasta"</span>)
+LD94 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/codonTable-class.html">codonTable</a></span>(dnaLD94)
+dnaHD59 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/readSet.html">readSet</a></span>(<span class="dt">file =</span> <span class="st">"http://hex.bioinfo.hr/~mfabijanic/HD59.fasta"</span>)
+HD59 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/codonTable-class.html">codonTable</a></span>(dnaHD59)</code></pre></div>
 <p><code>codonTable</code> object stores codon counts for each sequence, as well as some additional metadata, namely sequence ID infered from a .fasta file or DNAStringSet object, sequence length in codons and KO / COG annotation. Note that not all of these need be present in every <code>codonTable</code> object - only the codon counts, and inferred lengths are mandatory. They can be accessed using <code><a href="../reference/codonTable-class.html">codonCounts()</a></code> and <code><a href="../reference/codonTable-class.html">getlen()</a></code> (not to be confused with <code>length()</code> which returns number of sequences in a <code>codonTable</code> object):</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">cc &lt;-<span class="st"> </span><span class="kw"><a href="../reference/codonTable-class.html">codonCounts</a></span>(HD59)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw">head</span>(cc)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cc &lt;-<span class="st"> </span><span class="kw"><a href="../reference/codonTable-class.html">codonCounts</a></span>(HD59)
+<span class="kw">head</span>(cc)</code></pre></div>
 <pre><code>     AAA AAC AAG AAT ACA ACC ACG ACT AGA AGC AGG AGT ATA ATC ATG ATT CAA
 [1,]   5   4  10   3   1   2   4   0   0   2   1   0   0   5   2   1   2
 [2,]   3   5   4   1   2   3   5   1   0   1   0   0   0   8   4   4   0
@@ -165,22 +165,22 @@ document.addEventListener("DOMContentLoaded", function() {
 [4,]   1   0   5   3   0   0   0   0   0   0  10   3   3
 [5,]   0   0   2   4   0   0   0   1   0   0   0   1   1
 [6,]   4   2   2   2   0   0   1   2   1   3   3   3   2</code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">l &lt;-<span class="st"> </span><span class="kw"><a href="../reference/codonTable-class.html">getlen</a></span>(HD59)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw">head</span>(l)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">l &lt;-<span class="st"> </span><span class="kw"><a href="../reference/codonTable-class.html">getlen</a></span>(HD59)
+<span class="kw">head</span>(l)</code></pre></div>
 <pre><code>[1] 192 186 287 259  69 212</code></pre>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">length</span>(HD59)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">length</span>(HD59)</code></pre></div>
 <pre><code>[1] 19161</code></pre>
 <p>We can get IDs, KO or COG annotations in a similar way, if these are present:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">ko &lt;-<span class="st"> </span><span class="kw"><a href="../reference/codonTable-class.html">getKO</a></span>(HD59)</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw">head</span>(ko)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ko &lt;-<span class="st"> </span><span class="kw"><a href="../reference/codonTable-class.html">getKO</a></span>(HD59)
+<span class="kw">head</span>(ko)</code></pre></div>
 <pre><code>[1] "K01509" "K03431" "K08884" "K02313" "K01810" "K00174"</code></pre>
 </div>
 <div id="calculate-cu-bias" class="section level1">
 <h1 class="hasAnchor">
 <a href="#calculate-cu-bias" class="anchor"></a>Calculate CU bias</h1>
 <p>Now we can calculate CU bias for every sequence. There are many statistics that measure codon usage, and several widely used ones are implemented in coRdon. For example, Measure Independent of Length and Composition (MILC) can be calculated for sequences in the <code>codonTable</code> like so:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">milc &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MILC.html">MILC</a></span>(HD59)</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="kw">head</span>(milc)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">milc &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MILC.html">MILC</a></span>(HD59)
+<span class="kw">head</span>(milc)</code></pre></div>
 <pre><code>          self
 [1,] 0.7231937
 [2,] 0.7083612
@@ -189,8 +189,8 @@ document.addEventListener("DOMContentLoaded", function() {
 [5,] 0.5658703
 [6,] 0.7242135</code></pre>
 <p>By default, MILC value for every sequence in a set is calculated with respect to the average CU bias of the entire sample (“self”). This can be changed by setting <code>self = FALSE</code> and providing a subset of reference genes, to which CU will be compared. This is commonly a subset of genes known to be highly expressed, e.g. ribosomal genes. If the sequences in the set are annotated, we can choose to calculate CU bias with respect to codon usage of ribosomal genes (i.e. codon usage of the subset of sequences in the sample which are annotated as ribosomal genes) simply by setting <code>ribosomal = TRUE</code>.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">milc &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MILC.html">MILC</a></span>(HD59, <span class="dt">ribosomal =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw">head</span>(milc)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">milc &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MILC.html">MILC</a></span>(HD59, <span class="dt">ribosomal =</span> <span class="ot">TRUE</span>)
+<span class="kw">head</span>(milc)</code></pre></div>
 <pre><code>          self ribosomal
 [1,] 0.7231937 1.0337208
 [2,] 0.7083612 0.9530175
@@ -200,20 +200,20 @@ document.addEventListener("DOMContentLoaded", function() {
 [6,] 0.7242135 0.7887504</code></pre>
 <p>Alternatively, instead of using ribosomal genes, we could use a <code>subsets</code> argument to provide a named list of character vectors of annotations for different genes to be used as reference set(s). However, if no annotation for sequences is available, one can still calculate CU bias with respect to some chosen subset(s) of genes, by setting <code>subsets</code> to be a named list of logical vectors of sequences to be included in this reference subset(s), or a named list with an entirely new reference codon counts table(s).</p>
 <p>Also of note, <code>self</code>, <code>ribosomal</code> and <code>subsets</code> arguments can be combined, and MILC calculated for all sequences, with respect to each of thus specified reference sets of genes.</p>
-<p>Another important consideration is that MILC, like most of the other CU bias statistics (and contrary to its name), is still somewhat dependent on the length of sequence for which it is calculated, and in order to obtain meaningful values, it is recommended that sequences should be at least 80 codons long. To that end, either soft or hard filtering step can be included in calculation of CU statistics. Hard filtering will remove all of the sequences from <code>codonTable</code> that are shorter than some specified threshold (length in codons, default is 80), whereas soft filtering will produce a message if there are such sequences in the set, but will not remove them.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">milc &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MILC.html">MILC</a></span>(HD59, <span class="dt">filtering =</span> <span class="st">"soft"</span>)</a></code></pre></div>
+<p>Another important consideration is that MILC, like most of the other CU statistics, is still somewhat dependent on the length of sequence for which it is calculated, and in order to obtain meaningful values, it is recommended that sequences should be at least 80 codons long. To that end, either soft or hard filtering step can be included in calculation of CU statistics. Hard filtering will remove all of the sequences from <code>codonTable</code> that are shorter than some specified threshold (length in codons, default is 80), whereas soft filtering will produce a message if there are such sequences in the set, but will not remove them.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">milc &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MILC.html">MILC</a></span>(HD59, <span class="dt">filtering =</span> <span class="st">"soft"</span>)</code></pre></div>
 <pre><code>Warning in MILC(HD59, filtering = "soft"): Some sequences have below-
 threshold length!</code></pre>
 <p>We can visually inspect distribution of sequence lengths, extracted from <code>codonTable</code> object using <code><a href="../reference/codonTable-class.html">getlen()</a></code>:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">lengths &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw"><a href="../reference/codonTable-class.html">getlen</a></span>(HD59))</a>
-<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="kw">colnames</span>(lengths) &lt;-<span class="st"> "length"</span></a>
-<a class="sourceLine" id="cb18-3" data-line-number="3"><span class="kw">ggplot</span>(lengths, <span class="kw">aes</span>(length)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb18-4" data-line-number="4"><span class="st">    </span><span class="kw">geom_density</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb18-5" data-line-number="5"><span class="st">    </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="dv">80</span>, <span class="dt">colour =</span> <span class="st">"red"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb18-6" data-line-number="6"><span class="st">    </span><span class="kw">theme_light</span>()</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lengths &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw"><a href="../reference/codonTable-class.html">getlen</a></span>(HD59))
+<span class="kw">colnames</span>(lengths) &lt;-<span class="st"> "length"</span>
+<span class="kw">ggplot</span>(lengths, <span class="kw">aes</span>(length)) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_density</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="dv">80</span>, <span class="dt">colour =</span> <span class="st">"red"</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">theme_light</span>()</code></pre></div>
 <p><img src="coRdon_files/figure-html/unnamed-chunk-10-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>Now we calculate MILC values with respect to overall sample CU and ribosomal genes CU, removing beforehand sequences shorter than 80 codons (use <code>len.threshold</code> argument to specify differnt value of threshold):</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">milc &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MILC.html">MILC</a></span>(HD59, <span class="dt">ribosomal =</span> <span class="ot">TRUE</span>, <span class="dt">filtering =</span> <span class="st">"hard"</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">milc &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MILC.html">MILC</a></span>(HD59, <span class="dt">ribosomal =</span> <span class="ot">TRUE</span>, <span class="dt">filtering =</span> <span class="st">"hard"</span>)</code></pre></div>
 <p>Other CU statistics can be calculated in the same way as <code><a href="../reference/MILC.html">MILC()</a></code>, using one of the functions: <code><a href="../reference/B.html">B()</a></code>, <code><a href="../reference/MCB.html">MCB()</a></code>, <code><a href="../reference/ENCprime.html">ENCprime()</a></code>, <code><a href="../reference/ENC.html">ENC()</a></code> or <code><a href="../reference/SCUO.html">SCUO()</a></code>. Note however, that when calculating ENC and SCUO, one doesn’t need to provide a subset of reference genes, because these statistics measure distance in codon usage to uniform usage of synonymous codons.</p>
 <p>Some additional arguments that can be set when calculating CU statistics are <code>id_or_name2</code>, for choosing a genetic code variant (see help for <code>getGeneticCode()</code> function in Biostrings package), <code>alt.init</code> for alternative initiation codons, <code>stop.rm</code> for removal of STOP codons.</p>
 <div id="visualisation-of-cu-bias" class="section level2">
@@ -221,29 +221,29 @@ threshold length!</code></pre>
 <a href="#visualisation-of-cu-bias" class="anchor"></a>Visualisation of CU bias</h2>
 <p>Now we can visualize CU bias for every gene on the B plot.</p>
 <p>Here, every gene is represented by a single point on the plot, its coordinates determined by distance of genes’ CU bias to overall CU bias (“self”, on y axis) and to CU bias of reference genes (“ribosomal”, on x axis).<br><code>x</code> and <code>y</code> are names of columns in a matrix given as <code>data</code> argument, they can alternatevly be numeric vectors (of the same length), containing values of the CU statistic we wish to plot one against the other.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw">library</span>(ggplot2)</a>
-<a class="sourceLine" id="cb20-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb20-3" data-line-number="3">xlab &lt;-<span class="st"> "MILC distance from sample centroid"</span></a>
-<a class="sourceLine" id="cb20-4" data-line-number="4">ylab &lt;-<span class="st"> "MILC distance from ribosomal genes"</span></a>
-<a class="sourceLine" id="cb20-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb20-6" data-line-number="6">milc_HD59 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MILC.html">MILC</a></span>(HD59, <span class="dt">ribosomal =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb20-7" data-line-number="7"><span class="kw"><a href="../reference/Bplot.html">Bplot</a></span>(<span class="dt">x =</span> <span class="st">"ribosomal"</span>, <span class="dt">y =</span> <span class="st">"self"</span>, <span class="dt">data =</span> milc_HD59) <span class="op">+</span></a>
-<a class="sourceLine" id="cb20-8" data-line-number="8"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">x =</span> xlab, <span class="dt">y =</span> ylab)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+
+xlab &lt;-<span class="st"> "MILC distance from sample centroid"</span>
+ylab &lt;-<span class="st"> "MILC distance from ribosomal genes"</span>
+
+milc_HD59 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MILC.html">MILC</a></span>(HD59, <span class="dt">ribosomal =</span> <span class="ot">TRUE</span>)
+<span class="kw"><a href="../reference/Bplot.html">Bplot</a></span>(<span class="dt">x =</span> <span class="st">"ribosomal"</span>, <span class="dt">y =</span> <span class="st">"self"</span>, <span class="dt">data =</span> milc_HD59) <span class="op">+</span>
+<span class="st">    </span><span class="kw">labs</span>(<span class="dt">x =</span> xlab, <span class="dt">y =</span> ylab)</code></pre></div>
 <p><img src="coRdon_files/figure-html/unnamed-chunk-12-1.png" width="700" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">milc_LD94 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MILC.html">MILC</a></span>(LD94, <span class="dt">ribosomal =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="kw"><a href="../reference/Bplot.html">Bplot</a></span>(<span class="dt">x =</span> <span class="st">"ribosomal"</span>, <span class="dt">y =</span> <span class="st">"self"</span>, <span class="dt">data =</span> milc_LD94) <span class="op">+</span></a>
-<a class="sourceLine" id="cb21-3" data-line-number="3"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">x =</span> xlab, <span class="dt">y =</span> ylab)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">milc_LD94 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MILC.html">MILC</a></span>(LD94, <span class="dt">ribosomal =</span> <span class="ot">TRUE</span>)
+<span class="kw"><a href="../reference/Bplot.html">Bplot</a></span>(<span class="dt">x =</span> <span class="st">"ribosomal"</span>, <span class="dt">y =</span> <span class="st">"self"</span>, <span class="dt">data =</span> milc_LD94) <span class="op">+</span>
+<span class="st">    </span><span class="kw">labs</span>(<span class="dt">x =</span> xlab, <span class="dt">y =</span> ylab)</code></pre></div>
 <p>The argument <code>annotations</code> needs to be specified when we wish to indicate certain genes on the plot. For example, to indicate ribosomal genes, provide character vector of annotations corresponding to values in <code>x</code>, <code>y</code> and <code>data</code>, and set <code>ribosomal = TRUE</code>. Note that, if we filtered sequences when calculating MILC, we need to provide the annotations for those sequences only.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">genes &lt;-<span class="st"> </span><span class="kw"><a href="../reference/codonTable-class.html">getKO</a></span>(HD59)[<span class="kw"><a href="../reference/codonTable-class.html">getlen</a></span>(HD59) <span class="op">&gt;</span><span class="st"> </span><span class="dv">80</span>]</a>
-<a class="sourceLine" id="cb22-2" data-line-number="2"><span class="kw"><a href="../reference/Bplot.html">Bplot</a></span>(<span class="dt">x =</span> <span class="st">"ribosomal"</span>, <span class="dt">y =</span> <span class="st">"self"</span>, <span class="dt">data =</span> milc,</a>
-<a class="sourceLine" id="cb22-3" data-line-number="3">      <span class="dt">annotations =</span> genes, <span class="dt">ribosomal =</span> <span class="ot">TRUE</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb22-4" data-line-number="4"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">x =</span> xlab, <span class="dt">y =</span> ylab)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">genes &lt;-<span class="st"> </span><span class="kw"><a href="../reference/codonTable-class.html">getKO</a></span>(HD59)[<span class="kw"><a href="../reference/codonTable-class.html">getlen</a></span>(HD59) <span class="op">&gt;</span><span class="st"> </span><span class="dv">80</span>]
+<span class="kw"><a href="../reference/Bplot.html">Bplot</a></span>(<span class="dt">x =</span> <span class="st">"ribosomal"</span>, <span class="dt">y =</span> <span class="st">"self"</span>, <span class="dt">data =</span> milc,
+        <span class="dt">annotations =</span> genes, <span class="dt">ribosomal =</span> <span class="ot">TRUE</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">labs</span>(<span class="dt">x =</span> xlab, <span class="dt">y =</span> ylab)</code></pre></div>
 <p><img src="coRdon_files/figure-html/unnamed-chunk-14-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>To indicate any other gene(s), use <code>reference</code> argument. <code>reference</code> takes a list of length 1, containing either a logical vector in which <code>TRUE</code> corresponds (by position) to genes that are to be indicated on the plot, and <code>FALSE</code> to all the other genes, or a character vector of annotations for the genes to be indicated on the plot.</p>
 <p>Another interesting way to visualise codon usage is to plot the CU distances between the two samples on the B plot. This can be done using <code><a href="../reference/intraBplot.html">intraBplot()</a></code> function which takes as arguments two <code>codonTable</code> objects and a character indicating which CU statistic to plot. We can also choose to indicate ribosomal genes on the plot by setting <code>ribosomal = TRUE</code>, these genes will now be shown as stronger points on the plot.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw"><a href="../reference/intraBplot.html">intraBplot</a></span>(HD59, LD94, <span class="dt">names =</span> <span class="kw">c</span>(<span class="st">"HD59"</span>, <span class="st">"LD94"</span>), </a>
-<a class="sourceLine" id="cb23-2" data-line-number="2">           <span class="dt">variable =</span> <span class="st">"MILC"</span>, </a>
-<a class="sourceLine" id="cb23-3" data-line-number="3">           <span class="dt">ribosomal =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/intraBplot.html">intraBplot</a></span>(HD59, LD94, <span class="dt">names =</span> <span class="kw">c</span>(<span class="st">"HD59"</span>, <span class="st">"LD94"</span>), 
+            <span class="dt">variable =</span> <span class="st">"MILC"</span>, 
+            <span class="dt">ribosomal =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <p><img src="coRdon_files/figure-html/unnamed-chunk-15-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 </div>
@@ -251,8 +251,8 @@ threshold length!</code></pre>
 <h1 class="hasAnchor">
 <a href="#predict-genes-expressivity" class="anchor"></a>Predict genes’ expressivity</h1>
 <p>Next, we predict expression levels of genes in each sample, with ribosomal genes once again used as a reference. There are several measures of CU-based gene expressivity implemented in coRdon. Here we calculate values of MILC-based Expression Level Predictor (MELP), with respect to ribosomal genes, and excluding sequencs shorter than 80 codons (this is the default value of <code>len.threshold</code>):</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">melp &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MELP.html">MELP</a></span>(HD59, <span class="dt">ribosomal =</span> <span class="ot">TRUE</span>, <span class="dt">filtering =</span> <span class="st">"hard"</span>)</a>
-<a class="sourceLine" id="cb24-2" data-line-number="2"><span class="kw">head</span>(melp)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">melp &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MELP.html">MELP</a></span>(HD59, <span class="dt">ribosomal =</span> <span class="ot">TRUE</span>, <span class="dt">filtering =</span> <span class="st">"hard"</span>)
+<span class="kw">head</span>(melp)</code></pre></div>
 <pre><code>          [,1]
 [1,] 0.7112424
 [2,] 0.7514472
@@ -268,8 +268,8 @@ threshold length!</code></pre>
 <a href="#functional-annotation" class="anchor"></a>Functional annotation</h1>
 <p>We can identify most significantly enriched or depleted functions in the set of annotated genes predicted to have high expression level.</p>
 <p>For a single sample, we first create a contingency table summarising counts of genes annotated to each KO category among all the genes in sample, and among those predicted to be highly expressed. We do this using <code><a href="../reference/crossTab-class.html">crossTab()</a></code> function, giving it a character vector of genes’ annotations, and a numeric vector of their respective MELP values, and specifying that a subset of highly expressed reference genes should contain those genes that have MELP value grater than 1 (this is default value of threshold).</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">ct &lt;-<span class="st"> </span><span class="kw"><a href="../reference/crossTab-class.html">crossTab</a></span>(genes, <span class="kw">as.numeric</span>(melp), <span class="dt">threshold =</span> 1L)</a>
-<a class="sourceLine" id="cb26-2" data-line-number="2">ct</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ct &lt;-<span class="st"> </span><span class="kw"><a href="../reference/crossTab-class.html">crossTab</a></span>(genes, <span class="kw">as.numeric</span>(melp), <span class="dt">threshold =</span> 1L)
+ct</code></pre></div>
 <pre><code>crossTab instance for 17829 sequences.
 Sequence annotations:
   chr [1:17829] "K01509" "K03431" "K08884" "K02313" "K00174" "K01846" ... 
@@ -289,7 +289,7 @@ Contingecy table:
 1663:   K13923   1    0
 1664:   K13924   3    0</code></pre>
 <p>Output of <code><a href="../reference/crossTab-class.html">crossTab()</a></code> function is an object of <code>crossTab</code> class, containing gene anotations, respective values of the given variable, and a contingency table with counts for all genes, and for each defined subset of genes. They can all be accessed like so:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="kw"><a href="../reference/crossTab-class.html">contable</a></span>(ct)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/crossTab-class.html">contable</a></span>(ct)</code></pre></div>
 <pre><code>      category all gt_1
    1:   K00001  16    4
    2:   K00002   1    0
@@ -302,14 +302,14 @@ Contingecy table:
 1662:   K13829   2    0
 1663:   K13923   1    0
 1664:   K13924   3    0</code></pre>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">ann &lt;-<span class="st"> </span><span class="kw"><a href="../reference/crossTab-class.html">getSeqAnnot</a></span>(ct)</a>
-<a class="sourceLine" id="cb30-2" data-line-number="2"><span class="kw">head</span>(ann)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ann &lt;-<span class="st"> </span><span class="kw"><a href="../reference/crossTab-class.html">getSeqAnnot</a></span>(ct)
+<span class="kw">head</span>(ann)</code></pre></div>
 <pre><code>[1] "K01509" "K03431" "K08884" "K02313" "K00174" "K01846"</code></pre>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">var &lt;-<span class="st"> </span><span class="kw"><a href="../reference/crossTab-class.html">getVariable</a></span>(ct)</a>
-<a class="sourceLine" id="cb32-2" data-line-number="2"><span class="kw">head</span>(var)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">var &lt;-<span class="st"> </span><span class="kw"><a href="../reference/crossTab-class.html">getVariable</a></span>(ct)
+<span class="kw">head</span>(var)</code></pre></div>
 <pre><code>[1] 0.7112424 0.7514472 0.8478242 0.9008746 0.9106633 0.8318351</code></pre>
 <p>We could have also defined the subset of highly expressed genes by specifying a percent of genes with highest MELP values:</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw"><a href="../reference/crossTab-class.html">crossTab</a></span>(genes, <span class="kw">as.numeric</span>(melp), <span class="dt">percentiles =</span> <span class="fl">0.05</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/crossTab-class.html">crossTab</a></span>(genes, <span class="kw">as.numeric</span>(melp), <span class="dt">percentiles =</span> <span class="fl">0.05</span>)</code></pre></div>
 <pre><code>crossTab instance for 17829 sequences.
 Sequence annotations:
   chr [1:17829] "K01509" "K03431" "K08884" "K02313" "K00174" "K01846" ... 
@@ -330,16 +330,17 @@ Contingecy table:
 1664:   K13924   3        0    0</code></pre>
 <p>Of note, both <code>threshold</code> and <code>percentiles</code> can be numerical vectors, in which case the functions used in subsequent analysis (<code>enrichment</code> and associated plotting functions, <code>enrichMAplot</code>, <code>enrichBarplot</code>) will produce output for each thus specified reference susbset.</p>
 <p>Having a contingency table, we can perform enrichment analysis. This implies scaling and transforming gene counts by MA transformation, and performing binomial test, optinally inncluding correction for multiple testing, as chosen by specifying the <code>pAdjustMethod</code> argument (see <code>p.adjust.methods</code> for possible options). Additional parameters <code>pvalueCutoff</code> and <code>padjCutoff</code> can be passed to the <code><a href="../reference/enrichment.html">enrichment()</a></code> function in order to exclude from the results those sequences that have higher significance levels than specified.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1">enr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/enrichment.html">enrichment</a></span>(ct)</a>
-<a class="sourceLine" id="cb36-2" data-line-number="2">enr</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">enr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/enrichment.html">enrichment</a></span>(ct)
+enr</code></pre></div>
 <pre><code>An object of class 'AnnotatedDataFrame'
   rowNames: 1 2 ... 1664 (1664 total)
   varLabels: category all ... padj (8 total)
   varMetadata: labelDescription</code></pre>
-<p>The output is an object of <code>AnnotatedDataFrame</code> class from Biobase package. The data stored in this object can be accesed by using <code>pData()</code> method defined in Biobase.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="kw">require</span>(Biobase)</a>
-<a class="sourceLine" id="cb38-2" data-line-number="2">enr_data &lt;-<span class="st"> </span><span class="kw">pData</span>(enr)</a>
-<a class="sourceLine" id="cb38-3" data-line-number="3"><span class="kw">head</span>(enr_data)</a></code></pre></div>
+<p>The output is an object of <code>AnnotatedDataFrame</code> class from Biobase package.<br>
+The data stored in this object can be accesed by using <code>pData()</code> method defined in Biobase.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(Biobase)
+enr_data &lt;-<span class="st"> </span><span class="kw">pData</span>(enr)
+<span class="kw">head</span>(enr_data)</code></pre></div>
 <pre><code>  category all gt_1     enrich          M         A     pvals      padj
 1   K00001  16    4  34.438764  0.4269492 2.1084535 0.3559590 0.9631151
 2   K00002   1    0 -14.526104 -0.2264442 0.1132221 1.0000000 1.0000000
@@ -351,12 +352,12 @@ Contingecy table:
 <h2 class="hasAnchor">
 <a href="#visualisation-of-enrichment" class="anchor"></a>Visualisation of enrichment</h2>
 <p>We can plot enriched and depleted KO categories on an MA plot, with significant enrichment or depletion defined as those having the p-value below the level of significance <code>siglev</code> 0.05 (one can also use adjusted p-value, by setting <code>pvalue</code> = “padj”, and different values of <code>siglev</code>).</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="kw"><a href="../reference/enrichMAplot.html">enrichMAplot</a></span>(enr, <span class="dt">pvalue =</span> <span class="st">"pvals"</span>, <span class="dt">siglev =</span> <span class="fl">0.05</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb40-2" data-line-number="2"><span class="st">    </span><span class="kw">theme_light</span>()</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/enrichMAplot.html">enrichMAplot</a></span>(enr, <span class="dt">pvalue =</span> <span class="st">"pvals"</span>, <span class="dt">siglev =</span> <span class="fl">0.05</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">theme_light</span>()</code></pre></div>
 <p><img src="coRdon_files/figure-html/unnamed-chunk-22-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>In order to determine functions that are enriched among highly expressed genes, we need to map KO annotations to a broader onthology. This can be done using <code><a href="../reference/reduceCrossTab.html">reduceCrossTab()</a></code> method which takes a <code>crossTab</code> object as its first argument, and maps KO categories to either KEGG Pathway, KEGG Module, or COG functional categories, depending on the value of <code>target</code> argument.</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1">ctpath &lt;-<span class="st"> </span><span class="kw"><a href="../reference/reduceCrossTab.html">reduceCrossTab</a></span>(ct, <span class="dt">target =</span> <span class="st">"pathway"</span>)</a>
-<a class="sourceLine" id="cb41-2" data-line-number="2">ctpath</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ctpath &lt;-<span class="st"> </span><span class="kw"><a href="../reference/reduceCrossTab.html">reduceCrossTab</a></span>(ct, <span class="dt">target =</span> <span class="st">"pathway"</span>)
+ctpath</code></pre></div>
 <pre><code>crossTab instance for 17829 sequences.
 Sequence annotations:
   chr [1:17829] "K01509" "K03431" "K08884" "K02313" "K00174" "K01846" ... 
@@ -376,9 +377,9 @@ Contingecy table:
 258: map05340  15    0
 259: map05418  68   13</code></pre>
 <p>We can then perform enrichment analysis using the reduced contingency table.</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">enrpath &lt;-<span class="st"> </span><span class="kw"><a href="../reference/enrichment.html">enrichment</a></span>(ctpath)</a>
-<a class="sourceLine" id="cb43-2" data-line-number="2">enrpath_data &lt;-<span class="st"> </span><span class="kw">pData</span>(enrpath)</a>
-<a class="sourceLine" id="cb43-3" data-line-number="3"><span class="kw">head</span>(enrpath_data)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">enrpath &lt;-<span class="st"> </span><span class="kw"><a href="../reference/enrichment.html">enrichment</a></span>(ctpath)
+enrpath_data &lt;-<span class="st"> </span><span class="kw">pData</span>(enrpath)
+<span class="kw">head</span>(enrpath_data)</code></pre></div>
 <pre><code>  category all gt_1    enrich          M        A        pvals
 1 map00010 515  187  66.05321  0.7316456 7.188766 8.254035e-11
 2 map00020 257  107  89.47564  0.9220124 6.293881 1.073265e-09
@@ -394,21 +395,21 @@ Contingecy table:
 5 5.446909e-01
 6 2.395127e-07</code></pre>
 <p>Functional enrichment results can also be plotted on a bar plot, using enrichBarplot() method. Here, bars are coloured by the level of significance, <code>padj</code>, whereas their height is the relative enrichment <code>"enrich"</code> (can also be mean average of scaled counts, <code>"A"</code>, or scaled counts ratio, <code>"M"</code>). If we also specify <code>siglev</code>, only those categories for which associated <code>pvalue</code> (“pvals” or “padj”) is below the given value will be ploted.</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="kw"><a href="../reference/enrichBarplot.html">enrichBarplot</a></span>(enrpath, <span class="dt">variable =</span> <span class="st">"enrich"</span>, </a>
-<a class="sourceLine" id="cb45-2" data-line-number="2">              <span class="dt">pvalue =</span> <span class="st">"padj"</span>, <span class="dt">siglev =</span> <span class="fl">0.05</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb45-3" data-line-number="3"><span class="st">    </span><span class="kw">theme_light</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb45-4" data-line-number="4"><span class="st">    </span><span class="kw">coord_flip</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb45-5" data-line-number="5"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">"category"</span>, <span class="dt">y =</span> <span class="st">"relative enrichment"</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/enrichBarplot.html">enrichBarplot</a></span>(enrpath, <span class="dt">variable =</span> <span class="st">"enrich"</span>, 
+                <span class="dt">pvalue =</span> <span class="st">"padj"</span>, <span class="dt">siglev =</span> <span class="fl">0.05</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">theme_light</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">coord_flip</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">"category"</span>, <span class="dt">y =</span> <span class="st">"relative enrichment"</span>)</code></pre></div>
 <p><img src="coRdon_files/figure-html/unnamed-chunk-25-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>Prior to plotting, KEGGREST package can be used to match pathway identifiers to pathway descriptions, in order to produce a more informative plot.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1"><span class="kw">require</span>(KEGGREST)</a>
-<a class="sourceLine" id="cb46-2" data-line-number="2">paths &lt;-<span class="st"> </span><span class="kw">names</span>(<span class="kw">keggList</span>(<span class="st">"pathway"</span>))</a>
-<a class="sourceLine" id="cb46-3" data-line-number="3">paths &lt;-<span class="st"> </span><span class="kw">regmatches</span>(paths, <span class="kw">regexpr</span>(<span class="st">"[[:alpha:]]{2,4}</span><span class="ch">\\</span><span class="st">d{5}"</span>, paths))</a>
-<a class="sourceLine" id="cb46-4" data-line-number="4">pnames &lt;-<span class="st"> </span><span class="kw">unname</span>(<span class="kw">keggList</span>(<span class="st">"pathway"</span>))</a>
-<a class="sourceLine" id="cb46-5" data-line-number="5">ids &lt;-<span class="st"> </span><span class="kw">match</span>(<span class="kw">pData</span>(enrpath)<span class="op">$</span>category, paths)</a>
-<a class="sourceLine" id="cb46-6" data-line-number="6">descriptions &lt;-<span class="st"> </span>pnames[ids]</a>
-<a class="sourceLine" id="cb46-7" data-line-number="7"><span class="kw">pData</span>(enrpath)<span class="op">$</span>category &lt;-<span class="st"> </span>descriptions</a>
-<a class="sourceLine" id="cb46-8" data-line-number="8">enrpath_data &lt;-<span class="st"> </span><span class="kw">pData</span>(enrpath)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(KEGGREST)
+paths &lt;-<span class="st"> </span><span class="kw">names</span>(<span class="kw">keggList</span>(<span class="st">"pathway"</span>))
+paths &lt;-<span class="st"> </span><span class="kw">regmatches</span>(paths, <span class="kw">regexpr</span>(<span class="st">"[[:alpha:]]{2,4}</span><span class="ch">\\</span><span class="st">d{5}"</span>, paths))
+pnames &lt;-<span class="st"> </span><span class="kw">unname</span>(<span class="kw">keggList</span>(<span class="st">"pathway"</span>))
+ids &lt;-<span class="st"> </span><span class="kw">match</span>(<span class="kw">pData</span>(enrpath)<span class="op">$</span>category, paths)
+descriptions &lt;-<span class="st"> </span>pnames[ids]
+<span class="kw">pData</span>(enrpath)<span class="op">$</span>category &lt;-<span class="st"> </span>descriptions
+enrpath_data &lt;-<span class="st"> </span><span class="kw">pData</span>(enrpath)</code></pre></div>
 </div>
 </div>
 <div id="integration" class="section level1">
@@ -416,29 +417,29 @@ Contingecy table:
 <a href="#integration" class="anchor"></a>Integration</h1>
 <p>In order to pipe the results from CU analysis in various downstream applications, it is useful to have the data from different samples in a single matrix, with sequences (genes) in rows and values for different samples in columns. This can be achieved with <code><a href="../reference/enrich.matrix.html">enrich.matrix()</a></code> function.</p>
 <p>For example, if we performed CU-based enrichment analysis on the two metagenomic samples described at the beginning of this vignette, and wanted to see how the results compare by plotting them on a heatmap (e.g. using the ComplexHeatmap package), we could do the following:</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="co"># calculate MELP</span></a>
-<a class="sourceLine" id="cb47-2" data-line-number="2">melpHD59 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MELP.html">MELP</a></span>(HD59, <span class="dt">ribosomal =</span> <span class="ot">TRUE</span>, </a>
-<a class="sourceLine" id="cb47-3" data-line-number="3">                 <span class="dt">filtering =</span> <span class="st">"hard"</span>, <span class="dt">len.threshold =</span> <span class="dv">100</span>)</a>
-<a class="sourceLine" id="cb47-4" data-line-number="4">genesHD59 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/codonTable-class.html">getKO</a></span>(HD59)[<span class="kw"><a href="../reference/codonTable-class.html">getlen</a></span>(HD59) <span class="op">&gt;</span><span class="st"> </span><span class="dv">100</span>]</a>
-<a class="sourceLine" id="cb47-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb47-6" data-line-number="6">melpLD94 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MELP.html">MELP</a></span>(LD94, <span class="dt">ribosomal =</span> <span class="ot">TRUE</span>, </a>
-<a class="sourceLine" id="cb47-7" data-line-number="7">                 <span class="dt">filtering =</span> <span class="st">"hard"</span>, <span class="dt">len.threshold =</span> <span class="dv">100</span>)</a>
-<a class="sourceLine" id="cb47-8" data-line-number="8">genesLD94 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/codonTable-class.html">getKO</a></span>(LD94)[<span class="kw"><a href="../reference/codonTable-class.html">getlen</a></span>(LD94) <span class="op">&gt;</span><span class="st"> </span><span class="dv">100</span>]</a>
-<a class="sourceLine" id="cb47-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb47-10" data-line-number="10"><span class="co"># make cntingency table</span></a>
-<a class="sourceLine" id="cb47-11" data-line-number="11">ctHD59 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/crossTab-class.html">crossTab</a></span>(genesHD59, <span class="kw">as.numeric</span>(melpHD59))</a>
-<a class="sourceLine" id="cb47-12" data-line-number="12">ctLD94 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/crossTab-class.html">crossTab</a></span>(genesLD94, <span class="kw">as.numeric</span>(melpLD94))</a>
-<a class="sourceLine" id="cb47-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb47-14" data-line-number="14">ctHD59 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/reduceCrossTab.html">reduceCrossTab</a></span>(ctHD59, <span class="st">"pathway"</span>)</a>
-<a class="sourceLine" id="cb47-15" data-line-number="15">ctLD94 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/reduceCrossTab.html">reduceCrossTab</a></span>(ctLD94, <span class="st">"pathway"</span>)</a>
-<a class="sourceLine" id="cb47-16" data-line-number="16"></a>
-<a class="sourceLine" id="cb47-17" data-line-number="17"><span class="co"># calculate enrichment</span></a>
-<a class="sourceLine" id="cb47-18" data-line-number="18">enrHD59 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/enrichment.html">enrichment</a></span>(ctHD59)</a>
-<a class="sourceLine" id="cb47-19" data-line-number="19">enrLD94 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/enrichment.html">enrichment</a></span>(ctLD94)</a>
-<a class="sourceLine" id="cb47-20" data-line-number="20"></a>
-<a class="sourceLine" id="cb47-21" data-line-number="21">mat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/enrich.matrix.html">enrich.matrix</a></span>(<span class="kw">list</span>(<span class="dt">HD59 =</span> enrHD59, <span class="dt">LD94 =</span> enrLD94), </a>
-<a class="sourceLine" id="cb47-22" data-line-number="22">                     <span class="dt">variable =</span> <span class="st">"enrich"</span>)</a>
-<a class="sourceLine" id="cb47-23" data-line-number="23"><span class="kw">head</span>(mat)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># calculate MELP</span>
+melpHD59 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MELP.html">MELP</a></span>(HD59, <span class="dt">ribosomal =</span> <span class="ot">TRUE</span>, 
+                <span class="dt">filtering =</span> <span class="st">"hard"</span>, <span class="dt">len.threshold =</span> <span class="dv">100</span>)
+genesHD59 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/codonTable-class.html">getKO</a></span>(HD59)[<span class="kw"><a href="../reference/codonTable-class.html">getlen</a></span>(HD59) <span class="op">&gt;</span><span class="st"> </span><span class="dv">100</span>]
+
+melpLD94 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/MELP.html">MELP</a></span>(LD94, <span class="dt">ribosomal =</span> <span class="ot">TRUE</span>, 
+                <span class="dt">filtering =</span> <span class="st">"hard"</span>, <span class="dt">len.threshold =</span> <span class="dv">100</span>)
+genesLD94 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/codonTable-class.html">getKO</a></span>(LD94)[<span class="kw"><a href="../reference/codonTable-class.html">getlen</a></span>(LD94) <span class="op">&gt;</span><span class="st"> </span><span class="dv">100</span>]
+
+<span class="co"># make cntingency table</span>
+ctHD59 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/crossTab-class.html">crossTab</a></span>(genesHD59, <span class="kw">as.numeric</span>(melpHD59))
+ctLD94 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/crossTab-class.html">crossTab</a></span>(genesLD94, <span class="kw">as.numeric</span>(melpLD94))
+
+ctHD59 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/reduceCrossTab.html">reduceCrossTab</a></span>(ctHD59, <span class="st">"pathway"</span>)
+ctLD94 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/reduceCrossTab.html">reduceCrossTab</a></span>(ctLD94, <span class="st">"pathway"</span>)
+
+<span class="co"># calculate enrichment</span>
+enrHD59 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/enrichment.html">enrichment</a></span>(ctHD59)
+enrLD94 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/enrichment.html">enrichment</a></span>(ctLD94)
+
+mat &lt;-<span class="st"> </span><span class="kw"><a href="../reference/enrich.matrix.html">enrich.matrix</a></span>(<span class="kw">list</span>(<span class="dt">HD59 =</span> enrHD59, <span class="dt">LD94 =</span> enrLD94), 
+                    <span class="dt">variable =</span> <span class="st">"enrich"</span>)
+<span class="kw">head</span>(mat)</code></pre></div>
 <pre><code>              HD59      LD94
 map00010  65.39609  89.29378
 map00020  92.37626  92.37498
@@ -447,28 +448,28 @@ map00040  22.14637  11.64027
 map00051  16.61736  23.71068
 map00052 -52.22516 -58.08676</code></pre>
 <p>Thus created matrix, with genes in rows and samples in columns, can be directly used as an argument to <code>Heatmap()</code> function for plotting. Also, for the purpose of neat visualization, we can again make use of the KEGGREST package to match pathway identifiers to pathway descriptions.</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1">paths &lt;-<span class="st"> </span><span class="kw">names</span>(KEGGREST<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/KEGGREST/topics/keggList">keggList</a></span>(<span class="st">"pathway"</span>))</a>
-<a class="sourceLine" id="cb49-2" data-line-number="2">paths &lt;-<span class="st"> </span><span class="kw">regmatches</span>(paths, <span class="kw">regexpr</span>(<span class="st">"[[:alpha:]]{2,4}</span><span class="ch">\\</span><span class="st">d{5}"</span>, paths))</a>
-<a class="sourceLine" id="cb49-3" data-line-number="3">pnames &lt;-<span class="st"> </span><span class="kw">unname</span>(KEGGREST<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/KEGGREST/topics/keggList">keggList</a></span>(<span class="st">"pathway"</span>))</a>
-<a class="sourceLine" id="cb49-4" data-line-number="4">ids &lt;-<span class="st"> </span><span class="kw">match</span>(<span class="kw">rownames</span>(mat), paths)</a>
-<a class="sourceLine" id="cb49-5" data-line-number="5">descriptions &lt;-<span class="st"> </span>pnames[ids]</a>
-<a class="sourceLine" id="cb49-6" data-line-number="6"><span class="kw">rownames</span>(mat) &lt;-<span class="st"> </span>descriptions</a>
-<a class="sourceLine" id="cb49-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb49-8" data-line-number="8">mat &lt;-<span class="st"> </span>mat[<span class="kw">apply</span>(mat, <span class="dv">1</span>, <span class="cf">function</span>(x) <span class="kw">all</span>(x<span class="op">!=</span><span class="dv">0</span>)), ]</a>
-<a class="sourceLine" id="cb49-9" data-line-number="9">ComplexHeatmap<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/ComplexHeatmap/topics/Heatmap">Heatmap</a></span>(</a>
-<a class="sourceLine" id="cb49-10" data-line-number="10">    mat, </a>
-<a class="sourceLine" id="cb49-11" data-line-number="11">    <span class="dt">name =</span> <span class="st">"relative </span><span class="ch">\n</span><span class="st">enrichment"</span>,</a>
-<a class="sourceLine" id="cb49-12" data-line-number="12">    <span class="dt">col =</span> circlize<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/circlize/topics/colorRamp2">colorRamp2</a></span>(<span class="kw">c</span>(<span class="op">-</span><span class="dv">100</span>, <span class="dv">0</span>, <span class="dv">100</span>), </a>
-<a class="sourceLine" id="cb49-13" data-line-number="13">                               <span class="kw">c</span>(<span class="st">"red"</span>, <span class="st">"white"</span>, <span class="st">"blue"</span>)),</a>
-<a class="sourceLine" id="cb49-14" data-line-number="14">    <span class="dt">row_names_side =</span> <span class="st">"left"</span>,</a>
-<a class="sourceLine" id="cb49-15" data-line-number="15">    <span class="dt">row_names_gp =</span> <span class="kw">gpar</span>(<span class="dt">fontsize =</span> <span class="dv">8</span>),</a>
-<a class="sourceLine" id="cb49-16" data-line-number="16">    <span class="dt">show_column_dend =</span> <span class="ot">FALSE</span>, </a>
-<a class="sourceLine" id="cb49-17" data-line-number="17">    <span class="dt">show_row_dend =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">paths &lt;-<span class="st"> </span><span class="kw">names</span>(KEGGREST<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/KEGGREST/topics/keggList">keggList</a></span>(<span class="st">"pathway"</span>))
+paths &lt;-<span class="st"> </span><span class="kw">regmatches</span>(paths, <span class="kw">regexpr</span>(<span class="st">"[[:alpha:]]{2,4}</span><span class="ch">\\</span><span class="st">d{5}"</span>, paths))
+pnames &lt;-<span class="st"> </span><span class="kw">unname</span>(KEGGREST<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/KEGGREST/topics/keggList">keggList</a></span>(<span class="st">"pathway"</span>))
+ids &lt;-<span class="st"> </span><span class="kw">match</span>(<span class="kw">rownames</span>(mat), paths)
+descriptions &lt;-<span class="st"> </span>pnames[ids]
+<span class="kw">rownames</span>(mat) &lt;-<span class="st"> </span>descriptions
+
+mat &lt;-<span class="st"> </span>mat[<span class="kw">apply</span>(mat, <span class="dv">1</span>, <span class="cf">function</span>(x) <span class="kw">all</span>(x<span class="op">!=</span><span class="dv">0</span>)), ]
+ComplexHeatmap<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/ComplexHeatmap/topics/Heatmap">Heatmap</a></span>(
+    mat, 
+    <span class="dt">name =</span> <span class="st">"relative </span><span class="ch">\n</span><span class="st">enrichment"</span>,
+    <span class="dt">col =</span> circlize<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/circlize/topics/colorRamp2">colorRamp2</a></span>( <span class="kw">c</span>(<span class="op">-</span><span class="dv">100</span>, <span class="dv">0</span>, <span class="dv">100</span>), 
+                                <span class="kw">c</span>(<span class="st">"red"</span>, <span class="st">"white"</span>, <span class="st">"blue"</span>)),
+    <span class="dt">row_names_side =</span> <span class="st">"left"</span>,
+    <span class="dt">row_names_gp =</span> <span class="kw">gpar</span>(<span class="dt">fontsize =</span> <span class="dv">8</span>),
+    <span class="dt">show_column_dend =</span> <span class="ot">FALSE</span>, 
+    <span class="dt">show_row_dend =</span> <span class="ot">FALSE</span>)</code></pre></div>
 </div>
 <div id="session-info" class="section level1">
 <h1 class="hasAnchor">
 <a href="#session-info" class="anchor"></a>Session info</h1>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="kw">sessionInfo</span>()</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
 <pre><code>R version 3.5.0 (2018-04-23)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 Running under: Windows 10 x64 (build 17134)
@@ -476,35 +477,37 @@ Running under: Windows 10 x64 (build 17134)
 Matrix products: default
 
 locale:
-[1] LC_COLLATE=Croatian_Croatia.1250  LC_CTYPE=Croatian_Croatia.1250   
-[3] LC_MONETARY=Croatian_Croatia.1250 LC_NUMERIC=C                     
-[5] LC_TIME=Croatian_Croatia.1250    
+[1] LC_COLLATE=English_United Kingdom.1252 
+[2] LC_CTYPE=English_United Kingdom.1252   
+[3] LC_MONETARY=English_United Kingdom.1252
+[4] LC_NUMERIC=C                           
+[5] LC_TIME=English_United Kingdom.1252    
 
 attached base packages:
 [1] stats4    parallel  stats     graphics  grDevices utils     datasets 
 [8] methods   base     
 
 other attached packages:
- [1] Biobase_2.41.0      Biostrings_2.49.0   XVector_0.21.2     
- [4] IRanges_2.15.14     S4Vectors_0.19.12   BiocGenerics_0.27.0
- [7] ggplot2_2.2.1       coRdon_0.99.5       knitr_1.20         
-[10] BiocStyle_2.9.3    
+ [1] Biobase_2.40.0      Biostrings_2.48.0   XVector_0.20.0     
+ [4] IRanges_2.14.10     S4Vectors_0.18.2    BiocGenerics_0.26.0
+ [7] ggplot2_2.2.1       coRdon_0.99.6       knitr_1.20         
+[10] BiocStyle_2.8.2    
 
 loaded via a namespace (and not attached):
- [1] Rcpp_0.12.17      compiler_3.5.0    pillar_1.2.3     
- [4] plyr_1.8.4        zlibbioc_1.27.0   tools_3.5.0      
- [7] digest_0.6.15     evaluate_0.10.1   memoise_1.1.0    
-[10] tibble_1.4.2      gtable_0.2.0      rlang_0.2.1      
-[13] rstudioapi_0.7    commonmark_1.5    yaml_2.1.19      
-[16] pkgdown_1.1.0     xfun_0.1          stringr_1.3.1    
-[19] roxygen2_6.0.1    xml2_1.2.0        desc_1.2.0       
-[22] fs_1.2.3          rprojroot_1.3-2   grid_3.5.0       
-[25] data.table_1.11.4 R6_2.2.2          rmarkdown_1.10   
-[28] bookdown_0.7      purrr_0.2.5       magrittr_1.5     
-[31] backports_1.1.2   scales_0.5.0      htmltools_0.3.6  
-[34] MASS_7.3-49       assertthat_0.2.0  colorspace_1.3-2 
-[37] labeling_0.3      stringi_1.1.7     lazyeval_0.2.1   
-[40] munsell_0.5.0     crayon_1.3.4     </code></pre>
+ [1] Rcpp_0.12.17       compiler_3.5.0     pillar_1.2.3      
+ [4] plyr_1.8.4         zlibbioc_1.26.0    tools_3.5.0       
+ [7] digest_0.6.15      evaluate_0.10.1    memoise_1.1.0     
+[10] tibble_1.4.2       gtable_0.2.0       rlang_0.2.1       
+[13] rstudioapi_0.7     commonmark_1.5     yaml_2.1.19       
+[16] pkgdown_1.1.0.9000 xfun_0.1           stringr_1.3.1     
+[19] roxygen2_6.0.1     xml2_1.2.0         desc_1.2.0        
+[22] fs_1.2.3           rprojroot_1.3-2    grid_3.5.0        
+[25] data.table_1.11.4  R6_2.2.2           rmarkdown_1.10    
+[28] bookdown_0.7       purrr_0.2.5        magrittr_1.5      
+[31] backports_1.1.2    scales_0.5.0       htmltools_0.3.6   
+[34] MASS_7.3-49        assertthat_0.2.0   colorspace_1.3-2  
+[37] labeling_0.3       stringi_1.1.7      lazyeval_0.2.1    
+[40] munsell_0.4.3      crayon_1.3.4      </code></pre>
 </div>
   </div>
 

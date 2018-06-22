@@ -8,12 +8,12 @@
 Length and Composition (MILC)}
 \usage{
 MILC(cTobject, subsets = list(), self = TRUE, ribosomal = FALSE,
-  id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
-  filtering = "none", len.threshold = 80)
+    id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
+    filtering = "none", len.threshold = 80)
 
 \S4method{MILC}{codonTable}(cTobject, subsets = list(), self = TRUE,
-  ribosomal = FALSE, id_or_name2 = "1", alt.init = TRUE,
-  stop.rm = FALSE, filtering = "none", len.threshold = 80)
+    ribosomal = FALSE, id_or_name2 = "1", alt.init = TRUE,
+    stop.rm = FALSE, filtering = "none", len.threshold = 80)
 }
 \arguments{
 \item{cTobject}{A \code{codonTable} object.}
@@ -33,7 +33,7 @@ against the average CU of the ribosomal genes in the sequence set.}
     A single string that uniquely identifies the genetic code to extract.
     Should be one of the values in the \code{id} or \code{name2} columns
     of \code{GENETIC_CODE_TABLE}.
-  }
+    }
 
 \item{alt.init}{logical, whether to use alternative initiation codons.
 Default is \code{TRUE}.}
@@ -54,10 +54,10 @@ in codons, used for filtering.}
 }
 \value{
 A matrix with MILC values for every specified subset
-   (\code{subsets}, \code{self}, \code{ribosomal}) in columns.
+    (\code{subsets}, \code{self}, \code{ribosomal}) in columns.
 
-   For definition of MILC, see
-   \href{https://bit.ly/2GkT7qe}{Supek & Vlahovicek (2005)}.
+    For definition of MILC, see
+    \href{https://bit.ly/2GkT7qe}{Supek & Vlahovicek (2005)}.
 }
 \description{
 Calculate MILC values for every sequence in the given
@@ -81,7 +81,7 @@ head(milc)
 # of the first 20 example DNA sequences
 # (i.e. the first half of the example DNA set)
 milc <- MILC(cT, self = FALSE,
-             subsets = list(half = c(rep(TRUE, 20), rep(FALSE, 20))))
+            subsets = list(half = c(rep(TRUE, 20), rep(FALSE, 20))))
 
 # alternatively, you can specify codonTable as a subset
 halfcT <- codonTable(codonCounts(cT)[1:20,])

@@ -7,10 +7,11 @@ NULL
 setGeneric(
     name = "expectedCU",
     def = function(cTobject,
-                   gCobject,
-                   subsets,
-                   self,
-                   ribosomal) {
+                    gCobject,
+                    subsets,
+                    self,
+                    ribosomal) 
+    {
         standardGeneric("expectedCU")
     }
 )
@@ -19,10 +20,11 @@ setMethod(
     f = "expectedCU",
     signature = c(cTobject = "codonTable", subsets = "list"),
     definition = function(cTobject,
-                          gCobject,
-                          subsets,
-                          self,
-                          ribosomal) {
+                            gCobject,
+                            subsets,
+                            self,
+                            ribosomal) 
+    {
         ns <- length(cTobject@len)
         if (!is.list(subsets))
             stop(
@@ -151,9 +153,16 @@ setMethod(
 #' @export
 setGeneric(
     name = "MILC",
-    def = function(cTobject, subsets = list(), self = TRUE, ribosomal = FALSE,
-                   id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
-                   filtering = "none", len.threshold = 80) {
+    def = function(cTobject,
+                    subsets = list(),
+                    self = TRUE,
+                    ribosomal = FALSE,
+                    id_or_name2 = "1",
+                    alt.init = TRUE,
+                    stop.rm = FALSE,
+                    filtering = "none",
+                    len.threshold = 80)
+    {
         standardGeneric("MILC")
     }
 )
@@ -164,14 +173,14 @@ setMethod(
     f = "MILC",
     signature = c(cTobject = "codonTable"),
     definition = function(cTobject,
-                          subsets,
-                          self,
-                          ribosomal,
-                          id_or_name2,
-                          alt.init,
-                          stop.rm,
-                          filtering,
-                          len.threshold) {
+                            subsets,
+                            self,
+                            ribosomal,
+                            id_or_name2,
+                            alt.init,
+                            stop.rm,
+                            filtering,
+                            len.threshold) {
         if (filtering == "hard") {
             cTobject <- subset(cTobject, cTobject@len > len.threshold)
         } else if (filtering == "soft") {
@@ -261,14 +270,15 @@ setMethod(
 setGeneric(
     name = "B",
     def = function(cTobject,
-                   subsets = list(),
-                   self = TRUE,
-                   ribosomal = FALSE,
-                   id_or_name2 = "1",
-                   alt.init = TRUE,
-                   stop.rm = FALSE,
-                   filtering = "none",
-                   len.threshold = 80) {
+                    subsets = list(),
+                    self = TRUE,
+                    ribosomal = FALSE,
+                    id_or_name2 = "1",
+                    alt.init = TRUE,
+                    stop.rm = FALSE,
+                    filtering = "none",
+                    len.threshold = 80) 
+    {
         standardGeneric("B")
     }
 )
@@ -279,14 +289,15 @@ setMethod(
     f = "B",
     signature = c(cTobject = "codonTable"),
     definition = function(cTobject,
-                          subsets,
-                          self,
-                          ribosomal,
-                          id_or_name2,
-                          alt.init,
-                          stop.rm,
-                          filtering,
-                          len.threshold) {
+                            subsets,
+                            self,
+                            ribosomal,
+                            id_or_name2,
+                            alt.init,
+                            stop.rm,
+                            filtering,
+                            len.threshold) 
+    {
         if (filtering == "hard") {
             cTobject <- subset(cTobject, cTobject@len > len.threshold)
         } else if (filtering == "soft") {
@@ -375,14 +386,15 @@ setMethod(
 setGeneric(
     name = "MCB",
     def = function(cTobject,
-                   subsets = list(),
-                   self = TRUE,
-                   ribosomal = FALSE,
-                   id_or_name2 = "1",
-                   alt.init = TRUE,
-                   stop.rm = FALSE,
-                   filtering = "none",
-                   len.threshold = 80) {
+                    subsets = list(),
+                    self = TRUE,
+                    ribosomal = FALSE,
+                    id_or_name2 = "1",
+                    alt.init = TRUE,
+                    stop.rm = FALSE,
+                    filtering = "none",
+                    len.threshold = 80) 
+    {
         standardGeneric("MCB")
     }
 )
@@ -393,14 +405,15 @@ setMethod(
     f = "MCB",
     signature = c(cTobject = "codonTable"),
     definition = function(cTobject,
-                          subsets,
-                          self,
-                          ribosomal,
-                          id_or_name2,
-                          alt.init,
-                          stop.rm,
-                          filtering,
-                          len.threshold) {
+                            subsets,
+                            self,
+                            ribosomal,
+                            id_or_name2,
+                            alt.init,
+                            stop.rm,
+                            filtering,
+                            len.threshold) 
+    {
         if (filtering == "hard") {
             cTobject <- subset(cTobject, cTobject@len > len.threshold)
         } else if (filtering == "soft") {
@@ -494,14 +507,15 @@ setMethod(
 setGeneric(
     name = "ENCprime",
     def = function(cTobject,
-                   subsets = list(),
-                   self = TRUE,
-                   ribosomal = FALSE,
-                   id_or_name2 = "1",
-                   alt.init = TRUE,
-                   stop.rm = TRUE,
-                   filtering = "none",
-                   len.threshold = 80) {
+                    subsets = list(),
+                    self = TRUE,
+                    ribosomal = FALSE,
+                    id_or_name2 = "1",
+                    alt.init = TRUE,
+                    stop.rm = TRUE,
+                    filtering = "none",
+                    len.threshold = 80) 
+    {
         standardGeneric("ENCprime")
     }
 )
@@ -512,14 +526,15 @@ setMethod(
     f = "ENCprime",
     signature = c(cTobject = "codonTable"),
     definition = function(cTobject,
-                          subsets,
-                          self,
-                          ribosomal,
-                          id_or_name2,
-                          alt.init,
-                          stop.rm,
-                          filtering,
-                          len.threshold) {
+                            subsets,
+                            self,
+                            ribosomal,
+                            id_or_name2,
+                            alt.init,
+                            stop.rm,
+                            filtering,
+                            len.threshold) 
+    {
         if (filtering == "hard") {
             cTobject <- subset(cTobject, cTobject@len > len.threshold)
         } else if (filtering == "soft") {
@@ -601,11 +616,12 @@ setMethod(
 setGeneric(
     name = "ENC",
     def = function(cTobject,
-                   id_or_name2 = "1",
-                   alt.init = TRUE,
-                   stop.rm = TRUE,
-                   filtering = "none",
-                   len.threshold = 80) {
+                    id_or_name2 = "1",
+                    alt.init = TRUE,
+                    stop.rm = TRUE,
+                    filtering = "none",
+                    len.threshold = 80) 
+    {
         standardGeneric("ENC")
     }
 )
@@ -616,11 +632,12 @@ setMethod(
     f = "ENC",
     signature = c(cTobject = "codonTable"),
     definition = function(cTobject,
-                          id_or_name2,
-                          alt.init,
-                          stop.rm,
-                          filtering,
-                          len.threshold) {
+                            id_or_name2,
+                            alt.init,
+                            stop.rm,
+                            filtering,
+                            len.threshold) 
+    {
         if (filtering == "hard") {
             cTobject <- subset(cTobject, cTobject@len > len.threshold)
         } else if (filtering == "soft") {
@@ -692,11 +709,12 @@ setMethod(
 setGeneric(
     name = "SCUO",
     def = function(cTobject,
-                   id_or_name2 = "1",
-                   alt.init = TRUE,
-                   stop.rm = FALSE,
-                   filtering = "none",
-                   len.threshold = 80) {
+                    id_or_name2 = "1",
+                    alt.init = TRUE,
+                    stop.rm = FALSE,
+                    filtering = "none",
+                    len.threshold = 80) 
+    {
         standardGeneric("SCUO")
     }
 )
@@ -707,11 +725,12 @@ setMethod(
     f = "SCUO",
     signature = c(cTobject = "codonTable"),
     definition = function(cTobject,
-                          id_or_name2,
-                          alt.init,
-                          stop.rm,
-                          filtering,
-                          len.threshold) {
+                            id_or_name2,
+                            alt.init,
+                            stop.rm,
+                            filtering,
+                            len.threshold) 
+    {
         if (filtering == "hard") {
             cTobject <- subset(cTobject, cTobject@len > len.threshold)
         } else if (filtering == "soft") {

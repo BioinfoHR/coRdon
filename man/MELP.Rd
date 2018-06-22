@@ -7,12 +7,12 @@
 \title{Calculate MILC-based Expression Level Predictor (MELP).}
 \usage{
 MELP(cTobject, subsets = list(), ribosomal = FALSE, id_or_name2 = "1",
-  alt.init = TRUE, stop.rm = FALSE, filtering = "none",
-  len.threshold = 80)
+    alt.init = TRUE, stop.rm = FALSE, filtering = "none",
+    len.threshold = 80)
 
 \S4method{MELP}{codonTable}(cTobject, subsets = list(), ribosomal = FALSE,
-  id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
-  filtering = "none", len.threshold = 80)
+    id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
+    filtering = "none", len.threshold = 80)
 }
 \arguments{
 \item{cTobject}{A \code{codonTable} object.}
@@ -29,7 +29,7 @@ against the average CU of the ribosomal genes in the sequence set.}
     A single string that uniquely identifies the genetic code to extract.
     Should be one of the values in the \code{id} or \code{name2} columns
     of \code{GENETIC_CODE_TABLE}.
-  }
+    }
 
 \item{alt.init}{logical, whether to use alternative initiation codons.
 Default is \code{TRUE}.}
@@ -50,10 +50,10 @@ in codons, used for filtering.}
 }
 \value{
 A matrix with MELP values for every specified subset
-   (\code{subsets}, \code{self}, \code{ribosomal}) in columns.
+    (\code{subsets}, \code{self}, \code{ribosomal}) in columns.
 
-   For definition of MELP, see
-   \href{https://bit.ly/2GkT7qe}{Supek & Vlahovicek (2005)}.
+    For definition of MELP, see
+    \href{https://bit.ly/2GkT7qe}{Supek & Vlahovicek (2005)}.
 }
 \description{
 Calculate MELP values for every sequence in the given
@@ -81,9 +81,7 @@ all.equal(melp, melp2) # TRUE
 
 # filtering
 MELP(cT, ribosomal = TRUE,
-     filtering = "hard", len.threshold = 80) # MELP for 9 sequences
-                                             # (note that, accidentally,
-                                             # all are ribosomal)
+    filtering = "hard", len.threshold = 80) # MELP for 9 sequences
 sum(getlen(cT) > 80) # 9 sequences are longer than 80 codons
 melp1 <- MELP(cT, ribosomal = TRUE, filtering = "none") # no filtering
 melp2 <- MELP(cT, ribosomal = TRUE, filtering = "soft") # warning
@@ -91,11 +89,11 @@ all.equal(melp1, melp2) # TRUE
 
 # options for genetic code
 melp <- MELP(cT, ribosomal = TRUE,
-             stop.rm = TRUE) # don't use stop codons in calculation
+            stop.rm = TRUE)     # don't use stop codons in calculation
 melp <- MELP(cT, ribosomal = TRUE,
-             alt.init = FALSE) # don't use alternative start codons
+            alt.init = FALSE)   # don't use alternative start codons
 melp <- MELP(cT, ribosomal = TRUE,
-             id_or_name2 = "2") # use different genetic code, for help
+            id_or_name2 = "2")  # use different genetic code, for help
                                 # see `?Biostrings::GENETIC_CODE`
 
 }

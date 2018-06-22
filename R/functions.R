@@ -8,7 +8,7 @@ NULL
     counts <- as.data.table(cTobject@counts)
     cl <- gCobject@cl
     rbind(vapply(cl, function(x) counts[, Reduce('+',.SD), .SDcols = x],
-                 numeric(length = nrow(counts))))
+            numeric(length = nrow(counts))))
 }
 
 .normFrequencies <- function(cTobject, gCobject)

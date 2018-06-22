@@ -36,7 +36,7 @@ setClass(
 {
     ctab <-
         as.data.table(getGeneticCode(id_or_name2, as.data.frame = TRUE),
-                      keep.rownames = "codon")
+        keep.rownames = "codon")
     ctab[, AA := as.factor(ctab$AA)]
     if (alt.init)
         ctab[Start == "M", AA := "M"]
@@ -56,8 +56,9 @@ setClass(
 setGeneric(
     name = "genCode",
     def = function(id_or_name2 = "1",
-                   alt.init = TRUE,
-                   stop.rm = FALSE) {
+                    alt.init = TRUE,
+                    stop.rm = FALSE) 
+    {
         standardGeneric("genCode")
     }
 )
@@ -77,9 +78,7 @@ setMethod(
     definition = function(id_or_name2, alt.init, stop.rm) {
         ctab <- .genCode(id_or_name2, alt.init, stop.rm)
         lev <- levels(droplevels(ctab$AA))
-        cl <- lapply(lev,
-                     function(x)
-                         which(ctab$AA == x))
+        cl <- lapply(lev, function(x) which(ctab$AA == x))
         names(cl) <- lev
         new(
             "genCode",

@@ -37,36 +37,37 @@ setClass(
 ### crossTab constructor
 ###
 
-make.contable <- function(genes, variable,
-                          threshold = 1L, percentiles = NULL) {
+make.contable <- function(genes, 
+                            variable,
+                            threshold = 1L, 
+                            percentiles = NULL) 
+    {
 
-    # genes <- as.factor(slot(cTobject, category))
-    genes <- as.factor(genes)
-    all <- as.vector(table(genes))
-    result <- data.table(category = levels(genes),
-                         all = all)
-
-    if(!is.null(percentiles)) {
-        top.perc <- lapply(percentiles, function(x) {
-            as.vector(table(genes[variable >= quantile(variable, 1-x)]))
-        })
-        names <- make.names(paste("top", percentiles, sep="_"))
-        result[, (names) := top.perc]
-    } else {
-        top.perc <- NULL
-    }
-
-    if(!is.null(threshold)) {
-        top.thresh <- lapply(threshold, function(x) {
-            as.vector(table(genes[variable >= x]))
-        })
-        names <- make.names(paste("gt", threshold, sep="_"))
-        result[, (names) := top.thresh]
-    } else {
-        top.thresh <- NULL
-    }
-
-    return(result)
+        genes <- as.factor(genes)
+        all <- as.vector(table(genes))
+        result <- data.table(category = levels(genes), all = all)
+    
+        if(!is.null(percentiles)) {
+            top.perc <- lapply(percentiles, function(x) {
+                as.vector(table(genes[variable >= quantile(variable, 1-x)]))
+            })
+            names <- make.names(paste("top", percentiles, sep="_"))
+            result[, (names) := top.perc]
+        } else {
+            top.perc <- NULL
+        }
+    
+        if(!is.null(threshold)) {
+            top.thresh <- lapply(threshold, function(x) {
+                as.vector(table(genes[variable >= x]))
+            })
+            names <- make.names(paste("gt", threshold, sep="_"))
+            result[, (names) := top.thresh]
+        } else {
+            top.thresh <- NULL
+        }
+    
+        return(result)
 }
 
 #' @rdname crossTab-class
@@ -246,7 +247,7 @@ reduce.contable <- function(contable, target) {
         anns <- DT[CATEGORY == x, ANN]
         if (any(anns %in% contable[,category]))
             contable[category %in% anns,
-                     lapply(.SD, sum), .SDcols = names(contable)[-1]]
+            lapply(.SD, sum), .SDcols = names(contable)[-1]]
         else NULL
     })
     names(tt) <- values

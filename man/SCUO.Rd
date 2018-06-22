@@ -7,10 +7,10 @@
 \title{Calculate eorderliness of synonymous codon usage  (SCUO).}
 \usage{
 SCUO(cTobject, id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
-  filtering = "none", len.threshold = 80)
+    filtering = "none", len.threshold = 80)
 
 \S4method{SCUO}{codonTable}(cTobject, id_or_name2 = "1", alt.init = TRUE,
-  stop.rm = FALSE, filtering = "none", len.threshold = 80)
+    stop.rm = FALSE, filtering = "none", len.threshold = 80)
 }
 \arguments{
 \item{cTobject}{A \code{codonTable} object.}
@@ -19,7 +19,7 @@ SCUO(cTobject, id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
     A single string that uniquely identifies the genetic code to extract.
     Should be one of the values in the \code{id} or \code{name2} columns
     of \code{GENETIC_CODE_TABLE}.
-  }
+    }
 
 \item{alt.init}{logical, whether to use alternative initiation codons.
 Default is \code{TRUE}.}
@@ -41,8 +41,8 @@ in codons, used for filtering.}
 \value{
 A numeric vector with SCUO values.
 
-   For definition of synonymous codon usage eorderliness (SCUO), see
-   \href{https://www.ncbi.nlm.nih.gov/pubmed/15222899}{Wan et al. (2004)}.
+    For definition of synonymous codon usage eorderliness (SCUO), see
+    \href{https://www.ncbi.nlm.nih.gov/pubmed/15222899}{Wan et al. (2004)}.
 }
 \description{
 Calculate SCUO values for every sequence in the given \code{codonTable}

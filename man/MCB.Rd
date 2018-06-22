@@ -7,12 +7,12 @@
 \title{Calculate maximum-likelihood codon bias (MCB)}
 \usage{
 MCB(cTobject, subsets = list(), self = TRUE, ribosomal = FALSE,
-  id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
-  filtering = "none", len.threshold = 80)
+    id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
+    filtering = "none", len.threshold = 80)
 
 \S4method{MCB}{codonTable}(cTobject, subsets = list(), self = TRUE,
-  ribosomal = FALSE, id_or_name2 = "1", alt.init = TRUE,
-  stop.rm = FALSE, filtering = "none", len.threshold = 80)
+    ribosomal = FALSE, id_or_name2 = "1", alt.init = TRUE,
+    stop.rm = FALSE, filtering = "none", len.threshold = 80)
 }
 \arguments{
 \item{cTobject}{A \code{codonTable} object.}
@@ -32,7 +32,7 @@ against the average CU of the ribosomal genes in the sequence set.}
     A single string that uniquely identifies the genetic code to extract.
     Should be one of the values in the \code{id} or \code{name2} columns
     of \code{GENETIC_CODE_TABLE}.
-  }
+    }
 
 \item{alt.init}{logical, whether to use alternative initiation codons.
 Default is \code{TRUE}.}
@@ -53,10 +53,10 @@ in codons, used for filtering.}
 }
 \value{
 A matrix with MCB values for every specified subset
-   (\code{subsets}, \code{self}, \code{ribosomal}) in columns.
+    (\code{subsets}, \code{self}, \code{ribosomal}) in columns.
 
-   For definition of maximum-likelihood codon bias (MCB), see
-   \href{https://bit.ly/2GlMRyy}{Urrutia and Hurst (2001)}.
+    For definition of maximum-likelihood codon bias (MCB), see
+    \href{https://bit.ly/2GlMRyy}{Urrutia and Hurst (2001)}.
 }
 \description{
 Calculate MCB values for every sequence in the given
@@ -80,7 +80,7 @@ head(mcb)
 # of the first 20 example DNA sequences
 # (i.e. the first half of the example DNA set)
 mcb <- MCB(cT, self = FALSE,
-           subsets = list(half = c(rep(TRUE, 20), rep(FALSE, 20))))
+            subsets = list(half = c(rep(TRUE, 20), rep(FALSE, 20))))
 
 # alternatively, you can specify codonTable as a subset
 halfcT <- codonTable(codonCounts(cT)[1:20,])
@@ -95,9 +95,9 @@ mcb2 <- MCB(cT, filtering = "soft") # warning
 all.equal(mcb1, mcb2) # TRUE
 
 # options for genetic code
-mcb <- MCB(cT, stop.rm = TRUE) # don't use stop codons in calculation
-mcb <- MCB(cT, alt.init = FALSE) # don't use alternative start codons
-mcb <- MCB(cT, id_or_name2 = "2") # use different genetic code, for help
-                                  # see `?Biostrings::GENETIC_CODE`
+mcb <- MCB(cT, stop.rm = TRUE)      # don't use stop codons in calculation
+mcb <- MCB(cT, alt.init = FALSE)    # don't use alternative start codons
+mcb <- MCB(cT, id_or_name2 = "2")   # use different genetic code, for help
+                                    # see `?Biostrings::GENETIC_CODE`
 
 }

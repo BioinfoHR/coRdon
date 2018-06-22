@@ -12,7 +12,7 @@ enrichMAplot(x, pvalue = "pvals", siglev = 0.05)
 \S4method{enrichMAplot}{list}(x, pvalue = "pvals", siglev = 0.05)
 
 \S4method{enrichMAplot}{AnnotatedDataFrame}(x, pvalue = "pvals",
-  siglev = 0.05)
+    siglev = 0.05)
 }
 \arguments{
 \item{x}{\code{AnnotatedDataFrame} object, or a list of those.}

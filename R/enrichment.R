@@ -32,10 +32,10 @@ NULL
         padj <- p.adjust(pvals, method = pAdjustMethod)
 
         ct[, ':='(enrich = (scaled_top - scaled_all) / scaled_all * 100,
-                  M = log2(scaled_top) - log2(scaled_all),
-                  A = (log2(scaled_all) + log2(scaled_top)) / 2,
-                  pvals = pvals,
-                  padj = padj)]
+            M = log2(scaled_top) - log2(scaled_all),
+            A = (log2(scaled_all) + log2(scaled_top)) / 2,
+            pvals = pvals,
+            padj = padj)]
 
         if(length(pvalueCutoff) != 0) ct <- ct[pvals <= pvalueCutoff,]
         if(length(padjCutoff) != 0) ct <- ct[padj <= padjCutoff,]
@@ -111,8 +111,11 @@ NULL
 #' @export
 setGeneric(
     name = "enrichment",
-    def = function(x, pvalueCutoff = numeric(),
-                   pAdjustMethod = "BH", padjCutoff = numeric()){
+    def = function(x,
+                    pvalueCutoff = numeric(),
+                    pAdjustMethod = "BH", 
+                    padjCutoff = numeric())
+    {
         standardGeneric("enrichment")
     }
 )
@@ -205,7 +208,7 @@ setMethod(
 
         # AnnotatedDataFrame class
         if (!(all(vapply(x, class,
-                         character(length = 1)) == "AnnotatedDataFrame")))
+            character(length = 1)) == "AnnotatedDataFrame")))
             stop("x should be a (nested) list of AnnotatedDataFrame objects!")
 
         .makemat(x, variable, replace.na)

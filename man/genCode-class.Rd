@@ -10,14 +10,14 @@
 genCode(id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE)
 
 \S4method{genCode}{ANY}(id_or_name2 = "1", alt.init = TRUE,
-  stop.rm = FALSE)
+    stop.rm = FALSE)
 }
 \arguments{
 \item{id_or_name2}{
     A single string that uniquely identifies the genetic code to extract.
     Should be one of the values in the \code{id} or \code{name2} columns
     of \code{GENETIC_CODE_TABLE}.
-  }
+    }
 
 \item{alt.init}{logical, whether to use alternative initiation codons.
 Default is \code{TRUE}.}

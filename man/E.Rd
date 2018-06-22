@@ -7,12 +7,12 @@
 \title{Calculate gene expression measure (E).}
 \usage{
 E(cTobject, subsets = list(), ribosomal = FALSE, id_or_name2 = "1",
-  alt.init = TRUE, stop.rm = FALSE, filtering = "none",
-  len.threshold = 80)
+    alt.init = TRUE, stop.rm = FALSE, filtering = "none",
+    len.threshold = 80)
 
 \S4method{E}{codonTable}(cTobject, subsets = list(), ribosomal = FALSE,
-  id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
-  filtering = "none", len.threshold = 80)
+    id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
+    filtering = "none", len.threshold = 80)
 }
 \arguments{
 \item{cTobject}{A \code{codonTable} object.}
@@ -29,7 +29,7 @@ against the average CU of the ribosomal genes in the sequence set.}
     A single string that uniquely identifies the genetic code to extract.
     Should be one of the values in the \code{id} or \code{name2} columns
     of \code{GENETIC_CODE_TABLE}.
-  }
+    }
 
 \item{alt.init}{logical, whether to use alternative initiation codons.
 Default is \code{TRUE}.}
@@ -50,10 +50,10 @@ in codons, used for filtering.}
 }
 \value{
 A matrix with E values for every specified subset (\code{subsets},
-   \code{self}, \code{ribosomal}) in columns.
+    \code{self}, \code{ribosomal}) in columns.
 
-   For definition of gene expression measure (E), see
-   \href{https://bit.ly/2pGLno5}{Karlin and Mrazek (2000)}.
+    For definition of gene expression measure (E), see
+    \href{https://bit.ly/2pGLno5}{Karlin and Mrazek (2000)}.
 }
 \description{
 Calculate E values for every sequence in the given
@@ -81,8 +81,7 @@ all.equal(em, em2) # TRUE
 
 # filtering
 E(cT, ribosomal = TRUE,
-  filtering = "hard", len.threshold = 80) # E for 9 sequences (note that,
-                                          # accidentally, all are ribosomal)
+    filtering = "hard", len.threshold = 80) # E for 9 sequences
 sum(getlen(cT) > 80) # 9 sequences are longer than 80 codons
 em1 <- E(cT, ribosomal = TRUE, filtering = "none") # no filtering
 em2 <- E(cT, ribosomal = TRUE, filtering = "soft") # warning
@@ -94,7 +93,7 @@ em <- E(cT, ribosomal = TRUE,
 em <- E(cT, ribosomal = TRUE,
         alt.init = FALSE) # don't use alternative start codons
 em <- E(cT, ribosomal = TRUE,
-        id_or_name2 = "2") # use different genetic code, for help
-                           # see `?Biostrings::GENETIC_CODE`
+        id_or_name2 = "2")  # use different genetic code, for help
+                            # see `?Biostrings::GENETIC_CODE`
 
 }

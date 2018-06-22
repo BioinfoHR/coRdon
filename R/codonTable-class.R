@@ -65,12 +65,12 @@ setValidity(
         }
         if (KOlen != 0 & KOlen != ns) {
             msg <- cat("Number of KO annotations,", KOlen,
-                       "differ from the number of sequences,", ns, "\n")
+                        "differ from the number of sequences,", ns, "\n")
             errors <- c(errors, msg)
         }
         if (COGlen != 0 & COGlen != ns) {
             msg <- cat("Number of COG annotations,", COGlen,
-                       " differ from the number of sequences,", ns, "\n")
+                        " differ from the number of sequences,", ns, "\n")
             errors <- c(errors, msg)
         }
         if (length(errors) == 0) TRUE else stop(errors)
@@ -125,7 +125,7 @@ setMethod(
             KO = regmatches(names(x),
                             regexpr("K\\d{5}", names(x))),
             COG = regmatches(names(x),
-                             regexpr("([KCN]|TW)OG\\d{5}", names(x)))
+                            regexpr("([KCN]|TW)OG\\d{5}", names(x)))
         )
     }
 )
@@ -166,7 +166,7 @@ setMethod(
             KO = regmatches(rownames(x),
                             regexpr("K\\d{5}", rownames(x))),
             COG = regmatches(rownames(x),
-                             regexpr("([KCN]|TW)OG\\d{5}", rownames(x)))
+                            regexpr("([KCN]|TW)OG\\d{5}", rownames(x)))
         )
     }
 )

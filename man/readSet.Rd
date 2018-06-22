@@ -5,7 +5,7 @@
 \title{Read set of sequences.}
 \usage{
 readSet(folder = character(), file = character(), KOs = c(),
-  zipped = FALSE)
+    zipped = FALSE)
 }
 \arguments{
 \item{folder}{Path to directory containing .fasta files.}

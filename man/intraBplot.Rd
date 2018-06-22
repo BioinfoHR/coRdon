@@ -7,10 +7,10 @@
 \title{Intra-samples Karlin B plot}
 \usage{
 intraBplot(x, y, names = c("x", "y"), variable, ribosomal = FALSE,
-  alpha = 0.1)
+    alpha = 0.1)
 
 \S4method{intraBplot}{codonTable,codonTable}(x, y, names = c("x", "y"),
-  variable, ribosomal = FALSE, alpha = 0.1)
+    variable, ribosomal = FALSE, alpha = 0.1)
 }
 \arguments{
 \item{x, y}{Objects of \code{codonTable} class.}
@@ -41,6 +41,6 @@ require(ggplot2)
 milc <- MILC(LD94, self = TRUE, ribosomal = TRUE)
 
 intraBplot(x = HD59, y = LD94, names = c("HD59", "LD94"),
-           variable = "MILC")
+            variable = "MILC")
 
 }

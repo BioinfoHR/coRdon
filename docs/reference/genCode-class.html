@@ -62,7 +62,7 @@ to be used in CU calculations." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">coRdon</a>
-        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.99.5</span>
+        <span class="label label-danger" data-toggle="tooltip" data-placement="bottom" title="Unreleased package">0.99.6</span>
       </span>
     </div>
 
@@ -163,18 +163,20 @@ Default is <code>TRUE</code>.</p></td>
 
     
     <dl class='dl-horizontal'>
-<dt><code>ctab</code></dt><dd><p>A <code>data.table</code> with two colums: <code>codon</code> and <code>AA</code>,
-amino acid.</p></dd>
+<dt><code>ctab</code></dt><dd><p>A <code>data.table</code> with two colums:
+<code>codon</code> and <code>AA</code>, amino acid.</p></dd>
     <dt><code>codons</code></dt><dd><p>A character vector of codons.</p></dd>
-    <dt><code>stops</code></dt><dd><p>A character vector of stop codons. Note that, if <code>stop.rm</code>
-is <code>TRUE</code>, this will be an empty vector.</p></dd>
-    <dt><code>nostops</code></dt><dd><p>A character vector of no-stop codons. If <code>stop.rm</code> is
-<code>TRUE</code>, this will be equal to the <code>codons</code> slot.</p></dd>
-    <dt><code>cl</code></dt><dd><p>A list, each element of which is a vector of integers indicating
-the positions of synonymous codons for that amino acid, when codons are
-alphabetically ordered.</p></dd>
-    <dt><code>deg</code></dt><dd><p>A numeric vector of degeneracies for alphabetically ordered amino
-acids.</p></dd>
+    <dt><code>stops</code></dt><dd><p>A character vector of stop codons. Note that,
+if <code>stop.rm</code> is <code>TRUE</code>, this will be
+an empty vector.</p></dd>
+    <dt><code>nostops</code></dt><dd><p>A character vector of no-stop codons.
+If <code>stop.rm</code> is <code>TRUE</code>, this will be
+equal to the <code>codons</code> slot.</p></dd>
+    <dt><code>cl</code></dt><dd><p>A list, each element of which is a vector of integers
+indicating the positions of synonymous codons for that amino
+acid, when codons are ordered alphabetically.</p></dd>
+    <dt><code>deg</code></dt><dd><p>A numeric vector of degeneracies for
+alphabetically ordered amino acids.</p></dd>
 </dl>
     
 

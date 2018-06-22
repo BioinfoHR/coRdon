@@ -99,7 +99,7 @@ setMethod(
         geom_bar(stat = "identity", position=position_dodge()) +
         labs(x = "category", y = variable, fill = pvalue) +
         theme(axis.text.x  = element_text(angle=90, size=10, vjust=1),
-              axis.text.y  = element_text(angle=0, size=10, hjust=1))
+        axis.text.y  = element_text(angle=0, size=10, hjust=1))
 
     if ("subset" %in% names(dt))
         p <- p + facet_grid(subset ~ .)

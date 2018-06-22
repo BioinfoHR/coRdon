@@ -12,8 +12,8 @@
 \item{subset}{A logical or character vector indicating which elements of
 \code{x} to keep. If logical, \code{subset} should be of length
 \code{length(x)}. If character, \code{subset} should contain
- at least some of the elements of either \code{getKO(x)} or
- \code{getCOG(x)}.}
+    at least some of the elements of either \code{getKO(x)} or
+    \code{getCOG(x)}.}
 
 \item{...}{further arguments to be passed to or from other methods.}
 }

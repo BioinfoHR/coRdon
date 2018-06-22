@@ -7,12 +7,12 @@
 \title{Calculate Codon Adaptation Index (CAI).}
 \usage{
 CAI(cTobject, subsets = list(), ribosomal = FALSE, id_or_name2 = "1",
-  alt.init = TRUE, stop.rm = FALSE, filtering = "none",
-  len.threshold = 80)
+    alt.init = TRUE, stop.rm = FALSE, filtering = "none",
+    len.threshold = 80)
 
 \S4method{CAI}{codonTable}(cTobject, subsets = list(), ribosomal = FALSE,
-  id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
-  filtering = "none", len.threshold = 80)
+    id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
+    filtering = "none", len.threshold = 80)
 }
 \arguments{
 \item{cTobject}{A \code{codonTable} object.}
@@ -29,7 +29,7 @@ against the average CU of the ribosomal genes in the sequence set.}
     A single string that uniquely identifies the genetic code to extract.
     Should be one of the values in the \code{id} or \code{name2} columns
     of \code{GENETIC_CODE_TABLE}.
-  }
+    }
 
 \item{alt.init}{logical, whether to use alternative initiation codons.
 Default is \code{TRUE}.}
@@ -50,10 +50,10 @@ in codons, used for filtering.}
 }
 \value{
 A matrix with CAI values for every specified subset
-   (\code{subsets}, \code{self}, \code{ribosomal}) in columns.
+    (\code{subsets}, \code{self}, \code{ribosomal}) in columns.
 
-   For definition of Codon Adaptation Index (CAI), see
-   \href{https://bit.ly/2HZuk8n}{Sharp and Li (1987)}.
+    For definition of Codon Adaptation Index (CAI), see
+    \href{https://bit.ly/2HZuk8n}{Sharp and Li (1987)}.
 }
 \description{
 Calculate CAI values for every sequence in the given
@@ -81,8 +81,8 @@ all.equal(cai, cai2) # TRUE
 
 # filtering
 CAI(cT, ribosomal = TRUE,
-  filtering = "hard", len.threshold = 80) # CAI for 9 sequences (note that,
-                                          # accidentally, all are ribosomal)
+    filtering = "hard", len.threshold = 80) # CAI for 9 sequences (note that,
+                                            # accidentally, all are ribosomal)
 sum(getlen(cT) > 80) # 9 sequences are longer than 80 codons
 cai1 <- CAI(cT, ribosomal = TRUE, filtering = "none") # no filtering
 cai2 <- CAI(cT, ribosomal = TRUE, filtering = "soft") # warning
@@ -94,7 +94,7 @@ cai <- CAI(cT, ribosomal = TRUE,
 cai <- CAI(cT, ribosomal = TRUE,
         alt.init = FALSE) # don't use alternative start codons
 cai <- CAI(cT, ribosomal = TRUE,
-        id_or_name2 = "2") # use different genetic code, for help
-                           # see `?Biostrings::GENETIC_CODE`
+        id_or_name2 = "2")  # use different genetic code, for help
+                            # see `?Biostrings::GENETIC_CODE`
 
 }

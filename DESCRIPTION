@@ -1,7 +1,7 @@
 Package: coRdon
 Type: Package
 Title: Codon Usage Analysis and Prediction of Gene Expressivity
-Version: 0.99.5
+Version: 0.99.6
 Authors@R: 
     c(person(given = "Anamaria",
              family = "Elek",

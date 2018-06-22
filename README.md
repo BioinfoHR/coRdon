@@ -1,4 +1,4 @@
-<i> class="fa fa-ellipsis-v" aria-hidden="true"></i> coRdon
+##coRdon
 ### Codon Usage Analysis and Prediction of Gene Expressivity
 <br>
 
@@ -56,14 +56,21 @@ including MA-like plot and bar plot.
 
 ***
 
-<i> class="fa fa-cog" aria-hidden="true"></i> Geting started
+## Geting started
 
 To install coRdon, run the following in R:
 ```{r}
+source("https://bioconductor.org/biocLite.R")
+biocLite("coRdon")
+```
+
+The developmental version can be installed directly from from GitHub: 
+```{r}
 devtools::install_github("BioinfoHR/coRdon")
 ```
+
 For worked example on how to do analysis of codon usage with coRdon, 
-please see [the packaage vignette](articles/coRdon.html).
+please see the packaage vignette.
 
 ***
 

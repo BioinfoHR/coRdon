@@ -8,15 +8,15 @@
 \title{Karlin B plot}
 \usage{
 Bplot(x, y, data, annotations = character(), ribosomal = FALSE,
-  reference = list(), alpha = 0.1)
+    reference = list(), alpha = 0.1)
 
 \S4method{Bplot}{character,character,matrix}(x, y, data,
-  annotations = character(), ribosomal = FALSE, reference = list(),
-  alpha = 0.1)
+    annotations = character(), ribosomal = FALSE, reference = list(),
+    alpha = 0.1)
 
 \S4method{Bplot}{numeric,numeric,missing}(x, y, data,
-  annotations = character(), ribosomal = FALSE, reference = list(),
-  alpha = 0.1)
+    annotations = character(), ribosomal = FALSE, reference = list(),
+    alpha = 0.1)
 }
 \arguments{
 \item{x, y}{Character, both must be in \code{colnames(data)}, or numeric
@@ -58,8 +58,8 @@ require(ggplot2)
 milc <- MILC(LD94, self = TRUE, ribosomal = TRUE)
 
 Bplot(x = "ribosomal", y = "self", data = milc,
-      ribosomal = TRUE, annotations = getKO(LD94)) +
+    ribosomal = TRUE, annotations = getKO(LD94)) +
     labs(x = "MILC distance to ribosomal genes",
-         y = "MILC distance to genes' average CU")
+        y = "MILC distance to genes' average CU")
 
 }

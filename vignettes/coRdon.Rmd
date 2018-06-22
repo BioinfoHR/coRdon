@@ -1,23 +1,23 @@
 ---
-title: "Introduction to codon usage (CU) analysis in R"
+title: "Codon usage (CU) analysis in R"
 author: "Anamaria Elek"
 package: coRdon
 date: "`r Sys.Date()`"
 abstract: >
-  `coRdon` provides tools for analysis of codone usage (CU)
-  in various unannotated or KEGG/COG annotated DNA sequences.
-  Funcionalities include: calculation of different CU bias statistics
-  and CU-based predictors of gene expression, gene set enrichment analysis
-  for annotated sequences, and several methods for visualization 
-  of CU and enrichment analysis results. 
+    `coRdon` provides tools for analysis of codone usage (CU)
+    in various unannotated or KEGG/COG annotated DNA sequences.
+    Funcionalities include: calculation of different CU bias statistics
+    and CU-based predictors of gene expression, gene set enrichment analysis
+    for annotated sequences, and several methods for visualization 
+    of CU and enrichment analysis results. 
 output: 
-  BiocStyle::html_document:
+    BiocStyle::html_document:
     toc_float: TRUE
 vignette: >
-  %\VignetteIndexEntry{coRdon}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteDepends{ggplot2}
-  %\VignetteEncoding{UTF-8}
+    %\VignetteIndexEntry{coRdon}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteDepends{ggplot2}
+    %\VignetteEncoding{UTF-8}
 ---
 
 ```{r style, echo = FALSE, results = 'asis'}
@@ -27,9 +27,9 @@ BiocStyle::markdown()
 ```{r setup, echo = FALSE, message = FALSE, warning = FALSE}
 library(knitr)
 opts_chunk$set(comment = NA,
-               fig.align = "center",
-               warning = FALSE,
-               cache = FALSE)
+                fig.align = "center",
+                warning = FALSE,
+                cache = FALSE)
 library(coRdon)
 library(ggplot2)
 library(Biostrings)
@@ -261,7 +261,7 @@ provide the annotations for those sequences only.
 ```{r}
 genes <- getKO(HD59)[getlen(HD59) > 80]
 Bplot(x = "ribosomal", y = "self", data = milc,
-      annotations = genes, ribosomal = TRUE) +
+        annotations = genes, ribosomal = TRUE) +
     labs(x = xlab, y = ylab)
 ```
 
@@ -281,8 +281,8 @@ stronger points on the plot.
 
 ```{r}
 intraBplot(HD59, LD94, names = c("HD59", "LD94"), 
-           variable = "MILC", 
-           ribosomal = TRUE)
+            variable = "MILC", 
+            ribosomal = TRUE)
 ```
 
 # Predict genes' expressivity
@@ -419,7 +419,7 @@ value will be ploted.
 
 ```{r fig.height=12}
 enrichBarplot(enrpath, variable = "enrich", 
-              pvalue = "padj", siglev = 0.05) +
+                pvalue = "padj", siglev = 0.05) +
     theme_light() +
     coord_flip() +
     labs(x = "category", y = "relative enrichment")
@@ -456,11 +456,11 @@ wanted to see how the results compare by plotting them on a heatmap
 ```{r}
 # calculate MELP
 melpHD59 <- MELP(HD59, ribosomal = TRUE, 
-                 filtering = "hard", len.threshold = 100)
+                filtering = "hard", len.threshold = 100)
 genesHD59 <- getKO(HD59)[getlen(HD59) > 100]
 
 melpLD94 <- MELP(LD94, ribosomal = TRUE, 
-                 filtering = "hard", len.threshold = 100)
+                filtering = "hard", len.threshold = 100)
 genesLD94 <- getKO(LD94)[getlen(LD94) > 100]
 
 # make cntingency table
@@ -475,7 +475,7 @@ enrHD59 <- enrichment(ctHD59)
 enrLD94 <- enrichment(ctLD94)
 
 mat <- enrich.matrix(list(HD59 = enrHD59, LD94 = enrLD94), 
-                     variable = "enrich")
+                    variable = "enrich")
 head(mat)
 ```
 
@@ -497,8 +497,8 @@ mat <- mat[apply(mat, 1, function(x) all(x!=0)), ]
 ComplexHeatmap::Heatmap(
     mat, 
     name = "relative \nenrichment",
-    col = circlize::colorRamp2(c(-100, 0, 100), 
-                               c("red", "white", "blue")),
+    col = circlize::colorRamp2( c(-100, 0, 100), 
+                                c("red", "white", "blue")),
     row_names_side = "left",
     row_names_gp = gpar(fontsize = 8),
     show_column_dend = FALSE, 

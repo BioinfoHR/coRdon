@@ -7,10 +7,10 @@
 \title{Calculate effective number of codons (ENC).}
 \usage{
 ENC(cTobject, id_or_name2 = "1", alt.init = TRUE, stop.rm = TRUE,
-  filtering = "none", len.threshold = 80)
+    filtering = "none", len.threshold = 80)
 
 \S4method{ENC}{codonTable}(cTobject, id_or_name2 = "1", alt.init = TRUE,
-  stop.rm = TRUE, filtering = "none", len.threshold = 80)
+    stop.rm = TRUE, filtering = "none", len.threshold = 80)
 }
 \arguments{
 \item{cTobject}{A \code{codonTable} object.}
@@ -19,7 +19,7 @@ ENC(cTobject, id_or_name2 = "1", alt.init = TRUE, stop.rm = TRUE,
     A single string that uniquely identifies the genetic code to extract.
     Should be one of the values in the \code{id} or \code{name2} columns
     of \code{GENETIC_CODE_TABLE}.
-  }
+    }
 
 \item{alt.init}{logical, whether to use alternative initiation codons.
 Default is \code{TRUE}.}
@@ -41,8 +41,8 @@ in codons, used for filtering.}
 \value{
 A numeric vector with ENC values.
 
-   For definition of effective number of codons (ENC), see
-   \href{https://www.ncbi.nlm.nih.gov/pubmed/2110097}{Wright (1990)}.
+    For definition of effective number of codons (ENC), see
+    \href{https://www.ncbi.nlm.nih.gov/pubmed/2110097}{Wright (1990)}.
 }
 \description{
 Calculate ENC values for every sequence in the given \code{codonTable}
@@ -65,9 +65,9 @@ enc2 <- ENC(cT, filtering = "soft") # warning
 all.equal(enc1, enc2) # TRUE
 
 # options for genetic code
-enc <- ENC(cT, stop.rm = TRUE) # don't use stop codons in calculation
-enc <- ENC(cT, alt.init = FALSE) # don't use alternative start codons
-enc <- ENC(cT, id_or_name2 = "2") # use different genetic code, for help
-                                  # see `?Biostrings::GENETIC_CODE`
+enc <- ENC(cT, stop.rm = TRUE)      # don't use stop codons in calculation
+enc <- ENC(cT, alt.init = FALSE)    # don't use alternative start codons
+enc <- ENC(cT, id_or_name2 = "2")   # use different genetic code, for help
+                                    # see `?Biostrings::GENETIC_CODE`
 
 }

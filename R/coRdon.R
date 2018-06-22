@@ -19,4 +19,4 @@ NULL
 # column and row names for objects defined in the package
 #' @importFrom utils globalVariables
 globalVariables(c("category", "x", "y", "genes", "AA", "Start", "annot",
-                  "A", "M", "CATEGORY", "ANN", "codon", "..row"))
+                "A", "M", "CATEGORY", "ANN", "codon", "..row"))

@@ -7,12 +7,12 @@
 \title{Calculate effective number of codons prime (ENC').}
 \usage{
 ENCprime(cTobject, subsets = list(), self = TRUE, ribosomal = FALSE,
-  id_or_name2 = "1", alt.init = TRUE, stop.rm = TRUE,
-  filtering = "none", len.threshold = 80)
+    id_or_name2 = "1", alt.init = TRUE, stop.rm = TRUE,
+    filtering = "none", len.threshold = 80)
 
 \S4method{ENCprime}{codonTable}(cTobject, subsets = list(), self = TRUE,
-  ribosomal = FALSE, id_or_name2 = "1", alt.init = TRUE, stop.rm = TRUE,
-  filtering = "none", len.threshold = 80)
+    ribosomal = FALSE, id_or_name2 = "1", alt.init = TRUE, stop.rm = TRUE,
+    filtering = "none", len.threshold = 80)
 }
 \arguments{
 \item{cTobject}{A \code{codonTable} object.}
@@ -32,7 +32,7 @@ against the average CU of the ribosomal genes in the sequence set.}
     A single string that uniquely identifies the genetic code to extract.
     Should be one of the values in the \code{id} or \code{name2} columns
     of \code{GENETIC_CODE_TABLE}.
-  }
+    }
 
 \item{alt.init}{logical, whether to use alternative initiation codons.
 Default is \code{TRUE}.}
@@ -53,10 +53,10 @@ in codons, used for filtering.}
 }
 \value{
 A matrix with ENC' values for every specified subset
-   (\code{subsets}, \code{self}, \code{ribosomal}) in columns.
+    (\code{subsets}, \code{self}, \code{ribosomal}) in columns.
 
-   For definition of effective number of codons prime (ENC'), see
-   \href{https://www.ncbi.nlm.nih.gov/pubmed/12140252}{Novembre (2002)}.
+    For definition of effective number of codons prime (ENC'), see
+    \href{https://www.ncbi.nlm.nih.gov/pubmed/12140252}{Novembre (2002)}.
 }
 \description{
 Calculate ENC' values for every sequence in the given
@@ -80,7 +80,7 @@ head(encp)
 # of the first 20 example DNA sequences
 # (i.e. the first half of the example DNA set)
 encp <- ENCprime(cT, self = FALSE,
-                 subsets = list(half = c(rep(TRUE, 20), rep(FALSE, 20))))
+                subsets = list(half = c(rep(TRUE, 20), rep(FALSE, 20))))
 
 # alternatively, you can specify codonTable as a subset
 halfcT <- codonTable(codonCounts(cT)[1:20,])

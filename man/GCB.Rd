@@ -7,12 +7,12 @@
 \title{Calculate gene codon bias (GCB).}
 \usage{
 GCB(cTobject, seed = logical(), ribosomal = FALSE, perc = 0.05,
-  id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
-  filtering = "none", len.threshold = 80)
+    id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
+    filtering = "none", len.threshold = 80)
 
 \S4method{GCB}{codonTable}(cTobject, seed = logical(), ribosomal = FALSE,
-  perc = 0.05, id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
-  filtering = "none", len.threshold = 80)
+    perc = 0.05, id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
+    filtering = "none", len.threshold = 80)
 }
 \arguments{
 \item{cTobject}{A \code{codonTable} object.}
@@ -34,7 +34,7 @@ for the next iteration. Default is 0.05.}
     A single string that uniquely identifies the genetic code to extract.
     Should be one of the values in the \code{id} or \code{name2} columns
     of \code{GENETIC_CODE_TABLE}.
-  }
+    }
 
 \item{alt.init}{logical, whether to use alternative initiation codons.
 Default is \code{TRUE}.}
@@ -56,8 +56,8 @@ in codons, used for filtering.}
 \value{
 A numeric vector with GCB values.
 
-   For definition of gene codon bias (GCB), see
-   \href{http://www.ncbi.nlm.nih.gov/pubmed/14708578}{Merkl (2003)}.
+    For definition of gene codon bias (GCB), see
+    \href{http://www.ncbi.nlm.nih.gov/pubmed/14708578}{Merkl (2003)}.
 }
 \description{
 Calculate GCB values for every sequence in the given
@@ -84,11 +84,11 @@ all.equal(gcb, gcb2) # TRUE
 
 # options for genetic code
 gcb <- GCB(cT, ribosomal = TRUE,
-           stop.rm = TRUE) # don't use stop codons in calculation
+            stop.rm = TRUE)     # don't use stop codons in calculation
 gcb <- GCB(cT, ribosomal = TRUE,
-           alt.init = FALSE) # don't use alternative start codons
+            alt.init = FALSE)   # don't use alternative start codons
 gcb <- GCB(cT, ribosomal = TRUE,
-           id_or_name2 = "2") # use different genetic code, for help
-                              # see `?Biostrings::GENETIC_CODE`
+            id_or_name2 = "2")  # use different genetic code, for help
+                                # see `?Biostrings::GENETIC_CODE`
 
 }
