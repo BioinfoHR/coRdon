@@ -101,7 +101,6 @@ setGeneric(
 #'
 #' @return A \code{codonTable}.
 #'
-#' @export
 setMethod(
     f = "codonTable",
     signature = "DNAStringSet",
@@ -113,6 +112,16 @@ setMethod(
                 "is not divisible by 3: \n",
                 bad,
                 ".\nDiscarding surplus nucleotides.\n"))
+        empty <- which(width(x) == 0)
+        if (length(empty) != 0) {
+            warning(paste0(
+                "\nLength of sequence(s) at the following postion(s) ",
+                "is 0:",
+                empty,
+                ".\nDiscarding the sequence(s).\n"
+            ))
+            x <- x[-empty]
+        }
         ctb <- .codonTable(x)
         ctb <- ctb[,order(colnames(ctb))] # sort codons alphabetically
         if (is.integer(ctb)) # in case there is only one sequence
@@ -131,7 +140,6 @@ setMethod(
 )
 
 #' @rdname codonTable-class
-#' @export
 setMethod(
     f = "codonTable",
     signature = "matrix",
@@ -172,7 +180,6 @@ setMethod(
 )
 
 #' @rdname codonTable-class
-#' @export
 setMethod(
     f = "codonTable",
     signature = "data.frame",
@@ -257,7 +264,6 @@ setGeneric(
 #'
 #' @param object A \code{codonTable} object.
 #'
-#' @export
 setMethod(
     f = "codonCounts",
     signature = "codonTable",
@@ -279,7 +285,6 @@ setGeneric(
 #'
 #' @inheritParams codonCounts
 #'
-#' @export
 setMethod(
     f = "getID",
     signature = "codonTable",
@@ -301,7 +306,6 @@ setGeneric(
 #'
 #' @inheritParams codonCounts
 #'
-#' @export
 setMethod(
     f = "getlen",
     signature = "codonTable",
@@ -324,7 +328,6 @@ setGeneric(
 #'
 #' @inheritParams codonCounts
 #'
-#' @export
 setMethod(
     f = "getKO",
     signature = "codonTable",
@@ -348,7 +351,6 @@ setGeneric(
 #' @param ann A character vector of sequence annotations,
 #'    must be of length equal to \code{length(object)}.
 #'
-#' @export
 setMethod(
     f = "setKO",
     signature = "codonTable",
@@ -374,7 +376,6 @@ setGeneric(
 #'
 #' @inheritParams codonCounts
 #'
-#' @export
 setMethod(
     f = "getCOG",
     signature = "codonTable",
@@ -398,7 +399,6 @@ setGeneric(
 #'
 #' @inheritParams setKO
 #'
-#' @export
 setMethod(
     f = "setCOG",
     signature = "codonTable",

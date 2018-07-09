@@ -1,4 +1,4 @@
-##coRdon
+## coRdon
 ### Codon Usage Analysis and Prediction of Gene Expressivity
 <br>
 

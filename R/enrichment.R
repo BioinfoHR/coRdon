@@ -26,8 +26,9 @@ NULL
 
         pvals <-
             apply(ct[,c("all", row), with = FALSE], 1, function(x) {
-                b = binom.test(x[2], top.sum, x[1]/all.sum)
-                b$p.value
+                if (top.sum != 0)
+                    binom.test(x[2], top.sum, x[1]/all.sum)$p.value
+                else 1
             })
         padj <- p.adjust(pvals, method = pAdjustMethod)
 
@@ -108,12 +109,11 @@ NULL
 #'
 #' @rdname enrichment
 #' @export
-#' @export
 setGeneric(
     name = "enrichment",
     def = function(x,
                     pvalueCutoff = numeric(),
-                    pAdjustMethod = "BH", 
+                    pAdjustMethod = "BH",
                     padjCutoff = numeric())
     {
         standardGeneric("enrichment")
@@ -121,7 +121,6 @@ setGeneric(
 )
 
 #' @rdname enrichment
-#' @export
 setMethod(
     f = "enrichment",
     signature = "crossTab",
@@ -158,7 +157,7 @@ setMethod(
 #'
 #' @param x A named list of \code{AnnotatedDataFrame} objects.
 #' @param variable Character, indicating the statistic values to extract from
-#'    \code{enrich.data.frame} objects in x, must be one of
+#'    \code{AnnotatedDataFrame} objects in x, must be one of
 #'    \code{c("enrich","M","A")}.
 #' @param replace.na logical, whether to replace NA values in the output.
 #'    If `TRUE` (default), NAs will be replaced by 0. Alternatively,
@@ -180,22 +179,21 @@ setMethod(
 #' enr # for help, see `?Biobase::AnnotatedDataFrame`
 #' head(pData(enr$top_0.2), 10)
 #' head(pData(enr$gt_1), 10)
-#' enrm <- enrich.matrix(enr, "M")
+#' enrm <- enrichMatrix(enr, "M")
 #' head(enrm)
 #'
-#' @rdname enrich.matrix
+#' @rdname enrichMatrix
 #' @export
 setGeneric(
-    name = "enrich.matrix",
+    name = "enrichMatrix",
     def = function(x, variable, replace.na = TRUE){
-        standardGeneric("enrich.matrix")
+        standardGeneric("enrichMatrix")
     }
 )
 
-#' @rdname enrich.matrix
-#' @export
+#' @rdname enrichMatrix
 setMethod(
-    f = "enrich.matrix",
+    f = "enrichMatrix",
     signature = c(x = "list"),
     definition = function(x, variable, replace.na){
 

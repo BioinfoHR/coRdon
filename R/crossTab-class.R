@@ -37,16 +37,16 @@ setClass(
 ### crossTab constructor
 ###
 
-make.contable <- function(genes, 
+make.contable <- function(genes,
                             variable,
-                            threshold = 1L, 
-                            percentiles = NULL) 
+                            threshold = 1L,
+                            percentiles = NULL)
     {
 
         genes <- as.factor(genes)
         all <- as.vector(table(genes))
         result <- data.table(category = levels(genes), all = all)
-    
+
         if(!is.null(percentiles)) {
             top.perc <- lapply(percentiles, function(x) {
                 as.vector(table(genes[variable >= quantile(variable, 1-x)]))
@@ -56,7 +56,7 @@ make.contable <- function(genes,
         } else {
             top.perc <- NULL
         }
-    
+
         if(!is.null(threshold)) {
             top.thresh <- lapply(threshold, function(x) {
                 as.vector(table(genes[variable >= x]))
@@ -66,7 +66,7 @@ make.contable <- function(genes,
         } else {
             top.thresh <- NULL
         }
-    
+
         return(result)
 }
 
@@ -96,7 +96,6 @@ setGeneric(
 #'    with separate columns for counts in background (all) and subsets, i.e.
 #'    for diferrent thresholds/percentiles provided.
 #'
-#' @export
 setMethod(
     f = "crossTab",
     signature = c(sequences = "character", variable = "numeric"),
@@ -176,7 +175,6 @@ setGeneric(
 #'
 #' @param x A \code{crossTab} object.
 #'
-#' @export
 setMethod(
     f = "getSeqAnnot",
     signature = "crossTab",
@@ -199,7 +197,6 @@ setGeneric(
 #'
 #' @inheritParams getSeqAnnot
 #'
-#' @export
 setMethod(
     f = "getVariable",
     signature = "crossTab",
@@ -221,7 +218,6 @@ setGeneric(
 #'
 #' @inheritParams getSeqAnnot
 #'
-#' @export
 setMethod(
     f = "contable",
     signature = "crossTab",
@@ -289,7 +285,6 @@ setGeneric(
 )
 
 #' @rdname reduceCrossTab
-#' @export
 setMethod(
     f = "reduceCrossTab",
     signature = c("crossTab", "character"),

@@ -97,14 +97,13 @@ setGeneric(
                     annotations = character(),
                     ribosomal = FALSE,
                     reference = list(),
-                    alpha = 0.1) 
+                    alpha = 0.1)
     {
         standardGeneric("Bplot")
     }
 )
 
 #' @rdname Bplot
-#' @export
 setMethod(
     f = "Bplot",
     signature = c(x = "character", y = "character", data = "matrix"),
@@ -129,7 +128,6 @@ setMethod(
     }
 )
 #' @rdname Bplot
-#' @export
 setMethod(
     f = "Bplot",
     signature = c(x = "numeric", y = "numeric", data = "missing"),
@@ -139,7 +137,7 @@ setMethod(
                             annotations,
                             ribosomal,
                             reference,
-                            alpha) 
+                            alpha)
     {
         if (length(reference) == 0 &
             ribosomal == FALSE) guide <- FALSE
@@ -183,11 +181,11 @@ setMethod(
 #' @export
 setGeneric(
     name = "intraBplot",
-    def = function(x, 
-                    y, 
+    def = function(x,
+                    y,
                     names = c("x", "y"),
-                    variable, 
-                    ribosomal = FALSE, 
+                    variable,
+                    ribosomal = FALSE,
                     alpha = 0.1)
     {
         standardGeneric("intraBplot")
@@ -195,15 +193,14 @@ setGeneric(
 )
 
 #' @rdname intraBplot
-#' @export
 setMethod(
     f = "intraBplot",
     signature = c(x = "codonTable", y = "codonTable"),
-    definition = function(x, 
-                            y, 
-                            names, 
-                            variable, 
-                            ribosomal, 
+    definition = function(x,
+                            y,
+                            names,
+                            variable,
+                            ribosomal,
                             alpha)
     {
         sl <- list(x, y)
@@ -237,8 +234,8 @@ setMethod(
                                     aes(get(names[1]),
                                         get(names[2]),
                                         colour = sample),
-                                    alpha = alpha2, 
-                                    shape = 20, 
+                                    alpha = alpha2,
+                                    shape = 20,
                                     size = 1.5)
         }
         gp

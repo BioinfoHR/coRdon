@@ -64,21 +64,20 @@ NULL
 #' @export
 setGeneric(
     name = "MELP",
-    def = function(cTobject, 
+    def = function(cTobject,
                     subsets = list(),
                     ribosomal = FALSE,
                     id_or_name2 = "1",
                     alt.init = TRUE,
                     stop.rm = FALSE,
                     filtering = "none",
-                    len.threshold = 80) 
+                    len.threshold = 80)
     {
             standardGeneric("MELP")
     }
 )
 
 #' @rdname MELP
-#' @export
 setMethod(
     f = "MELP",
     signature = c(cTobject = "codonTable"),
@@ -89,7 +88,7 @@ setMethod(
                             alt.init,
                             stop.rm,
                             filtering,
-                            len.threshold) 
+                            len.threshold)
     {
         if (filtering == "hard") {
             cTobject <- subset(cTobject, cTobject@len > len.threshold)
@@ -106,7 +105,7 @@ setMethod(
                         id_or_name2,
                         alt.init,
                         stop.rm)
-        vapply(as.list(colnames(milcs)[-1]), function(y)
+        vapply(colnames(milcs)[-1], function(y)
             milcs[, "self"] / milcs[, y],
             numeric(length = nrow(milcs)))
     }
@@ -177,14 +176,13 @@ setGeneric(
                     alt.init = TRUE,
                     stop.rm = FALSE,
                     filtering = "none",
-                    len.threshold = 80) 
+                    len.threshold = 80)
     {
         standardGeneric("E")
     }
 )
 
 #' @rdname E
-#' @export
 setMethod(
     f = "E",
     signature = c(cTobject = "codonTable"),
@@ -195,7 +193,7 @@ setMethod(
                             alt.init,
                             stop.rm,
                             filtering,
-                            len.threshold) 
+                            len.threshold)
     {
         if (filtering == "hard") {
             cTobject <- subset(cTobject, cTobject@len > len.threshold)
@@ -283,14 +281,13 @@ setGeneric(
                     alt.init = TRUE,
                     stop.rm = FALSE,
                     filtering = "none",
-                    len.threshold = 80) 
+                    len.threshold = 80)
     {
         standardGeneric("CAI")
     }
 )
 
 #' @rdname CAI
-#' @export
 setMethod(
     f = "CAI",
     signature = c(cTobject = "codonTable"),
@@ -301,7 +298,7 @@ setMethod(
                             alt.init,
                             stop.rm,
                             filtering,
-                            len.threshold) 
+                            len.threshold)
     {
         if (filtering == "hard") {
             cTobject <- subset(cTobject, cTobject@len > len.threshold)
@@ -414,14 +411,13 @@ setGeneric(
                     alt.init = TRUE,
                     stop.rm = FALSE,
                     filtering = "none",
-                    len.threshold = 80) 
+                    len.threshold = 80)
     {
         standardGeneric("Fop")
     }
 )
 
 #' @rdname Fop
-#' @export
 setMethod(
     f = "Fop",
     signature = c(cTobject = "codonTable"),
@@ -432,7 +428,7 @@ setMethod(
                             alt.init,
                             stop.rm,
                             filtering,
-                            len.threshold)  
+                            len.threshold)
     {
         if (filtering == "hard") {
             cTobject <- subset(cTobject, cTobject@len > len.threshold)
@@ -544,14 +540,13 @@ setGeneric(
                     alt.init = TRUE,
                     stop.rm = FALSE,
                     filtering = "none",
-                    len.threshold = 80) 
+                    len.threshold = 80)
     {
         standardGeneric("GCB")
     }
 )
 
 #' @rdname GCB
-#' @export
 setMethod(
     f = "GCB",
     signature = c(cTobject = "codonTable"),
@@ -563,7 +558,7 @@ setMethod(
                             alt.init,
                             stop.rm,
                             filtering,
-                            len.threshold)  
+                            len.threshold)
     {
         if (filtering == "hard") {
             cTobject <- subset(cTobject, cTobject@len > len.threshold)

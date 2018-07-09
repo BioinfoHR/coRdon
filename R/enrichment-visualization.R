@@ -54,7 +54,6 @@ setGeneric(
 )
 
 #' @rdname enrichMAplot
-#' @export
 setMethod(
     f = "enrichMAplot",
     signature = c(x = "list"),
@@ -72,7 +71,6 @@ setMethod(
 )
 
 #' @rdname enrichMAplot
-#' @export
 setMethod(
     f = "enrichMAplot",
     signature = c(x = "AnnotatedDataFrame"),
@@ -141,7 +139,6 @@ setGeneric(
 )
 
 #' @rdname enrichBarplot
-#' @export
 setMethod(
     f = "enrichBarplot",
     signature = c(x = "list"),
@@ -164,7 +161,6 @@ setMethod(
     }
 )
 #' @rdname enrichBarplot
-#' @export
 setMethod(
     f = "enrichBarplot",
     signature = c(x = "AnnotatedDataFrame"),

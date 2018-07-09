@@ -446,7 +446,7 @@ In order to pipe the results from CU analysis in various downstream
 applications, it is useful to have the data from different samples 
 in a single matrix, with sequences (genes) in rows and values for 
 different samples in columns. This can be achieved with 
-`enrich.matrix()` function.  
+`enrichMatrix()` function.  
 
 For example, if we performed CU-based enrichment analysis on the two 
 metagenomic samples described at the beginning of this vignette, and 
@@ -474,7 +474,7 @@ ctLD94 <- reduceCrossTab(ctLD94, "pathway")
 enrHD59 <- enrichment(ctHD59)
 enrLD94 <- enrichment(ctLD94)
 
-mat <- enrich.matrix(list(HD59 = enrHD59, LD94 = enrLD94), 
+mat <- enrichMatrix(list(HD59 = enrHD59, LD94 = enrLD94), 
                     variable = "enrich")
 head(mat)
 ```
