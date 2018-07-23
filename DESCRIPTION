@@ -1,7 +1,7 @@
 Package: coRdon
 Type: Package
 Title: Codon Usage Analysis and Prediction of Gene Expressivity
-Version: 0.99.7
+Version: 0.99.8
 Authors@R: 
     c(person(given = "Anamaria",
              family = "Elek",
@@ -44,5 +44,5 @@ Collate:
     'enrichment.R'
     'readSet.R'
 VignetteBuilder: knitr
-URL: https://bioinfohr.github.io/coRdon/, http://bioinfo.hr/software-tools/
+URL: https://github.com/BioinfoHR/coRdon, http://bioinfo.hr/software-tools/
 BugReports: https://github.com/BioinfoHR/coRdon/issues

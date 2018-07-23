@@ -71,24 +71,39 @@ setMethod(
     }
 )
 
-### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-### MILC, Supek and Vlahovicek 2005.
-###
-#' Calculate codon usage Measure Independent of
-#' Length and Composition (MILC)
+#' Calculate CU measures.
 #'
-#' Calculate MILC values for every sequence in the given
-#' \code{codonTable} object.
-#'
+#' Calculate values of the codon usage (CU) measure 
+#' for every sequence in the given \code{codonTable} object.
+#' The following methods are implemented:
+#'  \code{MILC}, Measure Independent of Length and Composition  
+#'  \href{https://bit.ly/2GkT7qe}{Supek & Vlahovicek (2005)}, 
+#'  \code{B}, codon usage bias (B) 
+#'  \href{https://bit.ly/2DRGdeb}{Karlin et al. (2001)}, 
+#'  \code{ENC}, effective number of codons (ENC) 
+#'  \href{https://www.ncbi.nlm.nih.gov/pubmed/2110097}{Wright (1990)}.
+#'  \code{ENCprime}, effective number of codons prime (ENC') 
+#'  \href{https://www.ncbi.nlm.nih.gov/pubmed/12140252}{Novembre (2002)}, 
+#'  \code{MCB}, maximum-likelihood codon bias (MCB) 
+#'  \href{https://bit.ly/2GlMRyy}{Urrutia and Hurst (2001)}, 
+#'  \code{SCUO}, synonymous codon usage eorderliness (SCUO) 
+#'  \href{https://www.ncbi.nlm.nih.gov/pubmed/15222899}{Wan et al. (2004)}.
+#'  
 #' @param cTobject A \code{codonTable} object.
 #' @param subsets A (named) list of logical vectors, the length of each equal
 #'    to \code{getlen(cTobject)}, i.e. the number of sequences in the set, or
 #'    character vectors (of any length) containing KEGG/eggNOG annotations,
-#'    or codonTable objects (of any length).
+#'    or codonTable objects (of any length). 
+#'    Not used  for \code{ENC}, \code{SCUO} and \code{GCB} calculations.
 #' @param self Logical, if \code{TRUE} (default), CU statistic is also
 #'    calculated against the average CU of the entire set of sequences.
+#'    Not used for \code{ENC}, \code{SCUO} and \code{GCB} calculations.
 #' @param ribosomal Logical, if \code{TRUE}, CU statistic is also calculated
 #'    against the average CU of the ribosomal genes in the sequence set.
+#'    Not used  for \code{ENC} and \code{SCUO} calculations.
+#'    For GCB calculations, if \code{TRUE}, ribosomal genes are used 
+#'    as a seed, and if \code{FALSE}  (default), \code{seed} 
+#'    has to be specified.
 #' @inheritParams Biostrings::getGeneticCode
 #' @param alt.init logical, whether to use alternative initiation codons.
 #'    Default is \code{TRUE}.
@@ -104,18 +119,22 @@ setMethod(
 #' @param len.threshold Optional numeric, specifying sequence length,
 #'    in codons, used for filtering.
 #'
-#'
-#' @return A matrix with MILC values for every specified subset
-#'    (\code{subsets}, \code{self}, \code{ribosomal}) in columns.
-#'
-#'    For definition of MILC, see
-#'    \href{https://bit.ly/2GkT7qe}{Supek & Vlahovicek (2005)}.
+#' @return A matrix or a numeric vector with CU measure values. 
+#'    For \code{MILC}, \code{B}, \code{ENCprime}, the matrix has a column 
+#'    with values for every specified subset
+#'    (\code{subsets}, \code{self}, \code{ribosomal}).
+#'    A numeric vector for \code{ENC} and \code{SCUO}.
 #'
 #' @examples
 #' # load example DNA sequences
 #' exampledir <- system.file("extdata", package = "coRdon")
 #' cT <- codonTable(readSet(exampledir))
 #'
+#' # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+#' # In the examples below, MILC values are calculated for all sequences; 
+#' # B and ENCprime can be caluclated in the same way.
+#' # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+#' 
 #' # calculate MILC distance to the average CU of the example DNA sequences
 #' milc <- MILC(cT)
 #' head(milc)
@@ -148,8 +167,36 @@ setMethod(
 #' milc <- MILC(cT, alt.init = FALSE) # don't use alternative start codons
 #' milc <- MILC(cT, id_or_name2 = "2") # use different genetic code, for help
 #'                                     # see `?Biostrings::GENETIC_CODE`
+#' 
+#' # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+#' # In the examples below, ENC values are calculated for all sequences; 
+#' # SCUO values can be caluclated in the same way.
+#' # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 #'
-#' @rdname MILC
+#' # calculate ENC
+#' enc <- ENC(cT)
+#' head(enc)
+#'
+#' # filtering
+#' ENC(cT, filtering = "hard", len.threshold = 80) # ENC for 9 sequences
+#' sum(getlen(cT) > 80) # 9 sequences are longer than 80 codons
+#' enc1 <- ENC(cT, filtering = "none") # no filtering
+#' enc2 <- ENC(cT, filtering = "soft") # warning
+#' all.equal(enc1, enc2) # TRUE
+#'
+#' # options for genetic code
+#' enc <- ENC(cT, stop.rm = TRUE) # don't use stop codons in calculation
+#' enc <- ENC(cT, alt.init = FALSE) # don't use alternative start codons
+#' enc <- ENC(cT, id_or_name2 = "2") # use different genetic code, for help
+#'                                   # see `?Biostrings::GENETIC_CODE`
+#'
+#' @name codonUsage
+NULL
+
+### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+### MILC, Supek and Vlahovicek 2005.
+###
+#' @rdname codonUsage
 #' @export
 setGeneric(
     name = "MILC",
@@ -167,7 +214,7 @@ setGeneric(
     }
 )
 
-#' @rdname MILC
+#' @rdname codonUsage
 setMethod(
     f = "MILC",
     signature = c(cTobject = "codonTable"),
@@ -213,58 +260,7 @@ setMethod(
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### B, Karlin et al. 2001.
 ###
-#' Calculate codon usage bias (B)
-#'
-#' Calculate B values for every sequence in the given
-#' \code{codonTable} object.
-#'
-#' @inheritParams MILC
-#'
-#' @return A matrix with B values for every specified subset (\code{subsets},
-#'    \code{self}, \code{ribosomal}) in columns.
-#'
-#'    For definition of codon usage bias (B), see
-#'    \href{https://bit.ly/2DRGdeb}{Karlin et al. (2001)}.
-#'
-#' @examples
-#' # load example DNA sequences
-#' exampledir <- system.file("extdata", package = "coRdon")
-#' cT <- codonTable(readSet(exampledir))
-#'
-#' # calculate B distance to the average CU of the example DNA sequences
-#' b <- B(cT)
-#' head(b)
-#'
-#' # also calculate B distance to the average CU
-#' # of ribosomal genes among the example DNA sequences
-#' b <- B(cT, ribosomal = TRUE)
-#' head(b)
-#'
-#' # calculate B distance to the average CU
-#' # of the first 20 example DNA sequences
-#' # (i.e. the first half of the example DNA set)
-#' b <- B(cT, self = FALSE,
-#'        subsets = list(half = c(rep(TRUE, 20), rep(FALSE, 20))))
-#'
-#' # alternatively, you can specify codonTable as a subset
-#' halfcT <- codonTable(codonCounts(cT)[1:20,])
-#' b2 <- B(cT, self = FALSE, subsets = list(half = halfcT))
-#' all.equal(b, b2) # TRUE
-#'
-#' # filtering
-#' B(cT, filtering = "hard", len.threshold = 80) # B values for 9 sequences
-#' sum(getlen(cT) > 80) # 9 sequences are longer than 80 codons
-#' b1 <- B(cT, filtering = "none") # no filtering
-#' b2 <- B(cT, filtering = "soft") # warning
-#' all.equal(b1, b2) # TRUE
-#'
-#' # options for genetic code
-#' b <- B(cT, stop.rm = TRUE) # don't use stop codons in calculation
-#' b <- B(cT, alt.init = FALSE) # don't use alternative start codons
-#' b <- B(cT, id_or_name2 = "2") # use different genetic code, for help
-#'                               # see `?Biostrings::GENETIC_CODE`
-#'
-#' @rdname B
+#' @rdname codonUsage
 #' @export
 setGeneric(
     name = "B",
@@ -282,7 +278,7 @@ setGeneric(
     }
 )
 
-#' @rdname B
+#' @rdname codonUsage
 setMethod(
     f = "B",
     signature = c(cTobject = "codonTable"),
@@ -328,58 +324,7 @@ setMethod(
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### MCB, Urutia and Hurst 2001.
 ###
-#' Calculate maximum-likelihood codon bias (MCB)
-#'
-#' Calculate MCB values for every sequence in the given
-#' \code{codonTable} object.
-#'
-#' @inheritParams MILC
-#'
-#' @return A matrix with MCB values for every specified subset
-#'    (\code{subsets}, \code{self}, \code{ribosomal}) in columns.
-#'
-#'    For definition of maximum-likelihood codon bias (MCB), see
-#'    \href{https://bit.ly/2GlMRyy}{Urrutia and Hurst (2001)}.
-#'
-#' @examples
-#' # load example DNA sequences
-#' exampledir <- system.file("extdata", package = "coRdon")
-#' cT <- codonTable(readSet(exampledir))
-#'
-#' # calculate MCB distance to the average CU of the example DNA sequences
-#' mcb <- MCB(cT)
-#' head(mcb)
-#'
-#' # also calculate MCB distance to the average CU
-#' # of ribosomal genes among the example DNA sequences
-#' mcb <- MCB(cT, ribosomal = TRUE)
-#' head(mcb)
-#'
-#' # calculate MCB distance to the average CU
-#' # of the first 20 example DNA sequences
-#' # (i.e. the first half of the example DNA set)
-#' mcb <- MCB(cT, self = FALSE,
-#'            subsets = list(half = c(rep(TRUE, 20), rep(FALSE, 20))))
-#'
-#' # alternatively, you can specify codonTable as a subset
-#' halfcT <- codonTable(codonCounts(cT)[1:20,])
-#' mcb2 <- MCB(cT, self = FALSE, subsets = list(half = halfcT))
-#' all.equal(mcb, mcb2) # TRUE
-#'
-#' # filtering
-#' MCB(cT, filtering = "hard", len.threshold = 80) # MCB for 9 sequences
-#' sum(getlen(cT) > 80) # 9 sequences are longer than 80 codons
-#' mcb1 <- MCB(cT, filtering = "none") # no filtering
-#' mcb2 <- MCB(cT, filtering = "soft") # warning
-#' all.equal(mcb1, mcb2) # TRUE
-#'
-#' # options for genetic code
-#' mcb <- MCB(cT, stop.rm = TRUE) # don't use stop codons in calculation
-#' mcb <- MCB(cT, alt.init = FALSE) # don't use alternative start codons
-#' mcb <- MCB(cT, id_or_name2 = "2") # use different genetic code, for help
-#'                                   # see `?Biostrings::GENETIC_CODE`
-#'
-#' @rdname MCB
+#' @rdname codonUsage
 #' @export
 setGeneric(
     name = "MCB",
@@ -397,7 +342,7 @@ setGeneric(
     }
 )
 
-#' @rdname MCB
+#' @rdname codonUsage
 setMethod(
     f = "MCB",
     signature = c(cTobject = "codonTable"),
@@ -448,58 +393,7 @@ setMethod(
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### ENC' Npvembre 2002.
 ###
-#' Calculate effective number of codons prime (ENC').
-#'
-#' Calculate ENC' values for every sequence in the given
-#' \code{codonTable} object.
-#'
-#' @inheritParams MILC
-#'
-#' @return A matrix with ENC' values for every specified subset
-#'    (\code{subsets}, \code{self}, \code{ribosomal}) in columns.
-#'
-#'    For definition of effective number of codons prime (ENC'), see
-#'    \href{https://www.ncbi.nlm.nih.gov/pubmed/12140252}{Novembre (2002)}.
-#'
-#' @examples
-#' # load example DNA sequences
-#' exampledir <- system.file("extdata", package = "coRdon")
-#' cT <- codonTable(readSet(exampledir))
-#'
-#' # calculate ENC' distance to the average CU of the example DNA sequences
-#' encp <- ENCprime(cT)
-#' head(encp)
-#'
-#' # also calculate ENC' distance to the average CU
-#' # of ribosomal genes among the example DNA sequences
-#' encp <- ENCprime(cT, ribosomal = TRUE)
-#' head(encp)
-#'
-#' # calculate ENC' distance to the average CU
-#' # of the first 20 example DNA sequences
-#' # (i.e. the first half of the example DNA set)
-#' encp <- ENCprime(cT, self = FALSE,
-#'                  subsets = list(half = c(rep(TRUE, 20), rep(FALSE, 20))))
-#'
-#' # alternatively, you can specify codonTable as a subset
-#' halfcT <- codonTable(codonCounts(cT)[1:20,])
-#' encp2 <- ENCprime(cT, self = FALSE, subsets = list(half = halfcT))
-#' all.equal(encp, encp2) # TRUE
-#'
-#' # filtering
-#' ENCprime(cT, filtering = "hard", len.threshold = 80) # ENC' for 9 sequences
-#' sum(getlen(cT) > 80) # 9 sequences are longer than 80 codons
-#' encp1 <- ENCprime(cT, filtering = "none") # no filtering
-#' encp2 <- ENCprime(cT, filtering = "soft") # warning
-#' all.equal(encp1, encp2) # TRUE
-#'
-#' # options for genetic code
-#' encp <- ENCprime(cT, stop.rm = TRUE) # don't use stop codons in calculation
-#' encp <- ENCprime(cT, alt.init = FALSE) # don't use alternative start codons
-#' encp <- ENCprime(cT, id_or_name2 = "2") # use different genetic code,
-#'                                         # see `?Biostrings::GENETIC_CODE`
-#'
-#' @rdname ENCprime
+#' @rdname codonUsage
 #' @export
 setGeneric(
     name = "ENCprime",
@@ -517,7 +411,7 @@ setGeneric(
     }
 )
 
-#' @rdname ENCprime
+#' @rdname codonUsage
 setMethod(
     f = "ENCprime",
     signature = c(cTobject = "codonTable"),
@@ -573,41 +467,7 @@ setMethod(
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### ENC, Wright 1990.
 ###
-#' Calculate effective number of codons (ENC).
-#'
-#' Calculate ENC values for every sequence in the given \code{codonTable}
-#' object.
-#'
-#' @inheritParams MILC
-#'
-#' @return A numeric vector with ENC values.
-#'
-#'    For definition of effective number of codons (ENC), see
-#'    \href{https://www.ncbi.nlm.nih.gov/pubmed/2110097}{Wright (1990)}.
-#'
-#' @examples
-#' # load example DNA sequences
-#' exampledir <- system.file("extdata", package = "coRdon")
-#' cT <- codonTable(readSet(exampledir))
-#'
-#' # calculate ENC
-#' enc <- ENC(cT)
-#' head(enc)
-#'
-#' # filtering
-#' ENC(cT, filtering = "hard", len.threshold = 80) # ENC for 9 sequences
-#' sum(getlen(cT) > 80) # 9 sequences are longer than 80 codons
-#' enc1 <- ENC(cT, filtering = "none") # no filtering
-#' enc2 <- ENC(cT, filtering = "soft") # warning
-#' all.equal(enc1, enc2) # TRUE
-#'
-#' # options for genetic code
-#' enc <- ENC(cT, stop.rm = TRUE) # don't use stop codons in calculation
-#' enc <- ENC(cT, alt.init = FALSE) # don't use alternative start codons
-#' enc <- ENC(cT, id_or_name2 = "2") # use different genetic code, for help
-#'                                   # see `?Biostrings::GENETIC_CODE`
-#'
-#' @rdname ENC
+#' @rdname codonUsage
 #' @export
 setGeneric(
     name = "ENC",
@@ -622,7 +482,7 @@ setGeneric(
     }
 )
 
-#' @rdname ENC
+#' @rdname codonUsage
 setMethod(
     f = "ENC",
     signature = c(cTobject = "codonTable"),
@@ -665,41 +525,7 @@ setMethod(
 ### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ### SCUO, Wan et al. 2004.
 ###
-#' Calculate eorderliness of synonymous codon usage  (SCUO).
-#'
-#' Calculate SCUO values for every sequence in the given \code{codonTable}
-#' object.
-#'
-#' @inheritParams MILC
-#'
-#' @return A numeric vector with SCUO values.
-#'
-#'    For definition of synonymous codon usage eorderliness (SCUO), see
-#'    \href{https://www.ncbi.nlm.nih.gov/pubmed/15222899}{Wan et al. (2004)}.
-#'
-#' @examples
-#' # load example DNA sequences
-#' exampledir <- system.file("extdata", package = "coRdon")
-#' cT <- codonTable(readSet(exampledir))
-#'
-#' # calculate SCUO
-#' scuo <- SCUO(cT)
-#' head(scuo)
-#'
-#' # filtering
-#' SCUO(cT, filtering = "hard", len.threshold = 80) # SCUO for 9 sequences
-#' sum(getlen(cT) > 80) # 9 sequences are longer than 80 codons
-#' scuo1 <- SCUO(cT, filtering = "none") # no filtering
-#' scuo2 <- SCUO(cT, filtering = "soft") # warning
-#' all.equal(scuo1, scuo2) # TRUE
-#'
-#' # options for genetic code
-#' scuo <- SCUO(cT, stop.rm = TRUE) # don't use stop codons in calculation
-#' scuo <- SCUO(cT, alt.init = FALSE) # don't use alternative start codons
-#' scuo <- SCUO(cT, id_or_name2 = "2") # use different genetic code, for help
-#'                                     # see `?Biostrings::GENETIC_CODE`
-#'
-#' @rdname SCUO
+#' @rdname codonUsage
 #' @export
 setGeneric(
     name = "SCUO",
@@ -714,7 +540,7 @@ setGeneric(
     }
 )
 
-#' @rdname SCUO
+#' @rdname codonUsage
 setMethod(
     f = "SCUO",
     signature = c(cTobject = "codonTable"),
