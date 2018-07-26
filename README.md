@@ -70,7 +70,7 @@ devtools::install_github("BioinfoHR/coRdon")
 ```
 
 For worked example on how to do analysis of codon usage with coRdon, 
-please see the packaage vignette.
+please see the package vignette.
 
 ***
 
