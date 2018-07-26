@@ -46,7 +46,7 @@ The package also implements B plot for visualization of CU bias,
 both within a single sample and between different samples for which 
 CU bias statistics are calculated.  
 
-Additionally, if the input sequences are annotated in either KEG or COG 
+Additionally, if the input sequences are annotated in either KEGG or COG 
 orthology database, functional analysis can be performed in order to determine
 significantly enriched functions in the imput sample. This is aimed 
 particularly at metagenomic samples, as a way of determining 
