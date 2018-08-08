@@ -65,8 +65,9 @@ A typical workflow for analysing CU bias includes:
 # Installation
 Install coRdon from Bioconductor:
 ```{r eval=FALSE}
-source("https://bioconductor.org/biocLite.R")
-biocLite("coRdon")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("coRdon")
 ```
 The developmental version can be installed directly from from GitHub: 
 ```{r eval=FALSE}

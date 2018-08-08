@@ -60,8 +60,9 @@ including MA-like plot and bar plot.
 
 To install coRdon, run the following in R:
 ```{r}
-source("https://bioconductor.org/biocLite.R")
-biocLite("coRdon")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("coRdon")
 ```
 
 The developmental version can be installed directly from from GitHub: 
@@ -74,4 +75,6 @@ please see the package vignette.
 
 ***
 
-<i><img src="http://bioinfo.hr/wp-content/themes/theme1414/images/logo.png" alt="bioinfo.hr" title=""></i>
+<a href="http://bioinfo.hr/">
+<img src="http://bioinfo.hr/wp-content/themes/theme1414/images/logo.png" alt="bioinfo.hr" title="">
+</a>
