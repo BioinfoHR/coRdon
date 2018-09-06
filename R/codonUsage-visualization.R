@@ -40,13 +40,22 @@ NULL
     }
     dt
 }
-.bplot <- function(dt, alpha, guide){
+.bplot <- function(dt, size, alpha, guide){
         gp <- ggplot(dt, aes(x, y, colour = genes)) +
-            geom_point(shape = 20, alpha = alpha, show.legend = I(guide)) +
-            theme_light()
+          geom_point(
+              shape = 20, size = size, alpha = alpha, 
+              show.legend = I(guide)
+            ) + 
+          guides(colour = guide_legend(override.aes = list(alpha = 1))) + 
+          theme_light()
         if (any(dt$genes != "other"))
-            gp <- gp + geom_point(data = dt[genes != "other", ],
-                                    alpha = .8, shape = 20, size = 1.5)
+        {
+          alpha2 <- alpha + 0.3
+          if (alpha2 > 1) alpha2 <- 1
+          gp <- gp + geom_point(
+            data = dt[genes != "other", ],
+            alpha = alpha2, shape = 20, size = 1.5*size)
+        }
         gp
 }
 #' Karlin B plot
@@ -70,8 +79,9 @@ NULL
 #'   on the plot, or a character vector (of any length) of the reference
 #'   genes' anotations. If latter is the case, then \code{annotation}
 #'   must be given.
-#' @param alpha Numeric, between 0 and 1, indicating transparency value
-#'   for plotting (default is 0.1).
+#' @param size Numeric, indicating points' size
+#' @param alpha Numeric, between 0 and 1, indicating points' transparency
+#'   (default is 0.1).
 #'
 #' @return A \code{ggplot} object.
 #'
@@ -83,7 +93,8 @@ NULL
 #' milc <- MILC(LD94, self = TRUE, ribosomal = TRUE)
 #'
 #' Bplot(x = "ribosomal", y = "self", data = milc,
-#'       ribosomal = TRUE, annotations = getKO(LD94)) +
+#'       ribosomal = TRUE, annotations = getKO(LD94)
+#'       size = 3) +
 #'     labs(x = "MILC distance to ribosomal genes",
 #'          y = "MILC distance to genes' average CU")
 #'
@@ -91,13 +102,11 @@ NULL
 #' @export
 setGeneric(
     name = "Bplot",
-    def = function(x,
-                    y,
-                    data,
-                    annotations = character(),
-                    ribosomal = FALSE,
-                    reference = list(),
-                    alpha = 0.1)
+    def = function(
+      x, y, data, 
+      annotations = character(), ribosomal = FALSE, reference = list(),
+      size = 1, alpha = 0.5
+    )
     {
         standardGeneric("Bplot")
     }
@@ -107,13 +116,11 @@ setGeneric(
 setMethod(
     f = "Bplot",
     signature = c(x = "character", y = "character", data = "matrix"),
-    definition = function(x,
-                            y,
-                            data,
-                            annotations,
-                            ribosomal,
-                            reference,
-                            alpha)
+    definition = function(
+      x, y, data,
+      annotations, ribosomal, reference, 
+      size, alpha
+    )
     {
 
         if (length(reference) == 0 &
@@ -124,20 +131,18 @@ setMethod(
 
         setnames(dt, c(x, y), c("x","y"))
         dt <- .makedt(dt, annotations, ribosomal, reference)
-        .bplot(dt, alpha, guide)
+        .bplot(dt, size, alpha, guide)
     }
 )
 #' @rdname Bplot
 setMethod(
     f = "Bplot",
     signature = c(x = "numeric", y = "numeric", data = "missing"),
-    definition = function(x,
-                            y,
-                            data,
-                            annotations,
-                            ribosomal,
-                            reference,
-                            alpha)
+    definition = function(
+      x, y, data,
+      annotations, ribosomal, reference, 
+      size, alpha
+    )
     {
         if (length(reference) == 0 &
             ribosomal == FALSE) guide <- FALSE
@@ -146,7 +151,7 @@ setMethod(
         dt <- data.table(cbind(x, y))
 
         dt <- .makedt(dt, annotations, ribosomal, reference)
-        .bplot(dt, alpha, guide)
+        .bplot(dt, size, alpha, guide)
 
     }
 )
@@ -163,8 +168,9 @@ setMethod(
 #'   the following: \code{c("MILC", "B", "MCB", "ENCprime")}.
 #' @param ribosomal Logical, whether to indicate ribosomal genes in the plot.
 #'   Default is \code{FALSE}.
-#' @param alpha Numeric, between 0 and 1, indicating transparency value
-#'   for plotting (default is 0.1).
+#' @param size Numeric, indicating points' size
+#' @param alpha Numeric, between 0 and 1, indicating points' transparency
+#'   (default is 0.1).
 #'
 #' @return A \code{ggplot} object.
 #'
@@ -175,18 +181,16 @@ setMethod(
 #' milc <- MILC(LD94, self = TRUE, ribosomal = TRUE)
 #'
 #' intraBplot(x = HD59, y = LD94, names = c("HD59", "LD94"),
-#'            variable = "MILC")
+#'            variable = "MILC", size = 3)
 #'
 #' @rdname intraBplot
 #' @export
 setGeneric(
     name = "intraBplot",
-    def = function(x,
-                    y,
-                    names = c("x", "y"),
-                    variable,
-                    ribosomal = FALSE,
-                    alpha = 0.1)
+    def = function(
+      x, y, names = c("x", "y"), variable, ribosomal = FALSE, 
+      size = 1, alpha = 0.5
+    )
     {
         standardGeneric("intraBplot")
     }
@@ -196,12 +200,7 @@ setGeneric(
 setMethod(
     f = "intraBplot",
     signature = c(x = "codonTable", y = "codonTable"),
-    definition = function(x,
-                            y,
-                            names,
-                            variable,
-                            ribosomal,
-                            alpha)
+    definition = function(x, y, names, variable, ribosomal, size, alpha)
     {
         sl <- list(x, y)
         names(sl) <- names
@@ -222,21 +221,19 @@ setMethod(
         dt <- rbindlist(rsl, idcol = "sample")
 
         gp <- ggplot(dt, aes(get(names[1]), get(names[2]), colour = sample)) +
-            geom_point(shape = 20, alpha = alpha) +
-            labs(x = names[1], y = names[2]) +
-            theme_light()
+          geom_point(shape = 20, size = size, alpha = alpha) +
+          guides(colour = guide_legend(override.aes = list(alpha = 1))) + 
+          labs(x = names[1], y = names[2]) +
+          theme_light()
 
         if (ribosomal) {
             alpha2 <- alpha + 0.3
             if (alpha2 > 1) alpha2 <- 1
             rows <- c(getKO(x) %in% RPKOs, getKO(y) %in% RPKOs)
-            gp <- gp + geom_point(data = dt[rows, ],
-                                    aes(get(names[1]),
-                                        get(names[2]),
-                                        colour = sample),
-                                    alpha = alpha2,
-                                    shape = 20,
-                                    size = 1.5)
+            gp <- gp + geom_point(
+              data = dt[rows, ], 
+              aes(get(names[1]), get(names[2]), colour = sample),
+              alpha = alpha2, shape = 20, size = 1.5*size)
         }
         gp
 

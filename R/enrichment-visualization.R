@@ -9,10 +9,10 @@ NULL
 ### MA plot
 ###
 
-.maplot <- function(dt, pvalue, siglev) {
+.maplot <- function(dt, pvalue, siglev, size, alpha) {
 
     p <- ggplot(dt,aes(x = A, y = M, colour = get(pvalue) < siglev)) +
-        geom_point() +
+        geom_point(size = size, alpha = alpha) +
         labs(x = "A", y = "M", colour = "significant")
 
     if ("subset" %in% names(dt))
@@ -29,6 +29,7 @@ NULL
 #' @param x \code{AnnotatedDataFrame} object, or a list of those.
 #' @param pvalue Character, one of \code{c("pvals", "padj")}.
 #' @param siglev Numeric, significance level to be used for plotting.
+#' @param size Numeric, size of points in plot.
 #'
 #' @return A \code{ggplot} object.
 #'
@@ -48,7 +49,7 @@ NULL
 #' @export
 setGeneric(
     name = "enrichMAplot",
-    def = function(x, pvalue = "pvals", siglev = 0.05) {
+    def = function(x, pvalue = "pvals", siglev = 0.05, size = 1, alpha = 1) {
         standardGeneric("enrichMAplot")
     }
 )
@@ -57,7 +58,7 @@ setGeneric(
 setMethod(
     f = "enrichMAplot",
     signature = c(x = "list"),
-    definition = function(x, pvalue, siglev) {
+    definition = function(x, pvalue, siglev, size, alpha) {
 
         if (!all(vapply(x, class,
                         character(length = 1)) == "AnnotatedDataFrame"))
@@ -66,7 +67,7 @@ setMethod(
         x <- lapply(x, function(x) as.data.table(pData(x)))
         dt <- data.table::rbindlist(x, fill = TRUE, idcol = "subset")
 
-        .maplot(dt, pvalue, siglev)
+        .maplot(dt, pvalue, siglev, size, alpha)
     }
 )
 
@@ -74,9 +75,9 @@ setMethod(
 setMethod(
     f = "enrichMAplot",
     signature = c(x = "AnnotatedDataFrame"),
-    definition = function(x, pvalue, siglev) {
+    definition = function(x, pvalue, siglev, size, alpha) {
 
-        .maplot(pData(x), pvalue, siglev)
+        .maplot(pData(x), pvalue, siglev, size, alpha)
     }
 )
 
