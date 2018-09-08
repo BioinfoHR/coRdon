@@ -10,6 +10,8 @@
 #'    contained in the names of fasta files to be selectively read.
 #' @param zipped Logical, whether \code{folder} or \code{file} is zipped.
 #'    Default is \code{FALSE}.
+#' @param prepend.filenames Logical, whether to prepend filename(s) 
+#'    to names in \code{DNAStringSet} object. Default is \code{FALSE}.
 #'
 #' @return Returns a \code{DNAStringSet} object.
 #'
@@ -21,70 +23,58 @@
 #' pathtofile <- paste(exampledir, files[1], sep = "/")
 #' readSet(file = pathtofile)
 #'
-#' @import data.table
+#' @import dplyr
 #' @importFrom Biostrings DNAStringSet
 #' @importFrom Biostrings readDNAStringSet
 #' @importFrom Biostrings oligonucleotideFrequency
 #' @importFrom purrr map
 #'
 #' @export
-readSet <- function(folder = character(),
-                    file = character(),
-                    KOs = c(),
-                    zipped = FALSE) 
-    {
-        if (length(KOs) == 0)
-            pattern <- "(*.fasta|*.FASTA)$"
-        else
-            pattern <- paste(KOs, sep = "|")
+readSet <- function(
+  folder = character(), file = character(),
+  KOs = c(), zipped = FALSE, prepend.filenames = FALSE) {
     
-        if (length(folder)!=0) {
-
-            if (zipped) {
-                where <- tempdir()
-                unzip(folder, exdir = where)
-                folder <- where
-            }
-            files <- dir(folder, pattern = pattern)
-
-            combined <- map(files, function(x) {
-                aset <- readDNAStringSet(paste(folder, x, sep = "/"))
-                as.character(aset)
-            })
-            names(combined) <- files
-
-            if (zipped)
-                unlink(where, recursive = TRUE)
-
-            DNAStringSet(unlist(combined))
-
-        } else if (length(file)!=0) {
-
-            if (zipped) {
-                where <- tempdir()
-                unzip(file, exdir = where)
-                folder <- where
-
-                files <- dir(folder, pattern = pattern)
-
-                combined <- map(files, function(x) {
-                    aset <- readDNAStringSet(paste(folder, x, sep = "/"))
-                    as.character(aset)
-                })
-                names(combined) <- files
-
-                unlink(where, recursive = TRUE)
-
-                DNAStringSet(unlist(combined))
-
-            } else {
-
-                aset <- readDNAStringSet(file)
-                combined <- list(as.character(aset))
-                names(combined) <- regmatches(
-                    file, gregexpr("([^///]*.fasta|[^///]*.FASTA)$", 
-                                    file))[[1]]
-                DNAStringSet(unlist(combined))
-            }
-        }
+    if (length(KOs) == 0)
+      pattern <- "(*.fasta|*.FASTA)$"
+    else
+      pattern <- paste(KOs, sep = "|")
+    
+    if (length(folder)!=0) {
+      if (zipped) {
+        where <- tempdir()
+        unzip(folder, exdir = where)
+        folder <- where
+      }
+      names <- dir(folder, pattern = pattern)
+      files <- dir(folder, pattern = pattern, full.names = TRUE)
+    } else if (length(file)!=0) {
+      if (zipped) {
+        where <- tempdir()
+        unzip(file, exdir = where)
+        folder <- where
+        names <- dir(folder, pattern = pattern)
+        files <- dir(folder, pattern = pattern, full.names = TRUE)
+      } else {
+        names <- file
+        files <- file
+      }
+    }
+    
+    pb <- progress_estimated(length(files), min_time = 1)
+    
+    combined <- map(files, function(x) {
+      pb$tick()$print()
+      aset <- readDNAStringSet(x)
+      as.character(aset)
+    })
+    
+    if (prepend.filenames) {
+      names(combined) <- names
+    }
+    
+    if (zipped)
+      unlink(where, recursive = TRUE)
+    
+    DNASS <- DNAStringSet(unlist(combined))
+    return(DNASS)
 }
