@@ -1,2 +1,2 @@
-coRdon 0.99.6
-Pre-release version of the package.
+Version 0.99.11
++ New package coRdon, for analysis of codon usage.

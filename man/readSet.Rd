@@ -5,7 +5,7 @@
 \title{Read set of sequences.}
 \usage{
 readSet(folder = character(), file = character(), KOs = c(),
-    zipped = FALSE)
+    zipped = FALSE, prepend.filenames = FALSE)
 }
 \arguments{
 \item{folder}{Path to directory containing .fasta files.}
@@ -18,6 +18,9 @@ contained in the names of fasta files to be selectively read.}
 
 \item{zipped}{Logical, whether \code{folder} or \code{file} is zipped.
 Default is \code{FALSE}.}
+
+\item{prepend.filenames}{Logical, whether to prepend filename(s)
+to names in \code{DNAStringSet} object. Default is \code{FALSE}.}
 }
 \value{
 Returns a \code{DNAStringSet} object.

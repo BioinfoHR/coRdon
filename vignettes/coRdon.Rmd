@@ -98,9 +98,13 @@ HD59 and LD94, containing codon counts for metagenomic gut sample from
 healthy individual, and from liver chirosis patient, respectively.
 
 ```{r}
-dnaLD94 <- readSet(file = "http://hex.bioinfo.hr/~mfabijanic/LD94.fasta")
+dnaLD94 <- readSet(
+  file="https://raw.githubusercontent.com/BioinfoHR/coRdon-examples/master/LD94.fasta"
+)
 LD94 <- codonTable(dnaLD94)
-dnaHD59 <- readSet(file = "http://hex.bioinfo.hr/~mfabijanic/HD59.fasta")
+dnaHD59 <- readSet(
+  file="https://raw.githubusercontent.com/BioinfoHR/coRdon-examples/master/HD59.fasta"
+)
 HD59 <- codonTable(dnaHD59)
 ```
 

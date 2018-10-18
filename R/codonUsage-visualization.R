@@ -42,19 +42,19 @@ NULL
 }
 .bplot <- function(dt, size, alpha, guide){
         gp <- ggplot(dt, aes(x, y, colour = genes)) +
-          geom_point(
-              shape = 20, size = size, alpha = alpha, 
-              show.legend = I(guide)
+                geom_point(
+                shape = 20, size = size, alpha = alpha, 
+                show.legend = I(guide)
             ) + 
-          guides(colour = guide_legend(override.aes = list(alpha = 1))) + 
-          theme_light()
+            guides(colour = guide_legend(override.aes = list(alpha = 1))) + 
+            theme_light()
         if (any(dt$genes != "other"))
         {
-          alpha2 <- alpha + 0.3
-          if (alpha2 > 1) alpha2 <- 1
-          gp <- gp + geom_point(
-            data = dt[genes != "other", ],
-            alpha = alpha2, shape = 20, size = 1.5*size)
+            alpha2 <- alpha + 0.3
+            if (alpha2 > 1) alpha2 <- 1
+            gp <- gp + geom_point(
+                data = dt[genes != "other", ],
+                alpha = alpha2, shape = 20, size = 1.5*size)
         }
         gp
 }
@@ -103,9 +103,9 @@ NULL
 setGeneric(
     name = "Bplot",
     def = function(
-      x, y, data, 
-      annotations = character(), ribosomal = FALSE, reference = list(),
-      size = 1, alpha = 0.5
+        x, y, data, 
+        annotations = character(), ribosomal = FALSE, reference = list(),
+        size = 1, alpha = 0.5
     )
     {
         standardGeneric("Bplot")
@@ -117,9 +117,9 @@ setMethod(
     f = "Bplot",
     signature = c(x = "character", y = "character", data = "matrix"),
     definition = function(
-      x, y, data,
-      annotations, ribosomal, reference, 
-      size, alpha
+        x, y, data,
+        annotations, ribosomal, reference, 
+        size, alpha
     )
     {
 
@@ -139,9 +139,9 @@ setMethod(
     f = "Bplot",
     signature = c(x = "numeric", y = "numeric", data = "missing"),
     definition = function(
-      x, y, data,
-      annotations, ribosomal, reference, 
-      size, alpha
+        x, y, data,
+        annotations, ribosomal, reference, 
+        size, alpha
     )
     {
         if (length(reference) == 0 &
@@ -188,8 +188,8 @@ setMethod(
 setGeneric(
     name = "intraBplot",
     def = function(
-      x, y, names = c("x", "y"), variable, ribosomal = FALSE, 
-      size = 1, alpha = 0.5
+        x, y, names = c("x", "y"), variable, ribosomal = FALSE, 
+        size = 1, alpha = 0.5
     )
     {
         standardGeneric("intraBplot")
@@ -221,19 +221,19 @@ setMethod(
         dt <- rbindlist(rsl, idcol = "sample")
 
         gp <- ggplot(dt, aes(get(names[1]), get(names[2]), colour = sample)) +
-          geom_point(shape = 20, size = size, alpha = alpha) +
-          guides(colour = guide_legend(override.aes = list(alpha = 1))) + 
-          labs(x = names[1], y = names[2]) +
-          theme_light()
+            geom_point(shape = 20, size = size, alpha = alpha) +
+            guides(colour = guide_legend(override.aes = list(alpha = 1))) + 
+            labs(x = names[1], y = names[2]) +
+            theme_light()
 
         if (ribosomal) {
             alpha2 <- alpha + 0.3
             if (alpha2 > 1) alpha2 <- 1
             rows <- c(getKO(x) %in% RPKOs, getKO(y) %in% RPKOs)
             gp <- gp + geom_point(
-              data = dt[rows, ], 
-              aes(get(names[1]), get(names[2]), colour = sample),
-              alpha = alpha2, shape = 20, size = 1.5*size)
+                data = dt[rows, ], 
+                aes(get(names[1]), get(names[2]), colour = sample),
+                alpha = alpha2, shape = 20, size = 1.5*size)
         }
         gp
 

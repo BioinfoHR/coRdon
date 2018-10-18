@@ -1,4 +1,4 @@
-## coRdon
+# coRdon <img src="https://github.com/Bioconductor/BiocStickers/blob/master/coRdon/coRdon.png" align="right" height="200"/>
 ### Codon Usage Analysis and Prediction of Gene Expressivity
 <br>
 

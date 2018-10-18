@@ -23,7 +23,7 @@
 #' pathtofile <- paste(exampledir, files[1], sep = "/")
 #' readSet(file = pathtofile)
 #'
-#' @import dplyr
+#' @importFrom dplyr progress_estimated
 #' @importFrom Biostrings DNAStringSet
 #' @importFrom Biostrings readDNAStringSet
 #' @importFrom Biostrings oligonucleotideFrequency
@@ -31,49 +31,49 @@
 #'
 #' @export
 readSet <- function(
-  folder = character(), file = character(),
-  KOs = c(), zipped = FALSE, prepend.filenames = FALSE) {
+    folder = character(), file = character(),
+    KOs = c(), zipped = FALSE, prepend.filenames = FALSE) {
     
     if (length(KOs) == 0)
-      pattern <- "(*.fasta|*.FASTA)$"
+        pattern <- "(*.fasta|*.FASTA)$"
     else
-      pattern <- paste(KOs, sep = "|")
+        pattern <- paste(KOs, sep = "|")
     
     if (length(folder)!=0) {
-      if (zipped) {
-        where <- tempdir()
-        unzip(folder, exdir = where)
-        folder <- where
-      }
-      names <- dir(folder, pattern = pattern)
-      files <- dir(folder, pattern = pattern, full.names = TRUE)
-    } else if (length(file)!=0) {
-      if (zipped) {
-        where <- tempdir()
-        unzip(file, exdir = where)
-        folder <- where
+        if (zipped) {
+            where <- tempdir()
+            unzip(folder, exdir = where)
+            folder <- where
+        }
         names <- dir(folder, pattern = pattern)
         files <- dir(folder, pattern = pattern, full.names = TRUE)
-      } else {
-        names <- file
-        files <- file
-      }
+    } else if (length(file)!=0) {
+        if (zipped) {
+            where <- tempdir()
+            unzip(file, exdir = where)
+            folder <- where
+            names <- dir(folder, pattern = pattern)
+            files <- dir(folder, pattern = pattern, full.names = TRUE)
+        } else {
+            names <- file
+            files <- file
+        }
     }
     
     pb <- progress_estimated(length(files), min_time = 1)
     
     combined <- map(files, function(x) {
-      pb$tick()$print()
-      aset <- readDNAStringSet(x)
-      as.character(aset)
+        pb$tick()$print()
+        aset <- readDNAStringSet(x)
+        as.character(aset)
     })
     
     if (prepend.filenames) {
-      names(combined) <- names
+        names(combined) <- names
     }
     
     if (zipped)
-      unlink(where, recursive = TRUE)
+        unlink(where, recursive = TRUE)
     
     DNASS <- DNAStringSet(unlist(combined))
     return(DNASS)

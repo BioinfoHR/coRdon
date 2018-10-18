@@ -8,15 +8,15 @@
 \title{Karlin B plot}
 \usage{
 Bplot(x, y, data, annotations = character(), ribosomal = FALSE,
-    reference = list(), alpha = 0.1)
+    reference = list(), size = 1, alpha = 0.5)
 
 \S4method{Bplot}{character,character,matrix}(x, y, data,
     annotations = character(), ribosomal = FALSE, reference = list(),
-    alpha = 0.1)
+    size = 1, alpha = 0.5)
 
 \S4method{Bplot}{numeric,numeric,missing}(x, y, data,
     annotations = character(), ribosomal = FALSE, reference = list(),
-    alpha = 0.1)
+    size = 1, alpha = 0.5)
 }
 \arguments{
 \item{x, y}{Character, both must be in \code{colnames(data)}, or numeric
@@ -40,8 +40,10 @@ on the plot, or a character vector (of any length) of the reference
 genes' anotations. If latter is the case, then \code{annotation}
 must be given.}
 
+\item{size}{Numeric, indicating points' size.}
+
 \item{alpha}{Numeric, between 0 and 1, indicating transparency value
-for plotting (default is 0.1).}
+for plotting (default is 0.5).}
 }
 \value{
 A \code{ggplot} object.
