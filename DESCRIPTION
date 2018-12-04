@@ -1,7 +1,7 @@
 Package: coRdon
 Type: Package
 Title: Codon Usage Analysis and Prediction of Gene Expressivity
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: 
     c(person(given = "Anamaria",
              family = "Elek",
@@ -25,7 +25,8 @@ Description: Tool for analysis of codon usage in various
 License: Artistic-2.0
 LazyData: TRUE
 biocViews: Software, Metagenomics, GeneExpression, GeneSetEnrichment,
-    GenePrediction, Visualization, KEGG, Pathways
+    GenePrediction, Visualization, KEGG, Pathways, Genetics
+    CellBiology, BiomedicalInformatics, ImmunoOncology
 Depends: R (>= 3.5)
 Imports: methods, stats, utils, Biostrings, Biobase, dplyr, purrr, ggplot2, data.table
 Suggests: BiocStyle, testthat, knitr, rmarkdown
