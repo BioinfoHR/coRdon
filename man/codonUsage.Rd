@@ -18,48 +18,51 @@
 \title{Calculate CU measures.}
 \usage{
 MILC(cTobject, subsets = list(), self = TRUE, ribosomal = FALSE,
-    id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
-    filtering = "none", len.threshold = 80)
+  id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
+  filtering = "none", len.threshold = 80)
 
 \S4method{MILC}{codonTable}(cTobject, subsets = list(), self = TRUE,
-    ribosomal = FALSE, id_or_name2 = "1", alt.init = TRUE,
-    stop.rm = FALSE, filtering = "none", len.threshold = 80)
+  ribosomal = FALSE, id_or_name2 = "1", alt.init = TRUE,
+  stop.rm = FALSE, filtering = "none", len.threshold = 80)
 
 B(cTobject, subsets = list(), self = TRUE, ribosomal = FALSE,
-    id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
-    filtering = "none", len.threshold = 80)
+  id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
+  filtering = "none", len.threshold = 80)
 
 \S4method{B}{codonTable}(cTobject, subsets = list(), self = TRUE,
-    ribosomal = FALSE, id_or_name2 = "1", alt.init = TRUE,
-    stop.rm = FALSE, filtering = "none", len.threshold = 80)
+  ribosomal = FALSE, id_or_name2 = "1", alt.init = TRUE,
+  stop.rm = FALSE, filtering = "none", len.threshold = 80)
 
 MCB(cTobject, subsets = list(), self = TRUE, ribosomal = FALSE,
-    id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
-    filtering = "none", len.threshold = 80)
+  id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
+  filtering = "none", len.threshold = 80)
 
 \S4method{MCB}{codonTable}(cTobject, subsets = list(), self = TRUE,
-    ribosomal = FALSE, id_or_name2 = "1", alt.init = TRUE,
-    stop.rm = FALSE, filtering = "none", len.threshold = 80)
+  ribosomal = FALSE, id_or_name2 = "1", alt.init = TRUE,
+  stop.rm = FALSE, filtering = "none", len.threshold = 80)
 
 ENCprime(cTobject, subsets = list(), self = TRUE, ribosomal = FALSE,
-    id_or_name2 = "1", alt.init = TRUE, stop.rm = TRUE,
-    filtering = "none", len.threshold = 80)
+  id_or_name2 = "1", alt.init = TRUE, stop.rm = TRUE,
+  filtering = "none", len.threshold = 80)
 
-\S4method{ENCprime}{codonTable}(cTobject, subsets = list(), self = TRUE,
-    ribosomal = FALSE, id_or_name2 = "1", alt.init = TRUE, stop.rm = TRUE,
-    filtering = "none", len.threshold = 80)
+\S4method{ENCprime}{codonTable}(cTobject, subsets = list(),
+  self = TRUE, ribosomal = FALSE, id_or_name2 = "1",
+  alt.init = TRUE, stop.rm = TRUE, filtering = "none",
+  len.threshold = 80)
 
 ENC(cTobject, id_or_name2 = "1", alt.init = TRUE, stop.rm = TRUE,
-    filtering = "none", len.threshold = 80)
+  filtering = "none", len.threshold = 80)
 
-\S4method{ENC}{codonTable}(cTobject, id_or_name2 = "1", alt.init = TRUE,
-    stop.rm = TRUE, filtering = "none", len.threshold = 80)
+\S4method{ENC}{codonTable}(cTobject, id_or_name2 = "1",
+  alt.init = TRUE, stop.rm = TRUE, filtering = "none",
+  len.threshold = 80)
 
 SCUO(cTobject, id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
-    filtering = "none", len.threshold = 80)
+  filtering = "none", len.threshold = 80)
 
-\S4method{SCUO}{codonTable}(cTobject, id_or_name2 = "1", alt.init = TRUE,
-    stop.rm = FALSE, filtering = "none", len.threshold = 80)
+\S4method{SCUO}{codonTable}(cTobject, id_or_name2 = "1",
+  alt.init = TRUE, stop.rm = FALSE, filtering = "none",
+  len.threshold = 80)
 }
 \arguments{
 \item{cTobject}{A \code{codonTable} object.}
@@ -85,7 +88,7 @@ has to be specified.}
     A single string that uniquely identifies the genetic code to extract.
     Should be one of the values in the \code{id} or \code{name2} columns
     of \code{GENETIC_CODE_TABLE}.
-}
+  }
 
 \item{alt.init}{logical, whether to use alternative initiation codons.
 Default is \code{TRUE}.}
@@ -106,27 +109,27 @@ in codons, used for filtering.}
 }
 \value{
 A matrix or a numeric vector with CU measure values. 
-    For \code{MILC}, \code{B}, \code{ENCprime}, the matrix has a column 
-    with values for every specified subset
-    (\code{subsets}, \code{self}, \code{ribosomal}).
-    A numeric vector for \code{ENC} and \code{SCUO}.
+   For \code{MILC}, \code{B}, \code{ENCprime}, the matrix has a column 
+   with values for every specified subset
+   (\code{subsets}, \code{self}, \code{ribosomal}).
+   A numeric vector for \code{ENC} and \code{SCUO}.
 }
 \description{
 Calculate values of the codon usage (CU) measure 
 for every sequence in the given \code{codonTable} object.
 The following methods are implemented:
-    \code{MILC}, Measure Independent of Length and Composition  
-    \href{https://bit.ly/2GkT7qe}{Supek & Vlahovicek (2005)}, 
-    \code{B}, codon usage bias (B) 
-    \href{https://bit.ly/2DRGdeb}{Karlin et al. (2001)}, 
-    \code{ENC}, effective number of codons (ENC) 
-    \href{https://www.ncbi.nlm.nih.gov/pubmed/2110097}{Wright (1990)}.
-    \code{ENCprime}, effective number of codons prime (ENC') 
-    \href{https://www.ncbi.nlm.nih.gov/pubmed/12140252}{Novembre (2002)}, 
-    \code{MCB}, maximum-likelihood codon bias (MCB) 
-    \href{https://bit.ly/2GlMRyy}{Urrutia and Hurst (2001)}, 
-    \code{SCUO}, synonymous codon usage eorderliness (SCUO) 
-    \href{https://www.ncbi.nlm.nih.gov/pubmed/15222899}{Wan et al. (2004)}.
+ \code{MILC}, Measure Independent of Length and Composition  
+ \href{https://bit.ly/2GkT7qe}{Supek & Vlahovicek (2005)}, 
+ \code{B}, codon usage bias (B) 
+ \href{https://bit.ly/2DRGdeb}{Karlin et al. (2001)}, 
+ \code{ENC}, effective number of codons (ENC) 
+ \href{https://www.ncbi.nlm.nih.gov/pubmed/2110097}{Wright (1990)}.
+ \code{ENCprime}, effective number of codons prime (ENC') 
+ \href{https://www.ncbi.nlm.nih.gov/pubmed/12140252}{Novembre (2002)}, 
+ \code{MCB}, maximum-likelihood codon bias (MCB) 
+ \href{https://bit.ly/2GlMRyy}{Urrutia and Hurst (2001)}, 
+ \code{SCUO}, synonymous codon usage eorderliness (SCUO) 
+ \href{https://www.ncbi.nlm.nih.gov/pubmed/15222899}{Wan et al. (2004)}.
 }
 \examples{
 # load example DNA sequences
@@ -151,7 +154,7 @@ head(milc)
 # of the first 20 example DNA sequences
 # (i.e. the first half of the example DNA set)
 milc <- MILC(cT, self = FALSE,
-            subsets = list(half = c(rep(TRUE, 20), rep(FALSE, 20))))
+             subsets = list(half = c(rep(TRUE, 20), rep(FALSE, 20))))
 
 # alternatively, you can specify codonTable as a subset
 halfcT <- codonTable(codonCounts(cT)[1:20,])
@@ -190,7 +193,7 @@ all.equal(enc1, enc2) # TRUE
 # options for genetic code
 enc <- ENC(cT, stop.rm = TRUE) # don't use stop codons in calculation
 enc <- ENC(cT, alt.init = FALSE) # don't use alternative start codons
-enc <- ENC(cT, id_or_name2 = "2")   # use different genetic code, for help
-                                    # see `?Biostrings::GENETIC_CODE`
+enc <- ENC(cT, id_or_name2 = "2") # use different genetic code, for help
+                                  # see `?Biostrings::GENETIC_CODE`
 
 }

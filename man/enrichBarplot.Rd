@@ -10,10 +10,10 @@
 enrichBarplot(x, variable, pvalue = "pvals", siglev = numeric())
 
 \S4method{enrichBarplot}{list}(x, variable, pvalue = "pvals",
-    siglev = numeric())
+  siglev = numeric())
 
-\S4method{enrichBarplot}{AnnotatedDataFrame}(x, variable, pvalue = "pvals",
-    siglev = numeric())
+\S4method{enrichBarplot}{AnnotatedDataFrame}(x, variable,
+  pvalue = "pvals", siglev = numeric())
 }
 \arguments{
 \item{x}{\code{AnnotatedDataFrame} object, or a list of those.}
@@ -38,8 +38,8 @@ require(ggplot2)
 
 HD59_PATHWAYS
 enrichBarplot(HD59_PATHWAYS, variable = "M",
-                pvalue = "padj", siglev = 0.01) +
-    labs(y = "pathway count\\nlog ratios", x = "KEGG Pathway")
+              pvalue = "padj", siglev = 0.01) +
+   labs(y = "pathway count\\nlog ratios", x = "KEGG Pathway")
 
 x <- list(disease = LD94_PATHWAYS, healthy = HD59_PATHWAYS)
 enrichBarplot(x, variable = "enrich", pvalue = "padj", siglev = 0.01) +

@@ -7,13 +7,14 @@
 \alias{enrichMAplot,AnnotatedDataFrame-method}
 \title{MA plot of enriched annotations.}
 \usage{
-enrichMAplot(x, pvalue = "pvals", siglev = 0.05, size = 1, alpha = 1)
+enrichMAplot(x, pvalue = "pvals", siglev = 0.05, size = 1,
+  alpha = 1)
 
-\S4method{enrichMAplot}{list}(x, pvalue = "pvals", siglev = 0.05, 
-    size = 1, alpha = 1)
+\S4method{enrichMAplot}{list}(x, pvalue = "pvals", siglev = 0.05,
+  size = 1, alpha = 1)
 
 \S4method{enrichMAplot}{AnnotatedDataFrame}(x, pvalue = "pvals",
-    siglev = 0.05, size = 1, alpha = 1)
+  siglev = 0.05, size = 1, alpha = 1)
 }
 \arguments{
 \item{x}{\code{AnnotatedDataFrame} object, or a list of those.}
@@ -22,10 +23,9 @@ enrichMAplot(x, pvalue = "pvals", siglev = 0.05, size = 1, alpha = 1)
 
 \item{siglev}{Numeric, significance level to be used for plotting.}
 
-\item{size}{Numeric, indicating points' size.}
+\item{size}{Numeric, size of points in plot.}
 
-\item{alpha}{Numeric, between 0 and 1, indicating transparency value
-for plotting (default is 1).}
+\item{alpha}{Numeric, between 0 and 1, indicating points' transparency.}
 }
 \value{
 A \code{ggplot} object.

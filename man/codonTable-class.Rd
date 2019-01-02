@@ -121,8 +121,8 @@ is available, this will be an empty vector.}
 \examples{
 # create codonTable with codon counts for sequences in DNAStringSet
 require(Biostrings)
-dna <- DNAStringSet( c( "ACGAAGTGTACTGTAATTTGCACAGTACTTAAATGT",
-                        "ACGTCCGTACTGATCGATTCCGTGATT"))
+dna <- DNAStringSet(c("ACGAAGTGTACTGTAATTTGCACAGTACTTAAATGT",
+                      "ACGTCCGTACTGATCGATTCCGTGATT"))
 cT <- codonTable(dna)
 codonCounts(cT)
 getlen(cT)

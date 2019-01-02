@@ -7,10 +7,10 @@
 \title{Intra-samples Karlin B plot}
 \usage{
 intraBplot(x, y, names = c("x", "y"), variable, ribosomal = FALSE,
-    size = 1, alpha = 0.5)
+  size = 1, alpha = 0.5)
 
 \S4method{intraBplot}{codonTable,codonTable}(x, y, names = c("x", "y"),
-    variable, ribosomal = FALSE, size = 1, alpha = 0.5)
+  variable, ribosomal = FALSE, size = 1, alpha = 0.5)
 }
 \arguments{
 \item{x, y}{Objects of \code{codonTable} class.}
@@ -24,10 +24,10 @@ the following: \code{c("MILC", "B", "MCB", "ENCprime")}.}
 \item{ribosomal}{Logical, whether to indicate ribosomal genes in the plot.
 Default is \code{FALSE}.}
 
-\item{size}{Numeric, indicating points' size.}
+\item{size}{Numeric, indicating points' size}
 
-\item{alpha}{Numeric, between 0 and 1, indicating transparency value
-for plotting (default is 0.5).}
+\item{alpha}{Numeric, between 0 and 1, indicating points' transparency
+(default is 0.1).}
 }
 \value{
 A \code{ggplot} object.
@@ -43,6 +43,6 @@ require(ggplot2)
 milc <- MILC(LD94, self = TRUE, ribosomal = TRUE)
 
 intraBplot(x = HD59, y = LD94, names = c("HD59", "LD94"),
-            variable = "MILC")
+           variable = "MILC", size = 3)
 
 }

@@ -1,7 +1,7 @@
 Package: coRdon
 Type: Package
 Title: Codon Usage Analysis and Prediction of Gene Expressivity
-Version: 1.0.1
+Version: 1.0.2
 Authors@R: 
     c(person(given = "Anamaria",
              family = "Elek",
@@ -30,7 +30,7 @@ biocViews: Software, Metagenomics, GeneExpression, GeneSetEnrichment,
 Depends: R (>= 3.5)
 Imports: methods, stats, utils, Biostrings, Biobase, dplyr, purrr, ggplot2, data.table
 Suggests: BiocStyle, testthat, knitr, rmarkdown
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Collate:
     'coRdon.R'
     'genCode-class.R'
