@@ -30,6 +30,7 @@ NULL
 #' @param pvalue Character, one of \code{c("pvals", "padj")}.
 #' @param siglev Numeric, significance level to be used for plotting.
 #' @param size Numeric, size of points in plot.
+#' @param alpha Numeric, between 0 and 1, indicating points' transparency.
 #'
 #' @return A \code{ggplot} object.
 #'

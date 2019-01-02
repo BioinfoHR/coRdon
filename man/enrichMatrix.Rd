@@ -23,7 +23,7 @@ if numueric, NAs will be replaced by that given value.}
 }
 \value{
 \code{matrix} with sequences' annotations as rows, and variable
-    values for different samples as columns.
+  values for different samples as columns.
 }
 \description{
 Extract enrichment values from multiple samples, i.e.

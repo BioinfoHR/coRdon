@@ -15,45 +15,46 @@
 \alias{GCB,codonTable-method}
 \title{Calculate CU expressivity measures.}
 \usage{
-MELP(cTobject, subsets = list(), ribosomal = FALSE, id_or_name2 = "1",
-    alt.init = TRUE, stop.rm = FALSE, filtering = "none",
-    len.threshold = 80)
+MELP(cTobject, subsets = list(), ribosomal = FALSE,
+  id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
+  filtering = "none", len.threshold = 80)
 
-\S4method{MELP}{codonTable}(cTobject, subsets = list(), ribosomal = FALSE,
-    id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
-    filtering = "none", len.threshold = 80)
+\S4method{MELP}{codonTable}(cTobject, subsets = list(),
+  ribosomal = FALSE, id_or_name2 = "1", alt.init = TRUE,
+  stop.rm = FALSE, filtering = "none", len.threshold = 80)
 
 E(cTobject, subsets = list(), ribosomal = FALSE, id_or_name2 = "1",
-    alt.init = TRUE, stop.rm = FALSE, filtering = "none",
-    len.threshold = 80)
+  alt.init = TRUE, stop.rm = FALSE, filtering = "none",
+  len.threshold = 80)
 
 \S4method{E}{codonTable}(cTobject, subsets = list(), ribosomal = FALSE,
-    id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
-    filtering = "none", len.threshold = 80)
+  id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
+  filtering = "none", len.threshold = 80)
 
 CAI(cTobject, subsets = list(), ribosomal = FALSE, id_or_name2 = "1",
-    alt.init = TRUE, stop.rm = FALSE, filtering = "none",
-    len.threshold = 80)
+  alt.init = TRUE, stop.rm = FALSE, filtering = "none",
+  len.threshold = 80)
 
-\S4method{CAI}{codonTable}(cTobject, subsets = list(), ribosomal = FALSE,
-    id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
-    filtering = "none", len.threshold = 80)
+\S4method{CAI}{codonTable}(cTobject, subsets = list(),
+  ribosomal = FALSE, id_or_name2 = "1", alt.init = TRUE,
+  stop.rm = FALSE, filtering = "none", len.threshold = 80)
 
 Fop(cTobject, subsets = list(), ribosomal = FALSE, id_or_name2 = "1",
-    alt.init = TRUE, stop.rm = FALSE, filtering = "none",
-    len.threshold = 80)
+  alt.init = TRUE, stop.rm = FALSE, filtering = "none",
+  len.threshold = 80)
 
-\S4method{Fop}{codonTable}(cTobject, subsets = list(), ribosomal = FALSE,
-    id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
-    filtering = "none", len.threshold = 80)
+\S4method{Fop}{codonTable}(cTobject, subsets = list(),
+  ribosomal = FALSE, id_or_name2 = "1", alt.init = TRUE,
+  stop.rm = FALSE, filtering = "none", len.threshold = 80)
 
 GCB(cTobject, seed = logical(), ribosomal = FALSE, perc = 0.05,
-    id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
-    filtering = "none", len.threshold = 80)
+  id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
+  filtering = "none", len.threshold = 80)
 
-\S4method{GCB}{codonTable}(cTobject, seed = logical(), ribosomal = FALSE,
-    perc = 0.05, id_or_name2 = "1", alt.init = TRUE, stop.rm = FALSE,
-    filtering = "none", len.threshold = 80)
+\S4method{GCB}{codonTable}(cTobject, seed = logical(),
+  ribosomal = FALSE, perc = 0.05, id_or_name2 = "1",
+  alt.init = TRUE, stop.rm = FALSE, filtering = "none",
+  len.threshold = 80)
 }
 \arguments{
 \item{cTobject}{A \code{codonTable} object.}
@@ -75,7 +76,7 @@ has to be specified.}
     A single string that uniquely identifies the genetic code to extract.
     Should be one of the values in the \code{id} or \code{name2} columns
     of \code{GENETIC_CODE_TABLE}.
-}
+  }
 
 \item{alt.init}{logical, whether to use alternative initiation codons.
 Default is \code{TRUE}.}
@@ -107,24 +108,24 @@ Default is 0.05.}
 }
 \value{
 A matrix (for GCB a numeric vector) with CU expressivity values 
-    for every specified subset (\code{subsets}, \code{self}, 
-    \code{ribosomal}) in columns.
+   for every specified subset (\code{subsets}, \code{self}, 
+   \code{ribosomal}) in columns.
 }
 \description{
 Calculate values of the CU expressivity measure 
 for every sequence in the given \code{codonTable} object.
 The following methods are implemented:  
-    \code{MELP}, CU expressivity measure based on
-    Measure Independent of Length and Composition 
-    \href{https://bit.ly/2GkT7qe}{Supek & Vlahovicek (2005)},
-    \code{E}, gene expression measure (E) 
-    \href{https://bit.ly/2pGLno5}{Karlin and Mrazek (2000)}, 
-    \code{CAI}, Codon Adaptation Index (CAI) 
-    \href{https://bit.ly/2HZuk8n}{Sharp and Li (1987)}, 
-    \code{Fop}, frequency of optimal codons (Fop) 
-    \href{https://www.ncbi.nlm.nih.gov/pubmed/6175758}{Ikemura (1981)}, 
-    \code{GCB}, gene codon bias (GCB) 
-    \href{http://www.ncbi.nlm.nih.gov/pubmed/14708578}{Merkl (2003)}.
+ \code{MELP}, CU expressivity measure based on
+ Measure Independent of Length and Composition 
+ \href{https://bit.ly/2GkT7qe}{Supek & Vlahovicek (2005)},
+ \code{E}, gene expression measure (E) 
+ \href{https://bit.ly/2pGLno5}{Karlin and Mrazek (2000)}, 
+ \code{CAI}, Codon Adaptation Index (CAI) 
+ \href{https://bit.ly/2HZuk8n}{Sharp and Li (1987)}, 
+ \code{Fop}, frequency of optimal codons (Fop) 
+ \href{https://www.ncbi.nlm.nih.gov/pubmed/6175758}{Ikemura (1981)}, 
+ \code{GCB}, gene codon bias (GCB) 
+ \href{http://www.ncbi.nlm.nih.gov/pubmed/14708578}{Merkl (2003)}.
 }
 \examples{
 # load example DNA sequences
@@ -155,9 +156,9 @@ all.equal(melp, melp2) # TRUE
 
 # filtering
 MELP(cT, ribosomal = TRUE,
-    filtering = "hard", len.threshold = 80) # MELP for 9 sequences
-                                            # (note that, accidentally,
-                                            # all are ribosomal)
+     filtering = "hard", len.threshold = 80) # MELP for 9 sequences
+                                             # (note that, accidentally,
+                                             # all are ribosomal)
 sum(getlen(cT) > 80) # 9 sequences are longer than 80 codons
 melp1 <- MELP(cT, ribosomal = TRUE, filtering = "none") # no filtering
 melp2 <- MELP(cT, ribosomal = TRUE, filtering = "soft") # warning
@@ -165,11 +166,11 @@ all.equal(melp1, melp2) # TRUE
 
 # options for genetic code
 melp <- MELP(cT, ribosomal = TRUE,
-            stop.rm = TRUE) # don't use stop codons in calculation
+             stop.rm = TRUE) # don't use stop codons in calculation
 melp <- MELP(cT, ribosomal = TRUE,
-            alt.init = FALSE) # don't use alternative start codons
+             alt.init = FALSE) # don't use alternative start codons
 melp <- MELP(cT, ribosomal = TRUE,
-            id_or_name2 = "2")  # use different genetic code, for help
+             id_or_name2 = "2") # use different genetic code, for help
                                 # see `?Biostrings::GENETIC_CODE`
                                 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -192,11 +193,11 @@ all.equal(gcb, gcb2) # TRUE
 
 # options for genetic code
 gcb <- GCB(cT, ribosomal = TRUE,
-            stop.rm = TRUE) # don't use stop codons in calculation
+           stop.rm = TRUE) # don't use stop codons in calculation
 gcb <- GCB(cT, ribosomal = TRUE,
-            alt.init = FALSE) # don't use alternative start codons
+           alt.init = FALSE) # don't use alternative start codons
 gcb <- GCB(cT, ribosomal = TRUE,
-            id_or_name2 = "2")  # use different genetic code, for help
-                                # see `?Biostrings::GENETIC_CODE`
-
+           id_or_name2 = "2") # use different genetic code, for help
+                              # see `?Biostrings::GENETIC_CODE`
+                              
 }

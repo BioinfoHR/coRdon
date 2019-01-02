@@ -93,7 +93,7 @@ NULL
 #' milc <- MILC(LD94, self = TRUE, ribosomal = TRUE)
 #'
 #' Bplot(x = "ribosomal", y = "self", data = milc,
-#'       ribosomal = TRUE, annotations = getKO(LD94)
+#'       ribosomal = TRUE, annotations = getKO(LD94),
 #'       size = 3) +
 #'     labs(x = "MILC distance to ribosomal genes",
 #'          y = "MILC distance to genes' average CU")

@@ -15,8 +15,8 @@
 \usage{
 crossTab(sequences, variable, threshold = 1L, percentiles = NULL)
 
-\S4method{crossTab}{character,numeric}(sequences, variable, threshold = 1L,
-    percentiles = NULL)
+\S4method{crossTab}{character,numeric}(sequences, variable,
+  threshold = 1L, percentiles = NULL)
 
 getSeqAnnot(x)
 
@@ -49,8 +49,8 @@ takes the value \code{NULL}.}
 }
 \value{
 Returns a \code{crossTab} object with category values in rows, and
-    with separate columns for counts in background (all) and subsets, i.e.
-    for diferrent thresholds/percentiles provided.
+   with separate columns for counts in background (all) and subsets, i.e.
+   for diferrent thresholds/percentiles provided.
 }
 \description{
 Contingency table of sequences' annotations and the corresponding numeric
