@@ -1,6 +1,7 @@
 #' @include genCode-class.R
 #' @importFrom Biostrings oligonucleotideFrequency
 #' @importFrom Biostrings width
+#' @importFrom stringr str_extract
 NULL
 
 #' An S4 class \code{codonTable}
@@ -129,15 +130,15 @@ setMethod(
     ctb <- ctb[,order(colnames(ctb))] # sort codons alphabetically
     if (is.integer(ctb)) # in case there is only one sequence
       ctb <- rbind(ctb)
+    namesx <- names(x)
+    namesx[is.na(namesx)] <- "NA"
     new(
       "codonTable",
-      ID = if (!is.null(names(x))) names(x) else character(),
+      ID = if (!is.null(namesx)) namesx else character(),
       counts = ctb,
       len = unname(rowSums(ctb)),
-      KO = regmatches(names(x),
-                      regexpr("K\\d{5}", names(x))),
-      COG = regmatches(names(x),
-                       regexpr("([KCN]|TW)OG\\d{5}", names(x)))
+      KO = stringr::str_extract(namesx,"K\\d{5}"),
+      COG = stringr::str_extract(namesx,"([KCN]|TW)OG\\d{5}")
     )
   }
 )
@@ -169,15 +170,14 @@ setMethod(
       }
     } else stop("Matrix should have 64 or 61 columns!")
     
+    rownamesx <- rownames(x)
     new(
       "codonTable",
-      ID = if (!is.null(rownames(x))) rownames(x) else character(),
+      ID = if (!is.null(rownamesx)) rownamesx else character(),
       counts = rbind(x[,sort(colnames(x))]), # sort codons alphabet.
       len = rowSums(as.matrix(x), na.rm = TRUE),
-      KO = regmatches(rownames(x),
-                      regexpr("K\\d{5}", rownames(x))),
-      COG = regmatches(rownames(x),
-                       regexpr("([KCN]|TW)OG\\d{5}", rownames(x)))
+      KO = stringr::str_extract(rownamesx,"K\\d{5}"),
+      COG = stringr::str_extract(rownamesx,"([KCN]|TW)OG\\d{5}")
     )
   }
 )
