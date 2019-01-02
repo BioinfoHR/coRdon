@@ -1,2 +1,3 @@
-Version 0.99.11
-+ New package coRdon, for analysis of codon usage.
+Version 1.1.2
++  Implemented codonTable subsetting with "[" and "[[".
++  Fixed validity of codonTable when some of KEGG/COG annotations are missing.

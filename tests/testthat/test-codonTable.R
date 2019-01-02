@@ -20,7 +20,7 @@ dna123 <- Biostrings::DNAStringSet(c(string1,string2, string3))
 dna124 <- Biostrings::DNAStringSet(c(string1, string2, string4))
 dna <- Biostrings::DNAStringSet(c(string1,string2))
 
-test_that("codonTable works", {
+test_that("accessing codonTable works", {
     expect_message(codonTable(m), "alphabetically sorted codons")
     expect_equal(length(codonTable(m)), nrow(m))
     expect_equal(length(codonTable(rbind(m[1,]))), 1)
@@ -37,6 +37,9 @@ ct <- setKO(ct, c("K00001", "K00002", "K00001"))
 ct <- setCOG(ct, c("COG00001", "COG00002", "COG00001"))
 
 test_that("subsetting codonTable works", {
+    expect_equal(ct[1],ct[[1]])
+    expect_equal(ct[1:2], head(ct,2))
+    expect_equal(ct[length(ct)], tail(ct,1))
     expect_equal(subset(ct, c(TRUE,FALSE,TRUE)), subset(ct, "K00001"))
     expect_equal(subset(ct, c(TRUE,FALSE,TRUE)), subset(ct, "COG00001"))
 })
