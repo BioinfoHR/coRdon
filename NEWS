@@ -1,3 +1,4 @@
-Version 1.1.2
+Version 1.1.3
 +  Implemented codonTable subsetting with "[" and "[[".
-+  Fixed validity of codonTable when some of KEGG/COG annotations are missing.
++  Bug fix: ensured validity of codonTable when KEGG/COG annotations for some
+   of the DNA sequences are missing.
